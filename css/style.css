@@ -1,0 +1,208 @@
+/**
+ * Gadget Bazar BD - Custom Stylesheet
+ * Primary Color: #008bf5
+ * Font: Hind Siliguri
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #008bf5;
+  --primary-hover: #0076d1;
+  --primary-light: #e6f4fe;
+  --primary-dark: #005fad;
+  --font-bangla: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  font-family: var(--font-bangla);
+  background-color: #f8fafc;
+  color: #0f172a;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hind Siliguri Typography Overrides */
+h1, h2, h3, h4, h5, h6, button, input, select, textarea {
+  font-family: var(--font-bangla);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #008bf5;
+}
+
+/* Animations */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.88;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatSlow 4s ease-in-out 2s infinite;
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 2.5s infinite;
+}
+
+.animate-modal {
+  animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Badge & Highlights */
+.badge-discount {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.25);
+}
+
+.badge-brand {
+  background: linear-gradient(135deg, #008bf5 0%, #006ec4 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 139, 245, 0.25);
+}
+
+/* Brand Button Styles */
+.btn-primary {
+  background-color: #008bf5;
+  color: #ffffff;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(0, 139, 245, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: #0076d1;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 139, 245, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 139, 245, 0.3);
+}
+
+/* Product Card Hover Effect */
+.product-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -8px rgba(0, 139, 245, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+  border-color: #b9e1fe;
+}
+
+/* Floating Action Buttons */
+.fab-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.fab-btn:hover {
+  transform: scale(1.08) translateY(-2px);
+}
+.fab-btn:active {
+  transform: scale(0.96);
+}
+
+/* Active Category Pill */
+.category-pill.active {
+  background-color: #008bf5;
+  color: #ffffff;
+  border-color: #008bf5;
+  box-shadow: 0 4px 12px rgba(0, 139, 245, 0.25);
+}
+
+/* Accordion transition */
+.faq-content {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* Quantity Button */
+.qty-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background-color 0.15s;
+}
+.qty-btn:hover {
+  background-color: #e2e8f0;
+}
+.qty-btn:active {
+  background-color: #cbd5e1;
+}
+
+/* Modal Overlay Backdrop */
+.modal-overlay {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Mobile Bottom Nav Spacer */
+@media (max-width: 768px) {
+  .has-bottom-nav {
+    padding-bottom: 84px;
+  }
+}

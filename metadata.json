@@ -1,0 +1,6 @@
+{
+  "name": "Gadget Bazar BD - Premium Gadgets & Smart Accessories",
+  "description": "Modern, high-converting Bangladeshi gadget e-commerce landing page with instant Buy Now, Cash on Delivery, bKash/Nagad checkout, and automated order processing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

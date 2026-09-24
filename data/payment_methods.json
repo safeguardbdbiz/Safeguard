@@ -1,0 +1,42 @@
+[
+  {
+    "id": "pm_bkash",
+    "provider": "bKash",
+    "providerBangla": "বিকাশ",
+    "number": "01763732273",
+    "type": "Personal",
+    "typeBangla": "পার্সোনাল",
+    "instruction": "বিকাশ অ্যাপ অথবা *247# ডায়াল করে Send Money করুন এবং ট্রানজেকশন আইডি দিন",
+    "active": true
+  },
+  {
+    "id": "pm_nagad",
+    "provider": "Nagad",
+    "providerBangla": "নগদ",
+    "number": "01763732273",
+    "type": "Personal",
+    "typeBangla": "পার্সোনাল",
+    "instruction": "নগদ অ্যাপ অথবা *167# ডায়াল করে Send Money করুন এবং ট্রানজেকশন আইডি দিন",
+    "active": true
+  },
+  {
+    "id": "pm_teletalk",
+    "provider": "Teletalk",
+    "providerBangla": "টেলিটক",
+    "number": "01550000000",
+    "type": "Personal",
+    "typeBangla": "পার্সোনাল",
+    "instruction": "টেলিটক নম্বরে পেমেন্ট বা রিচার্জ সম্পন্ন করুন এবং ট্রানজেকশন কোড দিন",
+    "active": true
+  },
+  {
+    "id": "pm_rocket",
+    "provider": "Rocket",
+    "providerBangla": "রকেট",
+    "number": "01763732273-0",
+    "type": "Personal",
+    "typeBangla": "পার্সোনাল",
+    "instruction": "রকেট অ্যাপ অথবা *322# ডায়াল করে Send Money করুন এবং ট্রানজেকশন আইডি দিন",
+    "active": false
+  }
+]
