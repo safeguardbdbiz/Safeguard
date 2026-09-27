@@ -1355,6 +1355,33 @@
           
           <!-- TAB 1: PRODUCTS MANAGEMENT -->
           <div id="admin-tab-products" class="space-y-4">
+            <!-- Mobile & Blogger Live Sync Advisory Notice -->
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/90 rounded-2xl p-3 sm:p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs shadow-xs">
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-xl bg-[#008bf5]/15 text-[#008bf5] flex items-center justify-center shrink-0 mt-0.5 text-base font-bold">
+                  <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-1.5">
+                    <span>ডেস্কটপে আপলোড করা প্রোডাক্ট মোবাইলে ও ব্লগস্পটে দেখানোর উপায়</span>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">জরুরি গাইড</span>
+                  </h4>
+                  <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                    নতুন প্রোডাক্ট আপলোড করার পর ব্লগস্পট সাইট (<span class="font-mono text-slate-800 font-semibold">bdsafeguard.blogspot.com</span>) ও সকল মোবাইল ভিজিটরদের জন্য লাইভ করতে ২ মিনিটে থিম কোড আপডেট বা মোবাইল ভিউ সেটিংস ফিক্স করুন।
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 w-full md:w-auto shrink-0">
+                <button 
+                  type="button" 
+                  onclick="openBloggerSyncGuideModal()" 
+                  class="w-full md:w-auto px-3.5 py-2 rounded-xl bg-[#008bf5] hover:bg-[#0076d1] text-white font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-xs"
+                >
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> মোবাইল সিঙ্ক সমাধান ও কোড কপি
+                </button>
+              </div>
+            </div>
+
             <!-- Top Controls Bar -->
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 shadow-xs">
               <div class="relative flex-1 max-w-md">
@@ -1886,6 +1913,85 @@
               </div>
             </div>
 
+            <!-- Supabase Cloud Database Integration Card -->
+            <div class="bg-gradient-to-br from-emerald-500/5 via-slate-50 to-teal-50/20 p-4 sm:p-5 rounded-2xl border border-emerald-200/90 shadow-xs max-w-2xl space-y-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-lg font-bold shrink-0 mt-0.5">
+                    <i class="fa-solid fa-bolt"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                      Supabase ক্লাউড ডেটাবেজ ইন্টিগ্রেশন (PostgreSQL)
+                    </h4>
+                    <p class="text-xs text-slate-500 leading-relaxed mt-0.5">
+                      Supabase ব্যবহার করে আপনার গ্যাজেট স্টোরের সব প্রোডাক্ট ও কাস্টমার অর্ডার সরাসরি লাইভ ক্লাউড ডেটাবেজে সংরক্ষণ করুন। এটি মোবাইল ও কম্পিউটার সব ডিভাইসে শতভাগ লাইভ সিঙ্ক থাকবে।
+                    </p>
+                  </div>
+                </div>
+                <span id="supabase-status-badge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 shrink-0">
+                  অসংযুক্ত
+                </span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">
+                    Supabase Project URL
+                    <span class="text-slate-400 font-normal text-[10px]">(https://xyz.supabase.co)</span>
+                  </label>
+                  <input 
+                    type="url" 
+                    id="settings-supabase-url" 
+                    value="https://snnpntkutvyscaempgkp.supabase.co"
+                    placeholder="https://snnpntkutvyscaempgkp.supabase.co" 
+                    class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:outline-hidden focus:border-emerald-500 font-mono"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">
+                    Supabase Anon Public Key
+                    <span class="text-slate-400 font-normal text-[10px]">(anon public)</span>
+                  </label>
+                  <input 
+                    type="password" 
+                    id="settings-supabase-key" 
+                    value="sb_publishable_LntMI7URToAeMQenCS9hHw_Jw-GhTey"
+                    placeholder="sb_publishable_LntMI7URToAeMQenCS9hHw_Jw-GhTey" 
+                    class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:outline-hidden focus:border-emerald-500 font-mono"
+                  />
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2 pt-1">
+                <button 
+                  type="button" 
+                  onclick="saveAndTestSupabase()" 
+                  id="btn-save-supabase"
+                  class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition"
+                >
+                  <i class="fa-solid fa-plug"></i> সংরক্ষণ ও কানেক্ট করুন
+                </button>
+                <button 
+                  type="button" 
+                  onclick="openSupabaseSqlModal()" 
+                  class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition border border-slate-200 shadow-2xs"
+                >
+                  <i class="fa-solid fa-code text-emerald-600"></i> SQL টেবিল কোড কপি
+                </button>
+                <button 
+                  type="button" 
+                  onclick="uploadAllProductsToSupabase()" 
+                  id="btn-upload-supabase"
+                  class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer transition shadow-2xs"
+                >
+                  <i class="fa-solid fa-cloud-arrow-up"></i> সব প্রোডাক্ট Supabase এ পাঠান
+                </button>
+              </div>
+
+              <p id="settings-supabase-msg" class="text-[11px] font-medium"></p>
+            </div>
+
             <!-- Telegram Bot Order Notification Card -->
             <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs max-w-2xl space-y-4">
               <div class="flex items-start justify-between gap-3">
@@ -1940,17 +2046,24 @@
               <p id="settings-tg-msg" class="text-[11px]"></p>
             </div>
 
-            <!-- One-Click Blogger Theme Exporter Card -->
-            <div class="bg-gradient-to-br from-blue-500/5 to-slate-50 p-4 sm:p-5 rounded-2xl border border-blue-200 shadow-xs max-w-2xl space-y-3">
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm mb-1 flex items-center gap-2">
-                  <i class="fa-brands fa-blogger-b text-[#008bf5]"></i> ব্লগস্পট এক-ক্লিক থিম এক্সপোর্টার
-                </h4>
-                <p class="text-xs text-slate-500 leading-relaxed">
-                  আপনার বর্তমানের সকল গ্যাজেট প্রোডাক্ট, পেমেন্ট নম্বর (বিকাশ/নগদ/টেলিটক) ও কন্টেন্ট সহ সম্পূর্ণ রেডি ব্লগস্পট থিম কোড এক ক্লিকে কপি করুন এবং Blogger এ পেস্ট করুন।
-                </p>
+            <!-- One-Click Blogger Theme Exporter & Mobile Sync Card -->
+            <div class="bg-gradient-to-br from-blue-500/5 via-slate-50 to-indigo-50/30 p-4 sm:p-5 rounded-2xl border border-blue-200 shadow-xs max-w-2xl space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-blue-100 pb-3">
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-brands fa-blogger-b text-[#008bf5] text-base"></i> ব্লগস্পট লাইভ থিম এক্সপোর্টার ও মোবাইল সিঙ্ক
+                  </h4>
+                  <p class="text-xs text-slate-500 mt-0.5">
+                    ডেস্কটপে আপলোড করা সকল প্রোডাক্ট ব্লগস্পট সাইট (<span class="font-mono text-slate-800 font-semibold">bdsafeguard.blogspot.com</span>) ও মোবাইল ভিজিটরদের কাছে সরাসরি লাইভ করুন।
+                  </p>
+                </div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-100/80 text-blue-800 text-xs font-bold shrink-0 self-start sm:self-auto">
+                  <i class="fa-solid fa-boxes-stacked"></i>
+                  <span>কোডে যুক্ত হবে: <strong id="blogger-theme-prod-count" class="text-[#008bf5]">০</strong> টি পণ্য</span>
+                </div>
               </div>
 
+              <!-- Quick Action Buttons -->
               <div class="flex flex-wrap gap-2.5">
                 <button 
                   type="button" 
@@ -1958,7 +2071,7 @@
                   id="copy-blogger-theme-btn"
                   class="px-4 py-2.5 rounded-xl bg-[#008bf5] hover:bg-[#0077d4] text-white font-bold text-xs flex items-center gap-2 cursor-pointer transition shadow-xs"
                 >
-                  <i class="fa-solid fa-copy"></i> <span id="copy-blogger-theme-text">ব্লগস্পট থিম কোড কপি করুন</span>
+                  <i class="fa-solid fa-copy"></i> <span id="copy-blogger-theme-text">সব নতুন পণ্যসহ থিম কোড কপি করুন</span>
                 </button>
                 <button 
                   type="button" 
@@ -1967,6 +2080,32 @@
                 >
                   <i class="fa-solid fa-file-arrow-down text-[#008bf5]"></i> থিম ফাইল ডাউনলোড (.html)
                 </button>
+                <button 
+                  type="button" 
+                  onclick="openBloggerSyncGuideModal()" 
+                  class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center gap-2 cursor-pointer transition shadow-xs"
+                >
+                  <i class="fa-solid fa-mobile-screen"></i> মোবাইলে না দেখালে সমাধান
+                </button>
+                <button 
+                  type="button" 
+                  onclick="openDeviceSyncModal()" 
+                  class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs flex items-center gap-2 cursor-pointer transition shadow-xs"
+                >
+                  <i class="fa-solid fa-arrows-rotate"></i> ডিভাইসে সরাসরি ট্রান্সফার (QR/JSON)
+                </button>
+              </div>
+
+              <!-- Step-by-Step Instructions -->
+              <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
+                <div class="font-bold text-slate-900 flex items-center gap-1.5 text-xs text-blue-900">
+                  <i class="fa-solid fa-circle-check text-emerald-500"></i> ব্লগারে প্রোডাক্ট শতভাগ লাইভ করার ৩টি সহজ নিয়ম:
+                </div>
+                <ol class="list-decimal list-inside text-[11px] text-slate-600 space-y-1 pl-1">
+                  <li><strong>মোবাইল ভিউ ফিক্স:</strong> ব্লগারে যান → <b>Theme</b> → <b>Customize</b> এর পাশের তীরে (🔻) ক্লিক → <b>Mobile settings</b> → <b>'Desktop'</b> নির্বাচন করে সেভ করুন।</li>
+                  <li><strong>কোড কপি:</strong> উপরের <span class="text-[#008bf5] font-semibold">'সব নতুন পণ্যসহ থিম কোড কপি করুন'</span> বাটনে চাপ দিন।</li>
+                  <li><strong>ব্লগারে পেস্ট:</strong> Blogger → <b>Theme</b> → <b>Edit HTML</b> এ গিয়ে পূর্বের কোড মুছে দিয়ে নতুন কপি করা কোড পেস্ট করে <b>Save</b> দিন।</li>
+                </ol>
               </div>
             </div>
             
@@ -2865,6 +3004,367 @@
       </div>
     </div>
 
+    <!-- Blogger Mobile Sync Guide & Troubleshooting Modal -->
+    <div id="blogger-sync-guide-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto">
+      <div class="w-full max-w-2xl bg-white rounded-3xl p-5 sm:p-6 shadow-2xl animate-modal my-auto max-h-[92vh] flex flex-col">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-lg font-bold">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900">মোবাইলে ও ব্লগস্পটে প্রোডাক্ট দেখানোর সমাধান</h3>
+              <p class="text-xs text-slate-500">ডেস্কটপে আপলোড করা প্রোডাক্ট মোবাইলে না দেখার কারণ ও সমাধানের ৩টি সহজ ধাপ</p>
+            </div>
+          </div>
+          <button onclick="closeBloggerSyncGuideModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Scrollable Modal Body -->
+        <div class="flex-1 overflow-y-auto space-y-4 pr-1 text-xs text-slate-700">
+          <!-- Why this happens explanation card -->
+          <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 space-y-2">
+            <div class="flex items-center gap-2 text-rose-800 font-bold text-xs sm:text-sm">
+              <i class="fa-solid fa-circle-exclamation text-rose-500 text-base"></i>
+              <span>কেন ডেস্কটপে পণ্য আপলোড করলেও মোবাইলে দেখা যায় না?</span>
+            </div>
+            <div class="text-[11px] text-slate-700 space-y-1.5 leading-relaxed pl-6">
+              <p>
+                <strong>১. ব্রাউজার মেমোরি (Local Storage):</strong> আপনি যখন ডেস্কটপে এডমিন প্যানেল দিয়ে প্রোডাক্ট আপলোড করেন, ব্রাউজার তা প্রাথমিকভাবে কেবল আপনার ওই নির্দিষ্ট ডেস্কটপ ব্রাউজারেই জমা রাখে। এটি স্বয়ংক্রিয়ভাবে ব্লগস্পটের মূল থিম ফাইলে আপডেট হয় না।
+              </p>
+              <p>
+                <strong>২. ব্লগস্পট মোবাইল ভিউ সেটিংস:</strong> ব্লগারে সাধারণত ডিফল্ট "Mobile View" অন থাকে। ফলে মোবাইল ফোন থেকে ঢুকলে ব্লগার সাইটের আসল কোড লোড না করে তাদের নিজস্ব পুরনো সাদামাটা ব্লগের লেআউট দেখায়।
+              </p>
+            </div>
+          </div>
+
+          <!-- 3-Step Guaranteed Fix -->
+          <div class="bg-gradient-to-br from-blue-50/50 to-indigo-50/50 border border-blue-200 rounded-2xl p-4 space-y-3.5">
+            <div class="flex items-center justify-between">
+              <div class="font-extrabold text-blue-900 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                <span>৩টি সহজ ধাপে স্থায়ী সমাধান (সকল মোবাইল ও গ্রাহকদের জন্য):</span>
+              </div>
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                লাইভ প্রোডাক্ট: <b id="guide-prod-count">০</b> টি
+              </span>
+            </div>
+
+            <!-- Step 1 -->
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs space-y-1.5">
+              <div class="font-bold text-slate-900 text-xs flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-[#008bf5] text-white flex items-center justify-center text-[10px] font-extrabold">১</span>
+                <span>ব্লগারে মোবাইল সেটিংস 'Desktop' নির্বাচন করুন (সবচেয়ে গুরুত্বপূর্ণ)</span>
+              </div>
+              <p class="text-[11px] text-slate-600 pl-7 leading-relaxed">
+                <a href="https://www.blogger.com" target="_blank" class="text-[#008bf5] font-bold underline">Blogger.com</a> ড্যাশবোর্ডে লগইন করুন → বাম মেনু থেকে <b>Theme (থিম)</b> এ যান → <b>Customize</b> বাটনের পাশের ছোট ড্রপডাউন তীর (🔻) ক্লিক করুন → <b>Mobile settings (মোবাইল সেটিংস)</b> এ ক্লিক করুন → <b>"Desktop" (ডেস্কটপ)</b> নির্বাচন করে <b>Save</b> দিন।<br/>
+                <span class="text-amber-700 font-semibold text-[10px]">⚠️ এটি না করলে মোবাইল ইউজারদের কাছে আসল গ্যাজেট স্টোর লোডই হবে না!</span>
+              </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs space-y-2">
+              <div class="font-bold text-slate-900 text-xs flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-[#008bf5] text-white flex items-center justify-center text-[10px] font-extrabold">২</span>
+                <span>সকল নতুন পণ্যসহ আপডেট করা থিম কোড এক ক্লিকে কপি করুন</span>
+              </div>
+              <p class="text-[11px] text-slate-600 pl-7">
+                নিচের বাটনে ক্লিক করলে আপনার আপলোড করা সকল প্রোডাক্ট সরাসরি থিম কোডের ভেতরে বসিয়ে রেডি কোড কপি হয়ে যাবে:
+              </p>
+              <div class="pl-7 flex flex-wrap gap-2">
+                <button 
+                  type="button" 
+                  onclick="copyBloggerThemeCode()" 
+                  id="guide-copy-code-btn"
+                  class="px-4 py-2.5 rounded-xl bg-[#008bf5] hover:bg-[#0076d1] text-white font-bold text-xs flex items-center gap-2 shadow-xs cursor-pointer transition"
+                >
+                  <i class="fa-solid fa-copy"></i> সব নতুন পণ্যসহ থিম কোড কপি করুন
+                </button>
+                <button 
+                  type="button" 
+                  onclick="downloadBloggerThemeFile()" 
+                  class="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition"
+                >
+                  <i class="fa-solid fa-download text-[#008bf5]"></i> থিম ফাইল ডাউনলোড
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs space-y-1.5">
+              <div class="font-bold text-slate-900 text-xs flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-[#008bf5] text-white flex items-center justify-center text-[10px] font-extrabold">৩</span>
+                <span>ব্লগারে কোড পেস্ট ও সেভ করুন</span>
+              </div>
+              <p class="text-[11px] text-slate-600 pl-7 leading-relaxed">
+                Blogger ড্যাশবোর্ডে <b>Theme</b> → <b>Customize</b> এর পাশের তীর (🔻) ক্লিক → <b>Edit HTML</b> এ যান → পূর্বের পুরনো কোড সম্পূর্ণ মুছে ফেলুন (Ctrl+A চেপে Delete) → কপি করা কোডটি পেস্ট (Ctrl+V) করে উপরের ডানদিকের <b>Save (সেভ আইকন)</b> চাপুন।
+              </p>
+            </div>
+          </div>
+
+          <!-- Direct Phone Sync Link Card -->
+          <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-start gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-qrcode text-sm"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-xs">নিজের মোবাইল ফোনে তাত্ক্ষণিক ডাটা দেখতে চান?</h4>
+                <p class="text-[11px] text-slate-600">ব্লগস্পট আপডেট ছাড়াও সরাসরি কিউআর কোড স্ক্যান করে বা ট্রান্সফার কোড দিয়ে মোবাইলে ডাটা আনা যায়।</p>
+              </div>
+            </div>
+            <button 
+              type="button" 
+              onclick="closeBloggerSyncGuideModal(); openDeviceSyncModal();" 
+              class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shrink-0 w-full sm:w-auto cursor-pointer transition shadow-xs"
+            >
+              <i class="fa-solid fa-arrows-rotate"></i> মোবাইলে সরাসরি ট্রান্সফার
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
+          <a 
+            href="https://bdsafeguard.blogspot.com" 
+            target="_blank" 
+            class="text-xs font-bold text-[#008bf5] hover:underline flex items-center gap-1"
+          >
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> লাইভ সাইট দেখুন (bdsafeguard.blogspot.com)
+          </a>
+          <button 
+            type="button" 
+            onclick="closeBloggerSyncGuideModal()" 
+            class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+          >
+            ঠিক আছে, বুঝেছি
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Direct Device-to-Device Sync Modal -->
+    <div id="device-sync-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto">
+      <div class="w-full max-w-xl bg-white rounded-3xl p-5 sm:p-6 shadow-2xl animate-modal my-auto max-h-[92vh] flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg font-bold">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900">মোবাইল ও পিসিতে সরাসরি ডাটা ট্রান্সফার</h3>
+              <p class="text-xs text-slate-500">এক ক্লিকে মোবাইল ফোনে সকল পণ্য ও সেটিংস সিঙ্ক করুন</p>
+            </div>
+          </div>
+          <button onclick="closeDeviceSyncModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="flex-1 overflow-y-auto space-y-4 pr-1 text-xs">
+          <!-- Method 1: QR Code & Mobile Sync Link -->
+          <div class="bg-indigo-50/60 border border-indigo-200/80 rounded-2xl p-4 space-y-3">
+            <div class="flex items-center gap-2 font-bold text-indigo-950 text-xs">
+              <i class="fa-solid fa-qrcode text-indigo-600 text-base"></i>
+              <span>পদ্ধতি ১: মোবাইল ক্যামেরা দিয়ে কিউআর কোড স্ক্যান করুন</span>
+            </div>
+            <p class="text-[11px] text-slate-600">
+              আপনার ফোনের ক্যামেরা বা QR স্ক্যানার দিয়ে নিচের কিউআর কোডটি স্ক্যান করলেই মোবাইলের ব্রাউজারে স্বয়ংক্রিয়ভাবে সব পণ্য লোড হয়ে যাবে:
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-4 bg-white p-3 rounded-xl border border-indigo-100">
+              <div id="device-sync-qr-container" class="w-36 h-36 bg-slate-100 rounded-xl flex items-center justify-center border border-slate-200 shrink-0 overflow-hidden">
+                <img id="device-sync-qr-img" src="" alt="Sync QR Code" class="w-full h-full object-contain p-1" />
+              </div>
+              <div class="flex-1 space-y-2 text-center sm:text-left w-full">
+                <p class="text-[11px] text-slate-500 font-medium">অথবা এই সিঙ্ক লিংকটি কপি করে আপনার মোবাইলের হোয়াটসঅ্যাপে পাঠিয়ে ওপেন করুন:</p>
+                <div class="flex gap-2">
+                  <input 
+                    type="text" 
+                    id="device-sync-link-input" 
+                    readonly 
+                    class="flex-1 px-2.5 py-1.5 text-[11px] bg-slate-100 border border-slate-200 rounded-lg text-slate-600 font-mono truncate"
+                  />
+                  <button 
+                    type="button" 
+                    onclick="copyDeviceSyncLink()" 
+                    id="copy-sync-link-btn"
+                    class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shrink-0 cursor-pointer transition"
+                  >
+                    কপি লিংক
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Method 2: JSON Backup & File Upload -->
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
+            <div class="flex items-center gap-2 font-bold text-slate-900 text-xs">
+              <i class="fa-solid fa-file-export text-[#008bf5] text-base"></i>
+              <span>পদ্ধতি ২: ব্যাকআপ ফাইল ডাউনলোড ও ইমপোর্ট</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2">
+                <span class="font-bold text-slate-800 text-[11px] block">ডেস্কটপ থেকে এক্সপোর্ট:</span>
+                <button 
+                  type="button" 
+                  onclick="downloadDeviceSyncJson()" 
+                  class="w-full py-2 rounded-lg bg-[#008bf5] hover:bg-[#0076d1] text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition shadow-2xs"
+                >
+                  <i class="fa-solid fa-download"></i> ডাটা ফাইল ডাউনলোড (.json)
+                </button>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2">
+                <span class="font-bold text-slate-800 text-[11px] block">মোবাইলে ইমপোর্ট:</span>
+                <label class="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition shadow-2xs">
+                  <i class="fa-solid fa-upload"></i> .json ফাইল সিলেক্ট করুন
+                  <input type="file" accept=".json" onchange="handleDeviceSyncFileImport(event)" class="hidden" />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-end">
+          <button 
+            type="button" 
+            onclick="closeDeviceSyncModal()" 
+            class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+          >
+            বন্ধ করুন
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supabase SQL Script Helper Modal -->
+    <div id="supabase-sql-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto">
+      <div class="w-full max-w-2xl bg-white rounded-3xl p-5 sm:p-6 shadow-2xl animate-modal my-auto max-h-[92vh] flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-lg font-bold">
+              <i class="fa-solid fa-database"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900">Supabase SQL টেবিল স্ক্রিপ্ট</h3>
+              <p class="text-xs text-slate-500">Supabase SQL Editor এ পেস্ট করে এক ক্লিকে টেবিল তৈরি করুন</p>
+            </div>
+          </div>
+          <button onclick="closeSupabaseSqlModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="flex-1 overflow-y-auto space-y-3.5 pr-1 text-xs">
+          <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-[11px] text-blue-900 space-y-1">
+            <div class="font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-info text-[#008bf5]"></i> কীভাবে ব্যবহার করবেন:
+            </div>
+            <ol class="list-decimal list-inside pl-1 space-y-0.5 text-slate-700">
+              <li><a href="https://supabase.com" target="_blank" class="text-[#008bf5] font-bold underline">Supabase.com</a> এ আপনার প্রজেক্ট ওপেন করুন।</li>
+              <li>বাম পাশের মেনু থেকে <b>SQL Editor</b> এ ক্লিক করে <b>New query</b> খুলুন।</li>
+              <li>নিচের সম্পূর্ণ SQL কোডটি কপি করে পেস্ট করুন এবং <b>Run</b> বাটনে ক্লিক করুন।</li>
+            </ol>
+          </div>
+
+          <div class="relative">
+            <textarea 
+              id="supabase-sql-code-block" 
+              readonly 
+              rows="12" 
+              class="w-full bg-slate-900 text-emerald-400 font-mono text-[11px] p-4 rounded-2xl leading-relaxed focus:outline-hidden resize-none selection:bg-emerald-600 selection:text-white"
+            >-- ========================================================
+-- Gadget Bazar BD: Supabase PostgreSQL Schema
+-- ========================================================
+
+-- 1. Create Products Table
+CREATE TABLE IF NOT EXISTS public.products (
+  id BIGINT PRIMARY KEY,
+  name TEXT NOT NULL,
+  bangla_name TEXT NOT NULL,
+  price NUMERIC NOT NULL,
+  old_price NUMERIC,
+  category TEXT,
+  image TEXT,
+  description TEXT,
+  features JSONB,
+  specs JSONB,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- 2. Create Orders Table
+CREATE TABLE IF NOT EXISTS public.orders (
+  order_id TEXT PRIMARY KEY,
+  date_time TEXT,
+  product_id BIGINT,
+  product_name TEXT,
+  product_bangla_name TEXT,
+  color TEXT,
+  size TEXT,
+  quantity INTEGER,
+  product_price NUMERIC,
+  product_total NUMERIC,
+  delivery_charge NUMERIC,
+  total_price NUMERIC,
+  customer_name TEXT,
+  phone TEXT,
+  full_address TEXT,
+  order_notes TEXT,
+  payment_method TEXT,
+  trx_id TEXT,
+  order_status TEXT DEFAULT 'Pending',
+  order_source TEXT DEFAULT 'Blogspot Store',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- 3. Enable Row Level Security (RLS)
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
+
+-- 4. Public Policies for Blogspot & Mobile Access
+DROP POLICY IF EXISTS "Public products read" ON public.products;
+CREATE POLICY "Public products read" ON public.products FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public products manage" ON public.products;
+CREATE POLICY "Public products manage" ON public.products FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public orders create" ON public.orders;
+CREATE POLICY "Public orders create" ON public.orders FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public orders manage" ON public.orders;
+CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH CHECK (true);</textarea>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
+          <button 
+            type="button" 
+            onclick="copySupabaseSqlCode()" 
+            id="btn-copy-supabase-sql"
+            class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer transition shadow-xs"
+          >
+            <i class="fa-solid fa-copy"></i> <span id="copy-supabase-sql-text">সম্পূর্ণ SQL কোড কপি করুন</span>
+          </button>
+          <button 
+            type="button" 
+            onclick="closeSupabaseSqlModal()" 
+            class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+          >
+            বন্ধ করুন
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- ==================== END ADMIN SYSTEM MODALS ==================== -->
 
     <!-- 12. Floating WhatsApp Order Button (Mobile & Desktop) -->
@@ -3207,10 +3707,18 @@ const DEFAULT_CATEGORIES = [
       ];
 
       const DEFAULT_FAQS = [
-        { id: 1, question: "ডেলিভারি হতে কত দিন সময় লাগে?", answer: "ঢাকার মধ্যে সাধারণত ২৪ থেকে ৪৮ ঘণ্টায় এবং ঢাকার বাইরে ৪৮ থেকে ৭২ ঘণ্টার মধ্যে ডেলিভারি সম্পন্ন করা হয়।" },
-        { id: 2, question: "পণ্য হাতে পেয়ে চেক করার সুযোগ আছে কি?", answer: "হ্যাঁ, ডেলিভারি ম্যানের সামনে প্যাকেট খুলে পণ্য দেখে ও চেক করে ক্যাশ অন ডেলিভারিতে টাকা পরিশোধ করতে পারবেন।" },
-        { id: 3, question: "পণ্য ত্রুটিপূর্ণ হলে কীভাবে পরিবর্তন করব?", answer: "ডেলিভারি পাওয়ার ৭ দিনের মধ্যে আমাদের হেল্পলাইন বা হোয়াটসঅ্যাপে যোগাযোগ করলে আমরা বিনামূল্যে পণ্যটি পরিবর্তন করে দেব।" },
-        { id: 4, question: "ঢাকার বাইরে অগ্রিম টাকা দেওয়া লাগবে কি?", answer: "না, কোনো অগ্রিম টাকা লাগবে না। পুরো টাকাই ক্যাশ অন ডেলিভারিতে পণ্য পাওয়ার পর দিতে পারবেন।" }
+        { id: 1, question: "কিভাবে অনলাইনে অর্ডার করব?", answer: "আপনার পছন্দের পণ্যের নিচে 'অর্ডার করুন' বাটনে ক্লিক করুন। এরপর আপনার নাম, মোবাইল নম্বর এবং সম্পূর্ণ ডেলিভারি ঠিকানা লিখে 'অর্ডার নিশ্চিত করুন' এ চাপ দিন। কোনো ঝামেলা ছাড়াই তাৎক্ষণিকভাবে আপনার অর্ডারটি সম্পন্ন হয়ে যাবে।" },
+        { id: 2, question: "ডেলিভারি হতে কত দিন সময় লাগে?", answer: "ঢাকার মধ্যে সাধারণত ২৪ থেকে ৪৮ ঘণ্টার মধ্যে এবং ঢাকার বাইরে সমগ্র বাংলাদেশে ৪৮ থেকে ৭২ ঘণ্টার মধ্যে দ্রুততম ক্যাশ অন ডেলিভারি সম্পন্ন করা হয়।" },
+        { id: 3, question: "ডেলিভারি চার্জ কত টাকা?", answer: "ঢাকার ভেতরে হোম ডেলিভারি চার্জ মাত্র ৭০ টাকা এবং ঢাকার বাইরে সমগ্র বাংলাদেশে জেলা বা উপজেলা পর্যায়ে ডেলিভারি চার্জ ১৩০ টাকা।" },
+        { id: 4, question: "পণ্য হাতে পেয়ে চেক করার সুযোগ আছে কি?", answer: "হ্যাঁ, অবশ্যই! ডেলিভারি ম্যানের সামনে পার্সেলটি খুলে পণ্যটি সঠিকভাবে দেখে ও যাচাই করে ক্যাশ অন ডেলিভারিতে নগদ টাকা পরিশোধ করতে পারবেন।" },
+        { id: 5, question: "ঢাকার বাইরে অগ্রিম টাকা দেওয়া লাগবে কি?", answer: "না, কোনো প্রকার অগ্রিম টাকা দেওয়ার প্রয়োজন নেই। পুরো টাকাই ক্যাশ অন ডেলিভারিতে পণ্য হাতে পেয়ে নিশ্চিত হয়ে পরিশোধ করতে পারবেন।" },
+        { id: 6, question: "পেমেন্ট করার কি কি মাধ্যম রয়েছে?", answer: "ক্যাশ অন ডেলিভারি (পণ্য হাতে পেয়ে নগদ টাকা দেওয়া) ছাড়াও আপনি বিকাশ (bKash), নগদ (Nagad) বা রকেটের মাধ্যমে নিরাপদ ডিজিটাল পেমেন্ট করতে পারবেন।" },
+        { id: 7, question: "পণ্য ত্রুটিপূর্ণ হলে বা অমিল পেলে কীভাবে পরিবর্তন বা রিটার্ন করব?", answer: "ডেলিভারি পাওয়ার ৭ দিনের মধ্যে আমাদের হেল্পলাইন বা হোয়াটসঅ্যাপে যোগাযোগ করলে আমরা কোনো প্রকার বাড়তি চার্জ ছাড়াই দ্রুত পণ্য পরিবর্তন বা রিপ্লেসমেন্ট (৭ দিনের রিপ্লেসমেন্ট ওয়ারেন্টি) করে দেব।" },
+        { id: 8, question: "অর্ডার কনফার্ম হয়েছে কি না কীভাবে নিশ্চিত হব?", answer: "অর্ডার সাবমিট করার সাথে সাথেই আপনি স্ক্রিনে আপনার ইউনিক 'অর্ডার আইডি' সহ কনফার্মেশন রসিদ দেখতে পাবেন। এছাড়াও আমাদের কাস্টমার সাপোর্ট টিম থেকে ফোন বা হোয়াটসঅ্যাপে কল করে অর্ডারটি নিশ্চিত করা হবে।" },
+        { id: 9, question: "পণ্যের গুণগত মান এবং আসল পণ্য পাওয়ার নিশ্চয়তা কি?", answer: "আমরা ১০০% জেনুইন এবং প্রিমিয়াম কোয়ালিটি গ্যাজেট সরাসরি নির্ভরযোগ্য সোর্স থেকে সরবরাহ করি। প্রতিটি পণ্য কঠোরভাবে পরীক্ষা করে যত্নসহকারে বাবল প্যাকেজিং করে পাঠানো হয়।" },
+        { id: 10, question: "অর্ডার ট্র্যাক বা পার্সেলের বর্তমান অবস্থা কীভাবে জানব?", answer: "অর্ডার সম্পন্ন হওয়ার পর পাওয়া ইউনিক অর্ডার আইডি অথবা আপনার মোবাইল নম্বর দিয়ে আমাদের হেল্পলাইন বা হোয়াটসঅ্যাপে যেকোনো সময় মেসেজ দিলে মুহূর্তেই আপনার পার্সেলের সর্বশেষ কুরিয়ার অবস্থান জানিয়ে দেওয়া হবে।" },
+        { id: 11, question: "অর্ডার পরিবর্তন বা বাতিল (Cancel) করতে চাইলে কী করব?", answer: "যদি ভুলবশত অর্ডার দিয়ে থাকেন অথবা ঠিকানা/কালার পরিবর্তন করতে চান, তবে পার্সেল কুরিয়ারে হস্তান্তরের পূর্বেই দ্রুত আমাদের হোয়াটসঅ্যাপে মেসেজ দিন অথবা হেল্পলাইন নম্বরে কল করুন।" },
+        { id: 12, question: "ক্যাশ অন ডেলিভারিতে কি কোনো বাড়তি লুকানো চার্জ আছে?", answer: "না, কোনো প্রকার লুকানো বা অতিরিক্ত চার্জ নেই। ইনভয়েসে উল্লেখিত পণ্যের মূল্য এবং নির্ধারিত ডেলিভারি চার্জ ব্যতীত আপনাকে অতিরিক্ত কোনো টাকা প্রদান করতে হবে না।" }
       ];
 
       const DEFAULT_ORDERS = [
@@ -3619,6 +4127,9 @@ const DEFAULT_CATEGORIES = [
           localStorage.setItem('gb_custom_products', JSON.stringify(productsData));
         } catch (e) {}
         syncProductsToServer();
+        if (typeof getSupabaseConfig === 'function' && getSupabaseConfig().isConfigured) {
+          uploadAllProductsToSupabase().catch(() => {});
+        }
       }
 
       function saveCategoriesState() {
@@ -4137,6 +4648,13 @@ const DEFAULT_CATEGORIES = [
         ordersList.unshift(payload);
         saveOrdersState();
 
+        // 0. Post to Supabase Cloud Database (if configured)
+        try {
+          submitSupabaseOrder(payload);
+        } catch (err) {
+          console.warn('Supabase order submit error:', err);
+        }
+
         // 1. Post to Server Backend (API endpoint)
         try {
           await fetch(getApiUrl('/api/order'), {
@@ -4370,6 +4888,12 @@ const DEFAULT_CATEGORIES = [
 
         const pmBadgeEl = document.getElementById('admin-payment-count-badge');
         if (pmBadgeEl) pmBadgeEl.textContent = paymentMethodsData.length;
+
+        const bloggerCountEl = document.getElementById('blogger-theme-prod-count');
+        if (bloggerCountEl) bloggerCountEl.textContent = productsData.length;
+
+        const guideCountEl = document.getElementById('guide-prod-count');
+        if (guideCountEl) guideCountEl.textContent = productsData.length;
       }
 
       // Admin Dashboard Modal & Tabs
@@ -4807,35 +5331,598 @@ const DEFAULT_CATEGORIES = [
         saveAndTestBackendUrl();
       }
 
-      function copyBloggerThemeCode() {
-        const btn = document.getElementById('copy-blogger-theme-btn');
-        const textEl = document.getElementById('copy-blogger-theme-text');
-        if (textEl) textEl.textContent = 'কোড প্রস্তুত হচ্ছে...';
-        
-        let fullHtml = document.documentElement.outerHTML;
-        navigator.clipboard.writeText(fullHtml).then(() => {
-          if (textEl) textEl.textContent = 'থিম কোড কপি হয়েছে! ✓';
-          if (btn) btn.classList.replace('bg-[#008bf5]', 'bg-emerald-600');
-          showAdminToast('ব্লগস্পট কোড কপি সম্পন্ন', 'সম্পূর্ণ থিম কোড ক্লিপবোর্ডে কপি হয়েছে। Blogger -> Theme -> Edit HTML এ পেস্ট করুন।', 'success');
+      // ==================== SUPABASE CLOUD DATABASE ENGINE ====================
+      const DEFAULT_SUPABASE_URL = "https://snnpntkutvyscaempgkp.supabase.co";
+      const DEFAULT_SUPABASE_KEY = "sb_publishable_LntMI7URToAeMQenCS9hHw_Jw-GhTey";
+      function getSupabaseConfig() {
+        const url = (localStorage.getItem('gb_supabase_url') || DEFAULT_SUPABASE_URL).trim().replace(/\/+$/, '');
+        const key = (localStorage.getItem('gb_supabase_key') || DEFAULT_SUPABASE_KEY).trim();
+        return { url, key, isConfigured: Boolean(url && key) };
+      }
+
+      function updateSupabaseUIState() {
+        const config = getSupabaseConfig();
+        const urlInput = document.getElementById('settings-supabase-url');
+        const keyInput = document.getElementById('settings-supabase-key');
+        const badge = document.getElementById('supabase-status-badge');
+        const msg = document.getElementById('settings-supabase-msg');
+
+        if (urlInput && !urlInput.value && config.url) urlInput.value = config.url;
+        if (keyInput && !keyInput.value && config.key) keyInput.value = config.key;
+
+        if (badge) {
+          if (config.isConfigured) {
+            badge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 shrink-0';
+            badge.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> সংযুক্ত';
+          } else {
+            badge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 shrink-0';
+            badge.textContent = 'অসংযুক্ত';
+          }
+        }
+      }
+
+      async function saveAndTestSupabase() {
+        const urlInput = document.getElementById('settings-supabase-url');
+        const keyInput = document.getElementById('settings-supabase-key');
+        const msg = document.getElementById('settings-supabase-msg');
+
+        if (!urlInput || !keyInput) return;
+        const url = urlInput.value.trim().replace(/\/+$/, '');
+        const key = keyInput.value.trim();
+
+        if (!url || !key) {
+          if (msg) msg.innerHTML = '<span class="text-amber-600 font-semibold">অনুগ্রহ করে Supabase Project URL এবং Anon Key দিন।</span>';
+          return;
+        }
+
+        if (msg) msg.innerHTML = '<span class="text-blue-500 font-semibold"><i class="fa-solid fa-spinner fa-spin"></i> Supabase সংযোগ পরীক্ষা করা হচ্ছে...</span>';
+
+        try {
+          const t0 = performance.now();
+          const res = await fetch(`${url}/rest/v1/products?select=id&limit=1`, {
+            headers: {
+              'apikey': key,
+              'Authorization': `Bearer ${key}`
+            }
+          });
+
+          if (res.ok) {
+            const ping = Math.round(performance.now() - t0);
+            localStorage.setItem('gb_supabase_url', url);
+            localStorage.setItem('gb_supabase_key', key);
+            updateSupabaseUIState();
+            if (msg) msg.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Supabase সফলভাবে সংযুক্ত! (${ping}ms) ডেটাবেজ এখন সক্রিয়।</span>`;
+            showAdminToast('Supabase কানেক্টেড', 'সফলভাবে ক্লাউড ডেটাবেজে সংযুক্ত হয়েছে।', 'success');
+            fetchSupabaseProducts();
+          } else {
+            const errBody = await res.text();
+            if (res.status === 404 || errBody.includes('relation') || errBody.includes('does not exist')) {
+              localStorage.setItem('gb_supabase_url', url);
+              localStorage.setItem('gb_supabase_key', key);
+              updateSupabaseUIState();
+              if (msg) msg.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> কানেকশন হয়েছে, তবে 'products' টেবিল পাওয়া যায়নি। 'SQL টেবিল কোড কপি' বাটনে ক্লিক করে Supabase এ রান করুন।</span>`;
+            } else {
+              if (msg) msg.innerHTML = `<span class="text-red-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> কানেকশন ব্যর্থ (${res.status}): API Key বা URL যাচাই করুন।</span>`;
+            }
+          }
+        } catch (err) {
+          if (msg) msg.innerHTML = `<span class="text-red-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> নেটওয়ার্ক এরর: ${err.message}</span>`;
+          showAdminToast('কানেকশন এরর', 'Supabase সার্ভারে পৌঁছানো যাচ্ছে না।', 'error');
+        }
+      }
+
+      function openSupabaseSqlModal() {
+        const modal = document.getElementById('supabase-sql-modal');
+        if (modal) modal.classList.remove('hidden');
+      }
+
+      function closeSupabaseSqlModal() {
+        const modal = document.getElementById('supabase-sql-modal');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      function copySupabaseSqlCode() {
+        const textarea = document.getElementById('supabase-sql-code-block');
+        const textEl = document.getElementById('copy-supabase-sql-text');
+        if (!textarea) return;
+        navigator.clipboard.writeText(textarea.value).then(() => {
+          if (textEl) textEl.textContent = 'SQL কোড কপি হয়েছে! ✓';
+          showAdminToast('কপি সম্পন্ন', 'Supabase SQL Editor এ পেস্ট করে Run দিন।', 'success');
           setTimeout(() => {
-            if (textEl) textEl.textContent = 'ব্লগস্পট থিম কোড কপি করুন';
-            if (btn) btn.classList.replace('bg-emerald-600', 'bg-[#008bf5]');
+            if (textEl) textEl.textContent = 'সম্পূর্ণ SQL কোড কপি করুন';
           }, 3000);
         }).catch(() => {
-          showAdminToast('কপি ব্যর্থ', 'ব্রাউজার পারমিশন দিন অথবা থিম ফাইল ডাউনলোড করুন।', 'error');
+          textarea.select();
         });
       }
 
-      function downloadBloggerThemeFile() {
-        const fullHtml = document.documentElement.outerHTML;
-        const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+      async function uploadAllProductsToSupabase() {
+        const config = getSupabaseConfig();
+        const msg = document.getElementById('settings-supabase-msg');
+        if (!config.isConfigured) {
+          showAdminToast('অসংযুক্ত', 'প্রথমে Supabase URL ও Key সংরক্ষণ করুন।', 'error');
+          return;
+        }
+
+        if (msg) msg.innerHTML = '<span class="text-blue-500 font-semibold"><i class="fa-solid fa-spinner fa-spin"></i> সকল পণ্য Supabase এ আপলোড করা হচ্ছে...</span>';
+
+        const payload = productsData.map(p => ({
+          id: p.id,
+          name: p.name,
+          bangla_name: p.banglaName || p.name,
+          price: p.price,
+          old_price: p.oldPrice || null,
+          category: p.category,
+          image: p.image,
+          description: p.description,
+          features: p.features || [],
+          specs: p.specs || {}
+        }));
+
+        try {
+          const res = await fetch(`${config.url}/rest/v1/products`, {
+            method: 'POST',
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'resolution=merge-duplicates'
+            },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            if (msg) msg.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> মোট ${payload.length}টি পণ্য সফলভাবে Supabase এ আপলোড হয়েছে!</span>`;
+            showAdminToast('আপলোড সম্পন্ন', `${payload.length}টি পণ্য Supabase ডেটাবেজে সিঙ্ক হয়েছে।`, 'success');
+          } else {
+            const err = await res.text();
+            if (msg) msg.innerHTML = `<span class="text-red-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> আপলোড ব্যর্থ: ${err}</span>`;
+            showAdminToast('আপলোড ব্যর্থ', 'SQL টেবিল তৈরি করা আছে কি না যাচাই করুন।', 'error');
+          }
+        } catch (e) {
+          if (msg) msg.innerHTML = `<span class="text-red-500 font-bold">এরর: ${e.message}</span>`;
+        }
+      }
+
+      async function fetchSupabaseProducts() {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+
+        try {
+          const res = await fetch(`${config.url}/rest/v1/products?select=*&order=id.asc`, {
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`
+            }
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              const mapped = data.map(item => ({
+                id: Number(item.id),
+                name: item.name,
+                banglaName: item.bangla_name || item.name,
+                price: Number(item.price),
+                oldPrice: item.old_price ? Number(item.old_price) : undefined,
+                category: item.category,
+                image: item.image,
+                description: item.description,
+                features: item.features || [],
+                specs: item.specs || {}
+              }));
+
+              productsData = mapped;
+              try { localStorage.setItem('gb_custom_products', JSON.stringify(productsData)); } catch(e){}
+              renderProductGrid();
+              renderCategoryTabs();
+              updateAdminStats();
+              if (isAdminLoggedIn) renderAdminProductsTable();
+              console.log(`Loaded ${mapped.length} products live from Supabase PostgreSQL!`);
+            }
+          }
+        } catch (e) {
+          console.warn("Supabase products fetch failed:", e);
+        }
+      }
+
+      async function submitSupabaseOrder(ord) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return false;
+
+        try {
+          const payload = {
+            order_id: ord.orderId,
+            date_time: ord.dateTime,
+            product_id: ord.productId,
+            product_name: ord.productName,
+            product_bangla_name: ord.productBanglaName,
+            color: ord.color,
+            size: ord.size,
+            quantity: ord.quantity,
+            product_price: ord.productPrice,
+            product_total: ord.productTotal,
+            delivery_charge: ord.deliveryCharge,
+            total_price: ord.totalPrice,
+            customer_name: ord.customerName,
+            phone: ord.phone,
+            full_address: ord.fullAddress,
+            order_notes: ord.orderNotes || '',
+            payment_method: ord.paymentMethod,
+            trx_id: ord.trxId || '',
+            order_status: ord.orderStatus || 'Pending',
+            order_source: ord.orderSource || 'Blogspot Store'
+          };
+
+          const res = await fetch(`${config.url}/rest/v1/orders`, {
+            method: 'POST',
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(payload)
+          });
+          return res.ok;
+        } catch(e) {
+          console.warn("Supabase order submit error:", e);
+          return false;
+        }
+      }
+
+      async function deleteSupabaseProduct(id) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+        try {
+          await fetch(`${config.url}/rest/v1/products?id=eq.${id}`, {
+            method: 'DELETE',
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`
+            }
+          });
+        } catch(e) {
+          console.warn("Supabase product delete error:", e);
+        }
+      }
+
+      async function fetchSupabaseOrders() {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+        try {
+          const res = await fetch(`${config.url}/rest/v1/orders?select=*&order=created_at.desc`, {
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              const mapped = data.map(item => ({
+                orderId: item.order_id,
+                dateTime: item.date_time,
+                productId: Number(item.product_id),
+                productName: item.product_name,
+                productBanglaName: item.product_bangla_name,
+                color: item.color,
+                size: item.size,
+                quantity: Number(item.quantity),
+                productPrice: Number(item.product_price),
+                productTotal: Number(item.product_total),
+                deliveryCharge: Number(item.delivery_charge),
+                totalPrice: Number(item.total_price),
+                customerName: item.customer_name,
+                phone: item.phone,
+                fullAddress: item.full_address,
+                orderNotes: item.order_notes || '',
+                paymentMethod: item.payment_method,
+                trxId: item.trx_id || '',
+                orderStatus: item.order_status || 'Pending',
+                orderSource: item.order_source || 'Supabase Cloud'
+              }));
+              const existingIds = new Set(ordersList.map(o => o.orderId));
+              const newOrders = mapped.filter(o => !existingIds.has(o.orderId));
+              if (newOrders.length > 0) {
+                ordersList = [...newOrders, ...ordersList];
+                saveOrdersState();
+                renderAdminOrdersTable();
+                updateAdminStats();
+              }
+            }
+          }
+        } catch(e) {
+          console.warn("Supabase orders fetch error:", e);
+        }
+      }
+
+      // ==================== UTF-8 & BASE64 SAFE UTILITIES ====================
+      function utf8ToBase64(str) {
+        try {
+          return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+        } catch(e) {
+          return btoa(unescape(encodeURIComponent(str)));
+        }
+      }
+
+      function base64ToUtf8(str) {
+        try {
+          return decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+        } catch(e) {
+          return decodeURIComponent(escape(atob(str)));
+        }
+      }
+
+      // Check URL hash for direct mobile device sync
+      function checkUrlHashForImport() {
+        try {
+          if (window.location.hash && window.location.hash.startsWith('#importData=')) {
+            const raw = window.location.hash.replace('#importData=', '');
+            const jsonStr = base64ToUtf8(raw);
+            const data = JSON.parse(jsonStr);
+            let imported = false;
+            if (data && Array.isArray(data.products) && data.products.length > 0) {
+              productsData = data.products;
+              try { localStorage.setItem('gb_custom_products', JSON.stringify(productsData)); } catch(e){}
+              imported = true;
+            }
+            if (data && Array.isArray(data.categories) && data.categories.length > 0) {
+              categoriesData = data.categories;
+              try { localStorage.setItem('gb_custom_categories', JSON.stringify(categoriesData)); } catch(e){}
+              imported = true;
+            }
+            if (data && data.siteContent) {
+              siteContent = Object.assign({}, DEFAULT_SITE_CONTENT, data.siteContent);
+              try { localStorage.setItem('gb_site_content', JSON.stringify(siteContent)); } catch(e){}
+              imported = true;
+            }
+            if (data && Array.isArray(data.paymentMethods) && data.paymentMethods.length > 0) {
+              paymentMethodsData = data.paymentMethods;
+              try { localStorage.setItem('gb_payment_methods', JSON.stringify(paymentMethodsData)); } catch(e){}
+              imported = true;
+            }
+            if (imported) {
+              history.replaceState(null, document.title, window.location.pathname + window.location.search);
+              renderProductGrid();
+              renderCategoryTabs();
+              applySiteContent();
+              updateAdminStats();
+              showAdminToast('মোবাইল সিঙ্ক সফল!', 'ডেস্কটপের সকল পণ্য ও সেটিংস আপনার মোবাইলে যুক্ত হয়েছে!', 'success');
+            }
+          }
+        } catch(err) {
+          console.error("Direct hash sync error:", err);
+        }
+      }
+
+      // ==================== BLOGGER THEME CODE GENERATOR ====================
+      // Dynamically injects live products, categories, content, and payment data
+      async function generateBloggerThemeHtml() {
+        let baseHtml = '';
+        try {
+          const res = await fetch('/single-file-blogspot.html');
+          if (res.ok) {
+            baseHtml = await res.text();
+          }
+        } catch(e) {}
+
+        if (!baseHtml || baseHtml.trim().length < 500) {
+          const clone = document.documentElement.cloneNode(true);
+          // Hide all admin tags and modals in the export
+          clone.querySelectorAll('.admin-section-tag').forEach(el => el.classList.add('hidden'));
+          const adminDashboard = clone.querySelector('#admin-dashboard-modal');
+          if (adminDashboard) adminDashboard.classList.add('hidden');
+          clone.querySelectorAll('[id$="-modal"]').forEach(el => el.classList.add('hidden'));
+          baseHtml = '<!doctype html>\n' + clone.outerHTML;
+        }
+
+        // Accurately replace all constants with live application state
+        const pJson = JSON.stringify(productsData, null, 2);
+        const cJson = JSON.stringify(categoriesData, null, 2);
+        const payJson = JSON.stringify(paymentMethodsData, null, 2);
+        const siteJson = JSON.stringify(siteContent, null, 2);
+        const whyJson = JSON.stringify(whyUsList, null, 2);
+        const revJson = JSON.stringify(reviewsList, null, 2);
+        const faqJson = JSON.stringify(faqsList, null, 2);
+
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_PRODUCTS\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_PRODUCTS = ${pJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_CATEGORIES\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_CATEGORIES = ${cJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_PAYMENT_METHODS\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_PAYMENT_METHODS = ${payJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_SITE_CONTENT\s*=\s*\{[\s\S]*?\n\s*\};/m, `const DEFAULT_SITE_CONTENT = ${siteJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_WHY_US\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_WHY_US = ${whyJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_REVIEWS\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_REVIEWS = ${revJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_FAQS\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_FAQS = ${faqJson};`);
+
+        return baseHtml;
+      }
+
+      async function copyBloggerThemeCode() {
+        const btn = document.getElementById('copy-blogger-theme-btn');
+        const textEl = document.getElementById('copy-blogger-theme-text');
+        const guideBtn = document.getElementById('guide-copy-code-btn');
+        if (textEl) textEl.textContent = 'কোড প্রস্তুত হচ্ছে...';
+        if (guideBtn) guideBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> প্রস্তুত হচ্ছে...';
+
+        try {
+          const fullHtml = await generateBloggerThemeHtml();
+          await navigator.clipboard.writeText(fullHtml);
+          if (textEl) textEl.textContent = 'থিম কোড কপি হয়েছে! ✓';
+          if (btn) btn.classList.replace('bg-[#008bf5]', 'bg-emerald-600');
+          if (guideBtn) {
+            guideBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> কোড কপি হয়েছে! ✓';
+            guideBtn.classList.replace('bg-[#008bf5]', 'bg-emerald-600');
+          }
+          showAdminToast('ব্লগস্পট কোড কপি সম্পন্ন', `মোট ${productsData.length}টি পণ্যসহ সম্পূর্ণ থিম কোড কপি হয়েছে। Blogger -> Theme -> Edit HTML এ পেস্ট করুন।`, 'success');
+          setTimeout(() => {
+            if (textEl) textEl.textContent = 'সব নতুন পণ্যসহ থিম কোড কপি করুন';
+            if (btn) btn.classList.replace('bg-emerald-600', 'bg-[#008bf5]');
+            if (guideBtn) {
+              guideBtn.innerHTML = '<i class="fa-solid fa-copy"></i> সব নতুন পণ্যসহ থিম কোড কপি করুন';
+              guideBtn.classList.replace('bg-emerald-600', 'bg-[#008bf5]');
+            }
+          }, 3000);
+        } catch (err) {
+          showAdminToast('কপি ব্যর্থ', 'ব্রাউজার পারমিশন দিন অথবা থিম ফাইল ডাউনলোড করুন।', 'error');
+        }
+      }
+
+      async function downloadBloggerThemeFile() {
+        try {
+          const fullHtml = await generateBloggerThemeHtml();
+          const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'bdsafeguard-blogger-theme.html';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          showAdminToast('ডাউনলোড সম্পন্ন', `মোট ${productsData.length}টি পণ্যসহ থিম ফাইল সেভ হয়েছে।`, 'success');
+        } catch (e) {
+          showAdminToast('ডাউনলোড এরর', 'ফাইল তৈরিতে সমস্যা হয়েছে।', 'error');
+        }
+      }
+
+      // Guide Modal toggles
+      function openBloggerSyncGuideModal() {
+        const modal = document.getElementById('blogger-sync-guide-modal');
+        if (modal) modal.classList.remove('hidden');
+        const countEl = document.getElementById('guide-prod-count');
+        if (countEl) countEl.textContent = productsData.length;
+      }
+
+      function closeBloggerSyncGuideModal() {
+        const modal = document.getElementById('blogger-sync-guide-modal');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      // Device Sync Modal toggles and methods
+      function openDeviceSyncModal() {
+        const modal = document.getElementById('device-sync-modal');
+        if (modal) {
+          modal.classList.remove('hidden');
+          generateDeviceSyncLink();
+        }
+      }
+
+      function closeDeviceSyncModal() {
+        const modal = document.getElementById('device-sync-modal');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      function generateDeviceSyncPayload() {
+        return {
+          timestamp: Date.now(),
+          products: productsData,
+          categories: categoriesData,
+          siteContent: siteContent,
+          paymentMethods: paymentMethodsData
+        };
+      }
+
+      function generateDeviceSyncLink() {
+        const payload = generateDeviceSyncPayload();
+        const trimmedPayload = JSON.parse(JSON.stringify(payload));
+        trimmedPayload.products = trimmedPayload.products.map(p => {
+          if (p.image && p.image.length > 500 && p.image.startsWith('data:')) {
+            return { ...p, image: 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600' };
+          }
+          return p;
+        });
+
+        const jsonStr = JSON.stringify(trimmedPayload);
+        const b64 = utf8ToBase64(jsonStr);
+        const currentUrl = window.location.origin + window.location.pathname;
+        const syncUrl = `${currentUrl}#importData=${b64}`;
+
+        const input = document.getElementById('device-sync-link-input');
+        if (input) input.value = syncUrl;
+
+        const qrImg = document.getElementById('device-sync-qr-img');
+        if (qrImg) {
+          qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(syncUrl)}`;
+        }
+      }
+
+      function copyDeviceSyncLink() {
+        const input = document.getElementById('device-sync-link-input');
+        const btn = document.getElementById('copy-sync-link-btn');
+        if (!input) return;
+        navigator.clipboard.writeText(input.value).then(() => {
+          if (btn) {
+            btn.textContent = 'কপি হয়েছে! ✓';
+            btn.classList.replace('bg-indigo-600', 'bg-emerald-600');
+            setTimeout(() => {
+              btn.textContent = 'কপি লিংক';
+              btn.classList.replace('bg-emerald-600', 'bg-indigo-600');
+            }, 2500);
+          }
+          showAdminToast('লিংক কপি হয়েছে', 'মোবাইলে পাঠিয়ে ওপেন করলেই সব পণ্য স্বয়ংক্রিয়ভাবে সিঙ্ক হবে!', 'success');
+        }).catch(() => {
+          prompt('সিঙ্ক লিংক কপি করুন:', input.value);
+        });
+      }
+
+      function downloadDeviceSyncJson() {
+        const payload = generateDeviceSyncPayload();
+        const jsonStr = JSON.stringify(payload, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'bdsafeguard-blogger-theme.html';
+        a.download = `gadgetbazar-sync-${new Date().toISOString().slice(0,10)}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        showAdminToast('ডাউনলোড সম্পন্ন', 'থিম ফাইলটি সেভ হয়েছে। এটি Blogger Theme এ ব্যবহার করতে পারবেন।', 'success');
+        showAdminToast('এক্সপোর্ট সম্পন্ন', 'ডাটা ব্যাকআপ ফাইল ডাউনলোড হয়েছে। এটি মোবাইলে ইমপোর্ট করতে পারবেন।', 'success');
+      }
+
+      function handleDeviceSyncFileImport(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const data = JSON.parse(e.target.result);
+            let updated = false;
+            if (data && Array.isArray(data.products) && data.products.length > 0) {
+              productsData = data.products;
+              try { localStorage.setItem('gb_custom_products', JSON.stringify(productsData)); } catch(err){}
+              updated = true;
+            }
+            if (data && Array.isArray(data.categories) && data.categories.length > 0) {
+              categoriesData = data.categories;
+              try { localStorage.setItem('gb_custom_categories', JSON.stringify(categoriesData)); } catch(err){}
+              updated = true;
+            }
+            if (data && data.siteContent) {
+              siteContent = Object.assign({}, DEFAULT_SITE_CONTENT, data.siteContent);
+              try { localStorage.setItem('gb_site_content', JSON.stringify(siteContent)); } catch(err){}
+              updated = true;
+            }
+            if (data && Array.isArray(data.paymentMethods) && data.paymentMethods.length > 0) {
+              paymentMethodsData = data.paymentMethods;
+              try { localStorage.setItem('gb_payment_methods', JSON.stringify(paymentMethodsData)); } catch(err){}
+              updated = true;
+            }
+            if (updated) {
+              renderProductGrid();
+              renderCategoryTabs();
+              applySiteContent();
+              updateAdminStats();
+              if (isAdminLoggedIn) {
+                renderAdminProductsTable();
+                renderAdminCategoriesList();
+              }
+              closeDeviceSyncModal();
+              showAdminToast('ইমপোর্ট সফল!', 'সকল পণ্য ও তথ্য ডিভাইসে সফলভাবে লোড হয়েছে।', 'success');
+            } else {
+              showAdminToast('ইমপোর্ট ব্যর্থ', 'সঠিক ফরম্যাটের ফাইল নির্বাচন করুন।', 'error');
+            }
+          } catch(err) {
+            showAdminToast('ফাইল এরর', 'JSON ফাইল পড়া সম্ভব হয়নি।', 'error');
+          }
+        };
+        reader.readAsText(file);
       }
 
 // Admin Products Table
@@ -5903,7 +6990,10 @@ const DEFAULT_CATEGORIES = [
 
           showAdminToast('মুছে ফেলা হয়েছে', `'${prod.banglaName}' পণ্যটি সফলভাবে মুছে ফেলা হয়েছে।`, 'info');
 
-          // Sync to backend
+          // Sync to backend & Supabase
+          if (typeof deleteSupabaseProduct === 'function') {
+            deleteSupabaseProduct(id).catch(() => {});
+          }
           try {
             fetch(getApiUrl('/api/products'), {
               method: 'POST',
@@ -7404,6 +8494,9 @@ const DEFAULT_CATEGORIES = [
       }
 
       // Initialize
+      checkUrlHashForImport();
+      updateSupabaseUIState();
+      fetchSupabaseProducts();
       applySiteContent();
       renderTrustBar();
       renderWhyUsSection();

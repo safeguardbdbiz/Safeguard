@@ -2,5 +2,7 @@
   "telegramBotToken": "",
   "telegramChatId": "",
   "googleScriptUrl": "",
-  "whatsappNumber": "01700000000"
+  "whatsappNumber": "01700000000",
+  "supabaseUrl": "https://snnpntkutvyscaempgkp.supabase.co",
+  "supabaseAnonKey": "sb_publishable_LntMI7URToAeMQenCS9hHw_Jw-GhTey"
 }
