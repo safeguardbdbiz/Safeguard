@@ -125,6 +125,9 @@
         <button type="button" onclick="openAdminDashboard('products')" class="px-2.5 sm:px-3 py-1 bg-[#008bf5] hover:bg-blue-600 rounded-lg text-white font-bold text-xs flex items-center gap-1 cursor-pointer transition">
           <i class="fa-solid fa-gauge-high"></i> <span class="hidden xs:inline">ড্যাশবোর্ড</span>
         </button>
+        <button type="button" onclick="openBrandModal()" class="px-2.5 sm:px-3 py-1 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-bold text-xs flex items-center gap-1 cursor-pointer transition" title="সাইটের নাম ও লোগো পরিবর্তন">
+          <i class="fa-solid fa-paintbrush"></i> <span class="hidden sm:inline">নাম ও লোগো</span>
+        </button>
         <button type="button" onclick="openAddProductModal()" class="px-2.5 sm:px-3 py-1 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-white font-bold text-xs flex items-center gap-1 cursor-pointer transition">
           <i class="fa-solid fa-plus"></i> <span>পণ্য যোগ</span>
         </button>
@@ -394,7 +397,7 @@
           <!-- Hero Featured Gadget Card -->
           <div class="lg:col-span-5 relative flex justify-center mt-2 lg:mt-0">
             <div class="w-full max-w-sm bg-white p-3.5 sm:p-4 rounded-3xl border border-slate-200 shadow-xl relative">
-              <div class="rounded-2xl overflow-hidden aspect-square bg-slate-100 relative cursor-pointer group" onclick="openProductQuickView(1)">
+              <div id="hero-featured-card-media" class="rounded-2xl overflow-hidden aspect-square bg-slate-100 relative cursor-pointer group" onclick="openProductQuickView(1)">
                 <img 
                   id="hero-featured-image"
                   src="https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600&auto=format&fit=crop&q=80" 
@@ -402,8 +405,8 @@
                   class="w-full h-full object-cover group-hover:scale-105 transition duration-300" 
                   loading="lazy"
                 />
-                <span class="badge-discount absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold">
-                  ২৯% মেগা ছাড়
+                <span id="hero-featured-discount-badge" class="badge-discount absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm">
+                  <i class="fa-solid fa-fire text-amber-300"></i> ২৯% মেগা ছাড়
                 </span>
                 <span class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-xs text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-xs">
                   <i class="fa-solid fa-eye mr-1"></i> বিস্তারিত দেখুন
@@ -415,10 +418,10 @@
                   <div class="flex items-center gap-2 mt-0.5">
                     <span id="hero-featured-price" class="text-base sm:text-lg font-bold text-[#008bf5]">৳৮৫০</span>
                     <span id="hero-featured-oldprice" class="text-xs text-slate-400 line-through">৳১২০০</span>
-                    <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">সাশ্রয়</span>
+                    <span id="hero-featured-save-badge" class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">সাশ্রয়</span>
                   </div>
                 </div>
-                <button onclick="openOrderModal(1)" class="btn-primary px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold shrink-0 cursor-pointer">
+                <button id="hero-featured-order-btn" onclick="openOrderModal(1)" class="btn-primary px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold shrink-0 cursor-pointer">
                   অর্ডার করুন
                 </button>
               </div>
@@ -531,9 +534,9 @@
       </div>
     </section>
 
-    <!-- 7. Flash Offer Banner with Live Countdown -->
+    <!-- 7. Flash Offer Banner with Live Countdown & Mega Offer Showcase -->
     <section id="special-offer" class="max-w-7xl mx-auto px-3 sm:px-6 pt-12 sm:pt-16">
-      <div class="rounded-3xl bg-gradient-to-r from-[#008bf5] via-[#0074d9] to-[#005fad] text-white p-5 sm:p-10 shadow-xl relative overflow-hidden">
+      <div class="rounded-3xl bg-gradient-to-r from-[#008bf5] via-[#0074d9] to-[#005fad] text-white p-5 sm:p-8 md:p-10 shadow-xl relative overflow-hidden">
         <!-- Admin Floating Edit Button -->
         <button 
           id="admin-edit-offer-btn" 
@@ -543,8 +546,8 @@
           <i class="fa-solid fa-pen-to-square"></i> অফার ব্যানার এডিট
         </button>
 
-        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div class="text-center md:text-left space-y-2">
+        <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div class="text-center lg:text-left space-y-3 max-w-xl">
             <span id="offer-badge" class="bg-white/20 backdrop-blur-xs px-3 py-1 rounded-full text-xs font-bold inline-block">
               🔥 সীমিত সময়ের মেগা অফার
             </span>
@@ -552,7 +555,7 @@
             <p id="offer-subtitle" class="text-blue-100 text-xs sm:text-sm max-w-md">অফারটি শেষ হওয়ার আগেই আপনার পছন্দের গ্যাজেট অর্ডার করুন। স্টক সীমিত!</p>
             
             <!-- Countdown Timer Blocks -->
-            <div class="flex items-center justify-center md:justify-start gap-2 sm:gap-3 pt-2">
+            <div class="flex items-center justify-center lg:justify-start gap-2 sm:gap-3 pt-1">
               <div class="bg-white/20 backdrop-blur-xs px-3 py-2 rounded-xl text-center min-w-[54px]">
                 <span id="timer-hours" class="text-xl sm:text-2xl font-bold font-mono block">11</span>
                 <span class="text-[9px] sm:text-[10px] text-blue-100">ঘণ্টা</span>
@@ -568,15 +571,35 @@
                 <span class="text-[9px] sm:text-[10px] text-blue-100">সেকেন্ড</span>
               </div>
             </div>
+
+            <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-2.5">
+              <button id="offer-btn1" onclick="handleOfferButtonClick()" class="px-6 py-3.5 rounded-xl bg-white text-[#008bf5] font-extrabold text-sm hover:bg-blue-50 transition shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-bolt text-yellow-500"></i> <span id="offer-btn1-text">অফারটি গ্রহণ করুন</span>
+              </button>
+              <button onclick="viewAllMegaOffers()" class="px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold text-sm transition flex items-center justify-center cursor-pointer">
+                <span id="offer-btn2-text">সব অফার দেখুন</span>
+              </button>
+            </div>
           </div>
 
-          <div class="w-full md:w-auto flex flex-col sm:flex-row gap-2.5">
-            <button onclick="openOrderModal(1)" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white text-[#008bf5] font-extrabold text-sm hover:bg-blue-50 transition shadow-lg flex items-center justify-center gap-2 cursor-pointer">
-              <i class="fa-solid fa-bolt text-yellow-500"></i> <span id="offer-btn1-text">অফারটি গ্রহণ করুন</span>
-            </button>
-            <a href="#products-section" class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold text-sm transition flex items-center justify-center">
-              <span id="offer-btn2-text">সব অফার দেখুন</span>
-            </a>
+          <!-- Featured Mega Offer Product Showcase in Banner -->
+          <div id="offer-product-showcase" class="w-full lg:w-auto shrink-0 flex justify-center">
+            <!-- Dynamically populated if a Mega Offer product exists -->
+          </div>
+        </div>
+
+        <!-- Additional Mega Offer Products Grid (Inside special offer section) -->
+        <div id="mega-offer-products-container" class="relative z-10 hidden mt-8 pt-6 border-t border-white/20">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-fire text-amber-300"></i> মেগা ছাড়ের অন্যান্য স্পেশাল গ্যাজেট
+            </h4>
+            <span id="mega-offer-count-badge" class="text-[11px] font-bold text-white bg-white/20 px-2.5 py-0.5 rounded-full">
+              ০টি অফার সক্রিয়
+            </span>
+          </div>
+          <div id="mega-offer-products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4">
+            <!-- Dynamically rendered by renderMegaOfferSection() -->
           </div>
         </div>
       </div>
@@ -587,13 +610,6 @@
       <div class="text-center max-w-xl mx-auto mb-8">
         <span class="text-xs font-bold text-[#008bf5] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">আমাদের প্রতিশ্রুতি</span>
         <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 mt-2">কেন আমাদের থেকে কিনবেন?</h2>
-        <button 
-          id="admin-add-whyus-btn" 
-          onclick="openWhyUsModal(null)" 
-          class="hidden admin-section-tag mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition cursor-pointer"
-        >
-          <i class="fa-solid fa-plus"></i> নতুন বৈশিষ্ট্য যোগ করুন
-        </button>
       </div>
 
       <div id="why-us-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -606,13 +622,6 @@
       <div class="text-center max-w-xl mx-auto mb-8">
         <span class="text-xs font-bold text-amber-500 uppercase tracking-wider bg-amber-50 px-3 py-1 rounded-full">সন্তুষ্ট গ্রাহক</span>
         <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 mt-2">গ্রাহকদের বিশ্বস্ত মতামত</h2>
-        <button 
-          id="admin-add-review-btn" 
-          onclick="openReviewModal(null)" 
-          class="hidden admin-section-tag mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition cursor-pointer"
-        >
-          <i class="fa-solid fa-plus"></i> নতুন রিভিউ যোগ করুন
-        </button>
       </div>
 
       <div id="reviews-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -625,13 +634,6 @@
       <div class="text-center max-w-xl mx-auto mb-6 sm:mb-8">
         <span class="text-xs font-bold text-[#008bf5] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full">প্রশ্নোত্তর</span>
         <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 mt-2">সাধারণ কিছু প্রশ্নের উত্তর</h2>
-        <button 
-          id="admin-add-faq-btn" 
-          onclick="openFaqModal(null)" 
-          class="hidden admin-section-tag mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition cursor-pointer"
-        >
-          <i class="fa-solid fa-plus"></i> নতুন প্রশ্ন যোগ করুন
-        </button>
       </div>
 
       <div id="faq-accordion-container" class="space-y-3">
@@ -1067,196 +1069,6 @@
               class="w-1/2 py-2.5 rounded-xl bg-[#008bf5] hover:bg-blue-600 text-white font-bold text-xs shadow-md cursor-pointer transition flex items-center justify-center gap-1.5"
             >
               <i class="fa-solid fa-right-to-bracket"></i> লগইন
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Dedicated Brand & Logo Management Modal -->
-    <div id="brand-edit-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/75 modal-overlay overflow-y-auto">
-      <div class="relative w-full max-w-lg bg-white rounded-3xl p-5 sm:p-6 shadow-2xl my-auto animate-modal max-h-[92vh] overflow-y-auto space-y-4">
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div class="flex items-center gap-2.5">
-            <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#008bf5] flex items-center justify-center text-lg shadow-xs">
-              <i class="fa-solid fa-paintbrush"></i>
-            </div>
-            <div>
-              <h3 class="font-extrabold text-slate-900 text-base">সাইটের নাম ও লোগো সেটিংস</h3>
-              <p class="text-xs text-slate-500">স্টোরের নাম, স্লোগান ও লোগো যোগ, এডিট বা ডিলিট করুন</p>
-            </div>
-          </div>
-          <button type="button" onclick="closeBrandModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer">
-            <i class="fa-solid fa-xmark text-sm"></i>
-          </button>
-        </div>
-
-        <!-- Live Preview Banner -->
-        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1.5">
-          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
-            <span>লাইভ প্রিভিউ (ওয়েবসাইটে যেমন দেখাবে)</span>
-            <span class="text-[#008bf5] font-bold text-[11px] flex items-center gap-1"><i class="fa-solid fa-circle text-[8px] animate-pulse"></i> Live Preview</span>
-          </div>
-          <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-            <div id="modal-brand-preview-logo" class="shrink-0 flex items-center justify-center">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#008bf5] to-[#40a9ff] text-white flex items-center justify-center text-lg shadow-md">
-                <i class="fa-solid fa-microchip"></i>
-              </div>
-            </div>
-            <div class="min-w-0">
-              <div id="modal-brand-preview-name" class="text-base sm:text-lg font-black text-slate-900 leading-tight truncate">
-                GadgetBazar BD
-              </div>
-              <p id="modal-brand-preview-tagline" class="text-xs text-slate-500 truncate mt-0.5">
-                স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Form Inputs -->
-        <form onsubmit="handleBrandFormSubmit(event)" class="space-y-4">
-          <!-- Site Name -->
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">সাইটের নাম (Store Name) *</label>
-            <input 
-              type="text" 
-              id="brand-input-name" 
-              required
-              placeholder="যেমন: BD Safeguard অথবা Gadget Bazar BD" 
-              oninput="updateBrandLivePreview()"
-              class="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold"
-            />
-          </div>
-
-          <!-- Tagline -->
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগলাইন বা স্লোগান (Tagline)</label>
-            <input 
-              type="text" 
-              id="brand-input-tagline" 
-              placeholder="যেমন: স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা" 
-              oninput="updateBrandLivePreview()"
-              class="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
-            />
-          </div>
-
-          <!-- Logo Type Selection Tabs -->
-          <div class="space-y-2">
-            <label class="block text-xs font-bold text-slate-700">লোগোর ধরন নির্বাচন করুন</label>
-            <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
-              <button 
-                type="button" 
-                id="brand-tab-icon-btn"
-                onclick="setBrandLogoMode('icon')"
-                class="py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 bg-white text-slate-900 shadow-xs cursor-pointer"
-              >
-                <i class="fa-solid fa-icons text-[#008bf5]"></i> আইকন লোগো
-              </button>
-              <button 
-                type="button" 
-                id="brand-tab-image-btn"
-                onclick="setBrandLogoMode('image')"
-                class="py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900 cursor-pointer"
-              >
-                <i class="fa-solid fa-image text-purple-600"></i> ইমেজ / ছবি লোগো
-              </button>
-            </div>
-          </div>
-
-          <!-- Logo Panel A: Icon Mode -->
-          <div id="brand-panel-icon" class="space-y-3 p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-2">আইকন পছন্দ করুন (Preset Icons)</label>
-              <div class="grid grid-cols-6 gap-2">
-                <button type="button" onclick="choosePresetBrandIcon('fa-microchip')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Microchip"><i class="fa-solid fa-microchip"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-shield-halved')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Shield (Safeguard)"><i class="fa-solid fa-shield-halved"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-bolt')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Bolt"><i class="fa-solid fa-bolt"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-bag-shopping')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Shopping Bag"><i class="fa-solid fa-bag-shopping"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-cart-shopping')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Shopping Cart"><i class="fa-solid fa-cart-shopping"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-mobile-screen')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Mobile"><i class="fa-solid fa-mobile-screen"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-store')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Store"><i class="fa-solid fa-store"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-crown')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Crown"><i class="fa-solid fa-crown"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-fire')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Fire / Hot"><i class="fa-solid fa-fire"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-headphones')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Headphones"><i class="fa-solid fa-headphones"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-rocket')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Rocket"><i class="fa-solid fa-rocket"></i></button>
-                <button type="button" onclick="choosePresetBrandIcon('fa-star')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Star"><i class="fa-solid fa-star"></i></button>
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">কাস্টম FontAwesome আইকন ক্লাস</label>
-              <input 
-                type="text" 
-                id="brand-input-icon" 
-                placeholder="fa-microchip অথবা fa-shield-halved" 
-                oninput="updateBrandLivePreview()"
-                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-mono"
-              />
-            </div>
-          </div>
-
-          <!-- Logo Panel B: Image Mode -->
-          <div id="brand-panel-image" class="hidden space-y-3 p-3.5 bg-purple-50/50 rounded-2xl border border-purple-100">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">ছবি ফাইল আপলোড করুন (Upload Image)</label>
-              <input 
-                type="file" 
-                id="brand-input-file" 
-                accept="image/*"
-                onchange="handleBrandFileUpload(event)"
-                class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#008bf5] file:text-white hover:file:bg-blue-600 cursor-pointer"
-              />
-              <p class="text-[11px] text-slate-500 mt-1">PNG, JPG, SVG, WebP সাপোর্ট করে (সরাসরি ডিভাইস থেকে লোড হবে)</p>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="h-px flex-1 bg-slate-200"></span>
-              <span class="text-[10px] font-bold text-slate-400 uppercase">অথবা ছবির সরাসরি লিংক দিন</span>
-              <span class="h-px flex-1 bg-slate-200"></span>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">ইমেজ ইউআরএল (Image URL)</label>
-              <input 
-                type="url" 
-                id="brand-input-image-url" 
-                placeholder="https://example.com/logo.png" 
-                oninput="updateBrandLivePreview()"
-                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-mono"
-              />
-            </div>
-            <div class="pt-1 flex items-center justify-between">
-              <button 
-                type="button" 
-                onclick="deleteCustomBrandImage()"
-                class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition border border-red-200"
-              >
-                <i class="fa-solid fa-trash"></i> আপলোড করা লোগো মুছুন / ডিলিট
-              </button>
-              <span class="text-[11px] text-slate-500">ডিলিট করলে আইকন লোগো সক্রিয় হবে</span>
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex flex-col sm:flex-row gap-2 pt-2 border-t border-slate-100">
-            <button 
-              type="submit" 
-              class="flex-1 py-2.5 rounded-xl bg-[#008bf5] hover:bg-blue-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md cursor-pointer transition"
-            >
-              <i class="fa-solid fa-check"></i> ব্র্যান্ডিং সেভ করুন
-            </button>
-            <button 
-              type="button" 
-              onclick="resetBrandToDefault()"
-              class="px-3 py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition border border-amber-200"
-            >
-              <i class="fa-solid fa-rotate-left"></i> ডিফল্টে রিসেট
-            </button>
-            <button 
-              type="button" 
-              onclick="closeBrandModal()"
-              class="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer transition"
-            >
-              বন্ধ করুন
             </button>
           </div>
         </form>
@@ -1749,52 +1561,70 @@
                 </button>
               </div>
 
-              <!-- Card 5: Why Choose Us -->
+              <!-- Card 5: Why Choose Us / Features -->
               <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
-                <div class="flex items-start gap-3">
-                  <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shrink-0">
-                    <i class="fa-solid fa-award"></i>
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shrink-0">
+                      <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-sm">কেন আমাদের থেকে কিনবেন (বৈশিষ্ট্যসমূহ)</h4>
+                      <p class="text-xs text-slate-500 mt-0.5">স্টোরের বিশেষ সেবাসমূহ ও বৈশিষ্ট্য যোগ, এডিট ও ডিলিট করুন</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 class="font-bold text-slate-900 text-sm">কেন আমাদের থেকে কিনবেন</h4>
-                    <p class="text-xs text-slate-500 mt-0.5">৩টি মূল সেবা বা বৈশিষ্ট্য যোগ, এডিট ও ডিলিট করুন</p>
-                  </div>
+                  <span id="admin-whyus-count-badge" class="bg-rose-100 text-rose-700 font-bold text-xs px-2 py-0.5 rounded-full shrink-0">0</span>
                 </div>
-                <button onclick="openWhyUsModal(null)" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-rose-50 text-rose-600 font-bold text-xs border border-slate-200 hover:border-rose-300 transition cursor-pointer flex items-center justify-center gap-1.5">
-                  <i class="fa-solid fa-plus-circle"></i> নতুন বৈশিষ্ট্য যোগ / ম্যানেজ করুন
+                <button type="button" onclick="openWhyUsModal(null)" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition cursor-pointer flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-plus"></i> নতুন বৈশিষ্ট্য যোগ করুন
                 </button>
+                <div id="admin-whyus-items-list" class="space-y-1.5 max-h-56 overflow-y-auto pt-2 border-t border-slate-100">
+                  <!-- Rendered dynamically -->
+                </div>
               </div>
 
               <!-- Card 6: Customer Reviews -->
               <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
-                <div class="flex items-start gap-3">
-                  <div class="w-10 h-10 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-lg shrink-0">
-                    <i class="fa-solid fa-star"></i>
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-lg shrink-0">
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-sm">গ্রাহকদের রিভিউ ও রেটিং</h4>
+                      <p class="text-xs text-slate-500 mt-0.5">ক্রেতাদের প্রশংসাসূচক রিভিউ ও রেটিং যোগ, এডিট ও ম্যানেজ করুন</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 class="font-bold text-slate-900 text-sm">গ্রাহকদের রিভিউ ও রেটিং</h4>
-                    <p class="text-xs text-slate-500 mt-0.5">ক্রেতাদের মন্তব্য ও রেটিং নতুন যোগ, এডিট ও রিমুভ করুন</p>
-                  </div>
+                  <span id="admin-reviews-count-badge" class="bg-amber-100 text-amber-700 font-bold text-xs px-2 py-0.5 rounded-full shrink-0">0</span>
                 </div>
-                <button onclick="openReviewModal(null)" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-yellow-50 text-yellow-700 font-bold text-xs border border-slate-200 hover:border-yellow-300 transition cursor-pointer flex items-center justify-center gap-1.5">
-                  <i class="fa-solid fa-plus-circle"></i> নতুন রিভিউ যোগ / ম্যানেজ করুন
+                <button type="button" onclick="openReviewModal(null)" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition cursor-pointer flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-plus"></i> নতুন রিভিউ যোগ করুন
                 </button>
+                <div id="admin-reviews-items-list" class="space-y-1.5 max-h-56 overflow-y-auto pt-2 border-t border-slate-100">
+                  <!-- Rendered dynamically -->
+                </div>
               </div>
 
               <!-- Card 7: FAQ Management -->
               <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
-                <div class="flex items-start gap-3">
-                  <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg shrink-0">
-                    <i class="fa-solid fa-circle-question"></i>
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg shrink-0">
+                      <i class="fa-solid fa-circle-question"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-slate-900 text-sm">প্রশ্নোত্তর (FAQ) ম্যানেজমেন্ট</h4>
+                      <p class="text-xs text-slate-500 mt-0.5">কাস্টমারদের সাধারণ প্রশ্নোত্তর তৈরি, এডিট ও ডিলিট করুন</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 class="font-bold text-slate-900 text-sm">প্রশ্নোত্তর (FAQ) ম্যানেজমেন্ট</h4>
-                    <p class="text-xs text-slate-500 mt-0.5">কাস্টমারদের সাধারণ প্রশ্নের উত্তর তৈরি, এডিট ও পরিবর্তন</p>
-                  </div>
+                  <span id="admin-faqs-count-badge" class="bg-indigo-100 text-indigo-700 font-bold text-xs px-2 py-0.5 rounded-full shrink-0">0</span>
                 </div>
-                <button onclick="openFaqModal(null)" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-indigo-50 text-indigo-600 font-bold text-xs border border-slate-200 hover:border-indigo-300 transition cursor-pointer flex items-center justify-center gap-1.5">
-                  <i class="fa-solid fa-plus-circle"></i> নতুন প্রশ্ন যোগ / ম্যানেজ করুন
+                <button type="button" onclick="openFaqModal(null)" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition cursor-pointer flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-plus"></i> নতুন প্রশ্ন যোগ করুন
                 </button>
+                <div id="admin-faqs-items-list" class="space-y-1.5 max-h-56 overflow-y-auto pt-2 border-t border-slate-100">
+                  <!-- Rendered dynamically -->
+                </div>
               </div>
 
               <!-- Card 8: Footer Information -->
@@ -1818,6 +1648,30 @@
           <!-- TAB 4: SETTINGS & BACKUP -->
           <div id="admin-tab-settings" class="hidden space-y-5">
             
+            <!-- Store Branding (Name, Tagline, Logo) Settings Card -->
+            <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 p-4 sm:p-5 rounded-2xl text-white shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 max-w-2xl">
+              <div class="flex items-center gap-3 w-full sm:w-auto">
+                <div id="settings-branding-logo-preview" class="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-sm border border-white/20 flex items-center justify-center text-xl shrink-0 overflow-hidden shadow-inner">
+                  <i class="fa-solid fa-microchip"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2">
+                    <h4 id="settings-branding-name-preview" class="font-black text-base truncate">GadgetBazar BD</h4>
+                    <span class="px-2 py-0.5 rounded-full bg-white/20 text-[9px] font-bold uppercase tracking-wider">Logo & Name</span>
+                  </div>
+                  <p id="settings-branding-tagline-preview" class="text-[11px] text-blue-100 font-medium truncate mt-0.5">স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 w-full sm:w-auto shrink-0 justify-end">
+                <button type="button" onclick="openBrandModal()" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-white text-blue-700 hover:bg-blue-50 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition shadow-xs">
+                  <i class="fa-solid fa-pen-to-square"></i> নাম ও লোগো পরিবর্তন করুন
+                </button>
+                <button type="button" onclick="resetBrandToDefault()" title="ডিফল্ট নাম ও লোগো" class="px-2.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs flex items-center justify-center cursor-pointer transition border border-white/20">
+                  <i class="fa-solid fa-rotate-left"></i>
+                </button>
+              </div>
+            </div>
+
             <!-- Blogger Mobile Fix Guide Card (Crucial for Mobile Theme issues) -->
             <div class="bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-white p-4 sm:p-5 rounded-2xl border border-amber-300/80 shadow-xs max-w-2xl space-y-3">
               <div class="flex items-start justify-between gap-3">
@@ -2625,6 +2479,196 @@
       </div>
     </div>
 
+    <!-- Dedicated Brand & Logo Management Modal -->
+    <div id="brand-edit-modal" class="hidden fixed inset-0 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto" style="z-index: 99999 !important;">
+      <div class="relative w-full max-w-lg bg-white rounded-3xl p-5 sm:p-6 shadow-2xl my-auto animate-modal max-h-[92vh] overflow-y-auto space-y-4">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#008bf5] flex items-center justify-center text-lg shadow-xs">
+              <i class="fa-solid fa-paintbrush"></i>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-slate-900 text-base">সাইটের নাম ও লোগো সেটিংস</h3>
+              <p class="text-xs text-slate-500">স্টোরের নাম, স্লোগান ও লোগো যোগ, এডিট বা ডিলিট করুন</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeBrandModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Live Preview Banner -->
+        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-1.5">
+          <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+            <span>লাইভ প্রিভিউ (ওয়েবসাইটে যেমন দেখাবে)</span>
+            <span class="text-[#008bf5] font-bold text-[11px] flex items-center gap-1"><i class="fa-solid fa-circle text-[8px] animate-pulse"></i> Live Preview</span>
+          </div>
+          <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+            <div id="modal-brand-preview-logo" class="shrink-0 flex items-center justify-center">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#008bf5] to-[#40a9ff] text-white flex items-center justify-center text-lg shadow-md">
+                <i class="fa-solid fa-microchip"></i>
+              </div>
+            </div>
+            <div class="min-w-0">
+              <div id="modal-brand-preview-name" class="text-base sm:text-lg font-black text-slate-900 leading-tight truncate">
+                GadgetBazar BD
+              </div>
+              <p id="modal-brand-preview-tagline" class="text-xs text-slate-500 truncate mt-0.5">
+                স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Inputs -->
+        <form onsubmit="handleBrandFormSubmit(event)" class="space-y-4">
+          <!-- Site Name -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">সাইটের নাম (Store Name) *</label>
+            <input 
+              type="text" 
+              id="brand-input-name" 
+              required
+              placeholder="যেমন: BD Safeguard অথবা Gadget Bazar BD" 
+              oninput="updateBrandLivePreview()"
+              class="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold"
+            />
+          </div>
+
+          <!-- Tagline -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">ট্যাগলাইন বা স্লোগান (Tagline)</label>
+            <input 
+              type="text" 
+              id="brand-input-tagline" 
+              placeholder="যেমন: স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা" 
+              oninput="updateBrandLivePreview()"
+              class="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+            />
+          </div>
+
+          <!-- Logo Type Selection Tabs -->
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-slate-700">লোগোর ধরন নির্বাচন করুন</label>
+            <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+              <button 
+                type="button" 
+                id="brand-tab-icon-btn"
+                onclick="setBrandLogoMode('icon')"
+                class="py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 bg-white text-slate-900 shadow-xs cursor-pointer"
+              >
+                <i class="fa-solid fa-icons text-[#008bf5]"></i> আইকন লোগো
+              </button>
+              <button 
+                type="button" 
+                id="brand-tab-image-btn"
+                onclick="setBrandLogoMode('image')"
+                class="py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900 cursor-pointer"
+              >
+                <i class="fa-solid fa-image text-purple-600"></i> ইমেজ / ছবি লোগো
+              </button>
+            </div>
+          </div>
+
+          <!-- Logo Panel A: Icon Mode -->
+          <div id="brand-panel-icon" class="space-y-3 p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-2">আইকন পছন্দ করুন (Preset Icons)</label>
+              <div class="grid grid-cols-6 gap-2">
+                <button type="button" onclick="choosePresetBrandIcon('fa-microchip')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Microchip"><i class="fa-solid fa-microchip"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-shield-halved')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Shield (Safeguard)"><i class="fa-solid fa-shield-halved"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-bolt')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Bolt"><i class="fa-solid fa-bolt"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-bag-shopping')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Shopping Bag"><i class="fa-solid fa-bag-shopping"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-cart-shopping')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Shopping Cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-mobile-screen')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Mobile"><i class="fa-solid fa-mobile-screen"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-store')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Store"><i class="fa-solid fa-store"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-crown')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Crown"><i class="fa-solid fa-crown"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-fire')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Fire / Hot"><i class="fa-solid fa-fire"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-headphones')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Headphones"><i class="fa-solid fa-headphones"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-rocket')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Rocket"><i class="fa-solid fa-rocket"></i></button>
+                <button type="button" onclick="choosePresetBrandIcon('fa-star')" class="h-10 rounded-xl border border-slate-200 bg-white hover:border-[#008bf5] hover:text-[#008bf5] flex items-center justify-center text-sm cursor-pointer transition shadow-2xs" title="Star"><i class="fa-solid fa-star"></i></button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">কাস্টম FontAwesome আইকন ক্লাস</label>
+              <input 
+                type="text" 
+                id="brand-input-icon" 
+                placeholder="fa-microchip অথবা fa-shield-halved" 
+                oninput="updateBrandLivePreview()"
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-mono"
+              />
+            </div>
+          </div>
+
+          <!-- Logo Panel B: Image Mode -->
+          <div id="brand-panel-image" class="hidden space-y-3 p-3.5 bg-purple-50/50 rounded-2xl border border-purple-100">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">ছবি ফাইল আপলোড করুন (Upload Image)</label>
+              <input 
+                type="file" 
+                id="brand-input-file" 
+                accept="image/*"
+                onchange="handleBrandFileUpload(event)"
+                class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#008bf5] file:text-white hover:file:bg-blue-600 cursor-pointer"
+              />
+              <p class="text-[11px] text-slate-500 mt-1">PNG, JPG, SVG, WebP সাপোর্ট করে (সরাসরি ডিভাইস থেকে লোড হবে)</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="h-px flex-1 bg-slate-200"></span>
+              <span class="text-[10px] font-bold text-slate-400 uppercase">অথবা ছবির সরাসরি লিংক দিন</span>
+              <span class="h-px flex-1 bg-slate-200"></span>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">ইমেজ ইউআরএল (Image URL)</label>
+              <input 
+                type="url" 
+                id="brand-input-image-url" 
+                placeholder="https://example.com/logo.png" 
+                oninput="updateBrandLivePreview()"
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-mono"
+              />
+            </div>
+            <div class="pt-1 flex items-center justify-between">
+              <button 
+                type="button" 
+                onclick="deleteCustomBrandImage()"
+                class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition border border-red-200"
+              >
+                <i class="fa-solid fa-trash"></i> আপলোড করা লোগো মুছুন / ডিলিট
+              </button>
+              <span class="text-[11px] text-slate-500">ডিলিট করলে আইকন লোগো সক্রিয় হবে</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-2 pt-2 border-t border-slate-100">
+            <button 
+              type="submit" 
+              class="flex-1 py-2.5 rounded-xl bg-[#008bf5] hover:bg-blue-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md cursor-pointer transition"
+            >
+              <i class="fa-solid fa-check"></i> ব্র্যান্ডিং সেভ করুন
+            </button>
+            <button 
+              type="button" 
+              onclick="resetBrandToDefault()"
+              class="px-3 py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer transition border border-amber-200"
+            >
+              <i class="fa-solid fa-rotate-left"></i> ডিফল্টে রিসেট
+            </button>
+            <button 
+              type="button" 
+              onclick="closeBrandModal()"
+              class="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer transition"
+            >
+              বন্ধ করুন
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- Why Us Item Add / Edit Modal -->
     <div id="whyus-form-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay">
       <div class="w-full max-w-md bg-white rounded-3xl p-5 sm:p-6 shadow-2xl animate-modal relative">
@@ -3408,29 +3452,28 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
     <script>
       // 1. Initial Products & Categories Catalog Data
             // ==================== CLOUD API RESOLVER & MULTI-DEVICE SYNC ====================
-      const DEFAULT_CLOUD_API_URL = "https://ais-dev-pqw4ytqbroassa2yjutl3i-950706795060.asia-east1.run.app";
+      const DEFAULT_CLOUD_API_URL = "";
 
       function getBackendApiBase() {
         try {
           const custom = localStorage.getItem('gb_backend_api_url');
           if (custom && custom.trim()) {
-            return custom.trim().replace(/\/+$/, '');
+            const trimmed = custom.trim().replace(/\/+$/, '');
+            if (trimmed.includes('ais-dev-') || trimmed.includes('asia-east1.run.app')) {
+              localStorage.removeItem('gb_backend_api_url');
+            } else {
+              return trimmed;
+            }
           }
         } catch(e) {}
-        const isExternal = !window.location.hostname.includes('localhost') && 
-                           !window.location.hostname.includes('127.0.0.1') && 
-                           !window.location.hostname.includes('run.app');
-        if (isExternal) {
-          return DEFAULT_CLOUD_API_URL;
-        }
         return '';
       }
 
       function getApiUrl(path) {
         const base = getBackendApiBase();
-        if (!base) return path;
-        const cleanBase = base.replace(/\/+$/, '');
         const cleanPath = path.startsWith('/') ? path : '/' + path;
+        if (!base) return cleanPath;
+        const cleanBase = base.replace(/\/+$/, '');
         return cleanBase + cleanPath;
       }
 
@@ -3478,8 +3521,9 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         }
       ];
 
-const DEFAULT_CATEGORIES = [
+      const DEFAULT_CATEGORIES = [
         { id: "all", name: "All", banglaName: "সব পণ্য", icon: "fa-cubes" },
+        { id: "Mega Offer", name: "Mega Offer", banglaName: "মেগা ছাড়", icon: "fa-fire" },
         { id: "Smart Gadgets", name: "Smart Gadgets", banglaName: "স্মার্ট গ্যাজেট", icon: "fa-microchip" },
         { id: "Home Gadgets", name: "Home Gadgets", banglaName: "হোম গ্যাজেট", icon: "fa-house-laptop" },
         { id: "Kitchen", name: "Kitchen", banglaName: "কিচেন", icon: "fa-utensils" },
@@ -3493,7 +3537,7 @@ const DEFAULT_CATEGORIES = [
           banglaName: "মিনি ইলেকট্রিক ফুড চপার",
           price: 850,
           oldPrice: 1200,
-          category: "Kitchen",
+          category: "Mega Offer",
           image: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600&auto=format&fit=crop&q=80",
           description: "রসুন, পিঁয়াজ, আদা, বাদাম ও মাংস মাত্র ১০ সেকেন্ডে নিখুঁত চপ করার প্রিমিয়াম ইলেকট্রিক চপার। ইউএসবি রিচার্জেবল ও স্টেইনলেস স্টিল ব্লেড।",
           features: [
@@ -3821,6 +3865,9 @@ const DEFAULT_CATEGORIES = [
       try {
         const savedCategories = localStorage.getItem('gb_custom_categories');
         if (savedCategories) categoriesData = JSON.parse(savedCategories);
+        if (!categoriesData.some(c => (c.id && (c.id.includes('Mega') || c.id.includes('মেগা'))) || (c.banglaName && c.banglaName.includes('মেগা')))) {
+          categoriesData.splice(1, 0, { id: "Mega Offer", name: "Mega Offer", banglaName: "মেগা ছাড়", icon: "fa-fire" });
+        }
 
         const savedProducts = localStorage.getItem('gb_custom_products');
         if (savedProducts) productsData = JSON.parse(savedProducts);
@@ -4217,10 +4264,7 @@ const DEFAULT_CATEGORIES = [
           `;
         });
 
-        renderOrderPaymentProviders();
-              updateAdminPaymentBadge();
-              if (isAdminLoggedIn) {
-                renderAdminPaymentsList();
+        if (isAdminLoggedIn) {
           html += `
             <button 
               type="button" 
@@ -4894,6 +4938,8 @@ const DEFAULT_CATEGORIES = [
 
         const guideCountEl = document.getElementById('guide-prod-count');
         if (guideCountEl) guideCountEl.textContent = productsData.length;
+
+        renderAdminContentLists();
       }
 
       // Admin Dashboard Modal & Tabs
@@ -4934,7 +4980,10 @@ const DEFAULT_CATEGORIES = [
           syncOrdersFromRemote(false);
         }
         if (tabName === 'payments') renderAdminPaymentsList();
-        if (tabName === 'content') updateAdminBrandingCard();
+        if (tabName === 'content') {
+          updateAdminBrandingCard();
+          renderAdminContentLists();
+        }
         if (tabName === 'settings') loadSettingsToUI();
       }
 
@@ -8155,6 +8204,113 @@ const DEFAULT_CATEGORIES = [
         document.getElementById('whyus-form-modal').classList.add('hidden');
       }
 
+      function renderAdminContentLists() {
+        // 1. Why Us / Features
+        const whyUsContainer = document.getElementById('admin-whyus-items-list');
+        const whyUsBadge = document.getElementById('admin-whyus-count-badge');
+        if (whyUsBadge && typeof whyUsList !== 'undefined' && Array.isArray(whyUsList)) {
+          whyUsBadge.textContent = whyUsList.length;
+        }
+        if (whyUsContainer && typeof whyUsList !== 'undefined' && Array.isArray(whyUsList)) {
+          if (whyUsList.length === 0) {
+            whyUsContainer.innerHTML = '<p class="text-slate-400 text-[11px] text-center py-2 italic">কোনো বৈশিষ্ট্য যুক্ত নেই</p>';
+          } else {
+            whyUsContainer.innerHTML = whyUsList.map(item => `
+              <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition text-xs">
+                <div class="flex items-center gap-2 min-w-0 pr-2">
+                  <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-xs shrink-0">
+                    <i class="fa-solid ${item.icon || 'fa-award'}"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="font-bold text-slate-800 text-xs truncate">${item.title}</p>
+                    <p class="text-[10px] text-slate-500 truncate">${item.desc}</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" onclick="openWhyUsModal(${item.id})" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#008bf5] font-bold text-[10px] transition cursor-pointer flex items-center gap-1" title="এডিট">
+                    <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">এডিট</span>
+                  </button>
+                  <button type="button" onclick="deleteWhyUsItem(${item.id})" class="px-2 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-bold text-[10px] transition cursor-pointer flex items-center gap-1" title="মুছুন">
+                    <i class="fa-solid fa-trash"></i> <span class="hidden sm:inline">মুছুন</span>
+                  </button>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // 2. Reviews
+        const reviewsContainer = document.getElementById('admin-reviews-items-list');
+        const reviewsBadge = document.getElementById('admin-reviews-count-badge');
+        if (reviewsBadge && typeof reviewsList !== 'undefined' && Array.isArray(reviewsList)) {
+          reviewsBadge.textContent = reviewsList.length;
+        }
+        if (reviewsContainer && typeof reviewsList !== 'undefined' && Array.isArray(reviewsList)) {
+          if (reviewsList.length === 0) {
+            reviewsContainer.innerHTML = '<p class="text-slate-400 text-[11px] text-center py-2 italic">কোনো রিভিউ যুক্ত নেই</p>';
+          } else {
+            reviewsContainer.innerHTML = reviewsList.map(rev => `
+              <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition text-xs">
+                <div class="flex items-center gap-2 min-w-0 pr-2">
+                  <div class="w-7 h-7 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center text-[11px] font-bold shrink-0">
+                    ${rev.author ? rev.author.charAt(0) : 'ক'}
+                  </div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <p class="font-bold text-slate-800 text-xs truncate">${rev.author}</p>
+                      <span class="text-[10px] text-amber-500">${'★'.repeat(rev.rating || 5)}</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 truncate">"${rev.text}"</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" onclick="openReviewModal(${rev.id})" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#008bf5] font-bold text-[10px] transition cursor-pointer flex items-center gap-1" title="এডিট">
+                    <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">এডিট</span>
+                  </button>
+                  <button type="button" onclick="deleteReviewItem(${rev.id})" class="px-2 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-bold text-[10px] transition cursor-pointer flex items-center gap-1" title="মুছুন">
+                    <i class="fa-solid fa-trash"></i> <span class="hidden sm:inline">মুছুন</span>
+                  </button>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // 3. FAQs
+        const faqsContainer = document.getElementById('admin-faqs-items-list');
+        const faqsBadge = document.getElementById('admin-faqs-count-badge');
+        if (faqsBadge && typeof faqsList !== 'undefined' && Array.isArray(faqsList)) {
+          faqsBadge.textContent = faqsList.length;
+        }
+        if (faqsContainer && typeof faqsList !== 'undefined' && Array.isArray(faqsList)) {
+          if (faqsList.length === 0) {
+            faqsContainer.innerHTML = '<p class="text-slate-400 text-[11px] text-center py-2 italic">কোনো প্রশ্ন যুক্ত নেই</p>';
+          } else {
+            faqsContainer.innerHTML = faqsList.map(faq => `
+              <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition text-xs">
+                <div class="flex items-center gap-2 min-w-0 pr-2">
+                  <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs shrink-0">
+                    <i class="fa-solid fa-circle-question"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="font-bold text-slate-800 text-xs truncate">${faq.question}</p>
+                    <p class="text-[10px] text-slate-500 truncate">${faq.answer}</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" onclick="openFaqModal(${faq.id})" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#008bf5] font-bold text-[10px] transition cursor-pointer flex items-center gap-1" title="এডিট">
+                    <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">এডিট</span>
+                  </button>
+                  <button type="button" onclick="deleteFaqItem(${faq.id})" class="px-2 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-bold text-[10px] transition cursor-pointer flex items-center gap-1" title="মুছুন">
+                    <i class="fa-solid fa-trash"></i> <span class="hidden sm:inline">মুছুন</span>
+                  </button>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+      }
+
       function saveWhyUsForm(e) {
         e.preventDefault();
         const idVal = document.getElementById('whyus-form-id').value;
@@ -8177,6 +8333,7 @@ const DEFAULT_CATEGORIES = [
 
         saveWhyUsState();
         renderWhyUsSection();
+        renderAdminContentLists();
         closeWhyUsModal();
       }
 
@@ -8187,6 +8344,7 @@ const DEFAULT_CATEGORIES = [
           whyUsList = whyUsList.filter(w => w.id !== id);
           saveWhyUsState();
           renderWhyUsSection();
+          renderAdminContentLists();
           showAdminToast('মুছে ফেলা হয়েছে', `'${item.title}' বৈশিষ্ট্যটি ডিলিট হয়েছে।`, 'info');
         }
       }
@@ -8248,6 +8406,7 @@ const DEFAULT_CATEGORIES = [
 
         saveReviewsState();
         renderReviewsSection();
+        renderAdminContentLists();
         closeReviewModal();
       }
 
@@ -8258,6 +8417,7 @@ const DEFAULT_CATEGORIES = [
           reviewsList = reviewsList.filter(r => r.id !== id);
           saveReviewsState();
           renderReviewsSection();
+          renderAdminContentLists();
           showAdminToast('মুছে ফেলা হয়েছে', `'${rev.author}' এর রিভিউ ডিলিট হয়েছে।`, 'info');
         }
       }
@@ -8311,6 +8471,7 @@ const DEFAULT_CATEGORIES = [
 
         saveFaqsState();
         renderFaqSection();
+        renderAdminContentLists();
         closeFaqModal();
       }
 
@@ -8321,6 +8482,7 @@ const DEFAULT_CATEGORIES = [
           faqsList = faqsList.filter(f => f.id !== id);
           saveFaqsState();
           renderFaqSection();
+          renderAdminContentLists();
           showAdminToast('মুছে ফেলা হয়েছে', 'প্রশ্নোত্তরটি ডিলিট হয়েছে।', 'info');
         }
       }
