@@ -406,6 +406,17 @@ async function startServer() {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
+  // Dynamic Blogger Theme Route before static serving so it is always fresh with live data
+  app.get(["/single-file-blogspot.html", "/download/single-file-blogspot.html"], (req, res) => {
+    const compiled = generateCompiledBloggerTheme();
+    if (req.query.download === "1" || req.query.download === "true" || req.path.includes("download")) {
+      res.setHeader("Content-Disposition", 'attachment; filename="single-file-blogspot.html"');
+    }
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
+    return res.send(compiled);
+  });
+
   // Static serving for public assets if needed
   app.use(express.static(path.join(process.cwd(), "public")));
 
@@ -523,6 +534,97 @@ async function startServer() {
     return res.json({ lastUpdated: getLastUpdated() });
   });
 
+  // Helper to compile Blogger theme with 100% current data and pre-rendered branding
+  function generateCompiledBloggerTheme(): string {
+    const blogspotPath = path.join(process.cwd(), "public", "single-file-blogspot.html");
+    if (!fs.existsSync(blogspotPath)) return "";
+    let html = fs.readFileSync(blogspotPath, "utf-8");
+
+    const products = readJsonFile(PRODUCTS_FILE, SEED_PRODUCTS);
+    const categories = readJsonFile(CATEGORIES_FILE, SEED_CATEGORIES);
+    const siteContent = readJsonFile(SITE_CONTENT_FILE, SEED_SITE_CONTENT);
+    const whyUs = readJsonFile(WHY_US_FILE, SEED_WHY_US);
+    const reviews = readJsonFile(REVIEWS_FILE, SEED_REVIEWS);
+    const faqs = readJsonFile(FAQS_FILE, SEED_FAQS);
+    const paymentMethods = readJsonFile(PAYMENT_METHODS_FILE, SEED_PAYMENT_METHODS);
+
+    const brand = siteContent.brand || {
+      name: "GadgetBazar BD",
+      tagline: "স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা",
+      logoType: "icon",
+      logoIcon: "fa-microchip",
+      logoImageUrl: ""
+    };
+
+    html = html.replace(/const\s+DEFAULT_PRODUCTS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_PRODUCTS = ${JSON.stringify(products, null, 2)};`);
+    html = html.replace(/const\s+DEFAULT_CATEGORIES\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_CATEGORIES = ${JSON.stringify(categories, null, 2)};`);
+    html = html.replace(/const\s+DEFAULT_PAYMENT_METHODS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_PAYMENT_METHODS = ${JSON.stringify(paymentMethods, null, 2)};`);
+    html = html.replace(/const\s+DEFAULT_SITE_CONTENT\s*=\s*\{[\s\S]*?\n\s*\};/m, () => `const DEFAULT_SITE_CONTENT = ${JSON.stringify(siteContent, null, 2)};`);
+    html = html.replace(/const\s+DEFAULT_WHY_US\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_WHY_US = ${JSON.stringify(whyUs, null, 2)};`);
+    html = html.replace(/const\s+DEFAULT_REVIEWS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_REVIEWS = ${JSON.stringify(reviews, null, 2)};`);
+    html = html.replace(/const\s+DEFAULT_FAQS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_FAQS = ${JSON.stringify(faqs, null, 2)};`);
+
+    // Pre-render static HTML elements so shop name and logo appear immediately even on first paint
+    if (brand.name) {
+      html = html.replace(/<title>[\s\S]*?<\/title>/i, () => `<title>${brand.name} | ${brand.tagline || 'স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা'}</title>`);
+      html = html.replace(/(<span id="header-brand-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
+      html = html.replace(/(<span id="drawer-brand-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
+      html = html.replace(/(<span id="footer-store-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
+    }
+    if (brand.tagline) {
+      html = html.replace(/(<p id="header-brand-tagline"[^>]*>)([\s\S]*?)(<\/p>)/i, (match, p1, p2, p3) => `${p1}${brand.tagline}${p3}`);
+    }
+    if (brand.logoType === 'image' && brand.logoImageUrl) {
+      const imgHtml = `<img src="${brand.logoImageUrl}" alt="${brand.name}" class="h-9 sm:h-11 w-auto max-w-[140px] sm:max-w-[190px] object-contain rounded-lg" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#008bf5] to-[#40a9ff] text-white flex items-center justify-center text-base sm:text-xl shadow-md\\'><i class=\\'fa-solid fa-microchip\\'></i></div>';" />`;
+      html = html.replace(/(<div id="header-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${imgHtml}${p3}`);
+      const drawerImgHtml = `<img src="${brand.logoImageUrl}" alt="${brand.name}" class="h-8 w-auto max-w-[120px] object-contain rounded-md" />`;
+      html = html.replace(/(<div id="drawer-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${drawerImgHtml}${p3}`);
+    } else if (brand.logoIcon) {
+      const iconHtml = `<div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#008bf5] to-[#40a9ff] text-white flex items-center justify-center text-base sm:text-xl shadow-md"><i id="header-brand-icon" class="fa-solid ${brand.logoIcon}"></i></div>`;
+      html = html.replace(/(<div id="header-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${iconHtml}${p3}`);
+    }
+
+    return html;
+  }
+
+  function syncSingleFileBlogspotHtmlOnDisk(): void {
+    try {
+      const compiled = generateCompiledBloggerTheme();
+      if (compiled && compiled.length > 1000) {
+        const blogspotPath = path.join(process.cwd(), "public", "single-file-blogspot.html");
+        fs.writeFileSync(blogspotPath, compiled, "utf-8");
+      }
+    } catch (err) {
+      console.error("Error updating public/single-file-blogspot.html on disk:", err);
+    }
+  }
+
+  // Blogger Theme API endpoints
+  app.get("/api/blogger-theme", (req, res) => {
+    const compiled = generateCompiledBloggerTheme();
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
+    return res.send(compiled);
+  });
+
+  app.get(["/api/download-blogger-theme", "/download/single-file-blogspot.html"], (req, res) => {
+    const compiled = generateCompiledBloggerTheme();
+    res.setHeader("Content-Disposition", 'attachment; filename="single-file-blogspot.html"');
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
+    return res.send(compiled);
+  });
+
+  app.get("/single-file-blogspot.html", (req, res) => {
+    const compiled = generateCompiledBloggerTheme();
+    if (req.query.download === "1" || req.query.download === "true") {
+      res.setHeader("Content-Disposition", 'attachment; filename="single-file-blogspot.html"');
+    }
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
+    return res.send(compiled);
+  });
+
   // Full catalog & state restore / batch sync
   app.post("/api/sync/full", (req, res) => {
     try {
@@ -537,6 +639,7 @@ async function startServer() {
       if (Array.isArray(paymentMethods)) writeJsonFile(PAYMENT_METHODS_FILE, paymentMethods);
       if (adminPassword && typeof adminPassword === "string") writeJsonFile(ADMIN_FILE, { password: adminPassword });
 
+      syncSingleFileBlogspotHtmlOnDisk();
       const lastUpdated = touchLastUpdated();
       return res.json({ success: true, message: "All store content synchronized across devices", lastUpdated });
     } catch (err) {
@@ -555,6 +658,7 @@ async function startServer() {
       const list = req.body;
       if (Array.isArray(list)) {
         writeJsonFile(PAYMENT_METHODS_FILE, list);
+        syncSingleFileBlogspotHtmlOnDisk();
         const lastUpdated = touchLastUpdated();
         return res.json({ success: true, count: list.length, lastUpdated });
       }
@@ -575,6 +679,7 @@ async function startServer() {
       const products = req.body;
       if (Array.isArray(products)) {
         writeJsonFile(PRODUCTS_FILE, products);
+        syncSingleFileBlogspotHtmlOnDisk();
         const lastUpdated = touchLastUpdated();
         return res.json({ success: true, count: products.length, lastUpdated });
       }
@@ -595,6 +700,7 @@ async function startServer() {
       const categories = req.body;
       if (Array.isArray(categories)) {
         writeJsonFile(CATEGORIES_FILE, categories);
+        syncSingleFileBlogspotHtmlOnDisk();
         const lastUpdated = touchLastUpdated();
         return res.json({ success: true, count: categories.length, lastUpdated });
       }
@@ -615,6 +721,7 @@ async function startServer() {
       const content = req.body;
       if (content && typeof content === "object") {
         writeJsonFile(SITE_CONTENT_FILE, content);
+        syncSingleFileBlogspotHtmlOnDisk();
         const lastUpdated = touchLastUpdated();
         return res.json({ success: true, lastUpdated });
       }

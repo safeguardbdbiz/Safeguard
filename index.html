@@ -1955,6 +1955,13 @@
                 </button>
                 <button 
                   type="button" 
+                  onclick="openBloggerCodeViewerModal()" 
+                  class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer transition shadow-xs"
+                >
+                  <i class="fa-solid fa-code"></i> সরাসরি কোড বক্স দেখুন ও কপি করুন
+                </button>
+                <button 
+                  type="button" 
                   onclick="downloadBloggerThemeFile()" 
                   class="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs flex items-center gap-2 cursor-pointer transition border border-slate-200 shadow-2xs"
                 >
@@ -3160,6 +3167,13 @@
                 >
                   <i class="fa-solid fa-download text-[#008bf5]"></i> থিম ফাইল ডাউনলোড
                 </button>
+                <button 
+                  type="button" 
+                  onclick="closeBloggerSyncGuideModal(); openBloggerCodeViewerModal();" 
+                  class="px-3.5 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition"
+                >
+                  <i class="fa-solid fa-code"></i> কোড বক্স দেখুন
+                </button>
               </div>
             </div>
 
@@ -3211,6 +3225,100 @@
             class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
           >
             ঠিক আছে, বুঝেছি
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blogger Code Viewer & Direct Copy Modal -->
+    <div id="blogger-code-viewer-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto">
+      <div class="w-full max-w-3xl bg-white rounded-3xl p-5 sm:p-6 shadow-2xl animate-modal my-auto max-h-[94vh] flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg font-bold">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900">ব্লগার থিম সম্পূর্ণ কোড (Safe Guard BD)</h3>
+              <p class="text-xs text-slate-500">আপনার পরিবর্তিত লোগো, শপ নাম ও সকল নতুন পণ্যসহ সম্পূর্ণ এইচটিএমএল কোড</p>
+            </div>
+          </div>
+          <button onclick="closeBloggerCodeViewerModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Notification Banner -->
+        <div class="bg-blue-50 border border-blue-200 rounded-2xl p-3.5 mb-3 flex items-start gap-2.5">
+          <i class="fa-solid fa-circle-info text-[#008bf5] mt-0.5 text-sm shrink-0"></i>
+          <div class="text-xs text-slate-700 leading-relaxed">
+            ব্রাউজার যদি <b>"Failed to download file"</b> দেখায়, চিন্তা করার কিছু নেই! নিচের <b>"সম্পূর্ণ কোড কপি করুন"</b> বাটনে চাপ দিন অথবা বক্সের ভেতর ক্লিক করে <kbd class="px-1.5 py-0.5 rounded bg-white border border-slate-300 font-mono text-[10px]">Ctrl + A</kbd> ও <kbd class="px-1.5 py-0.5 rounded bg-white border border-slate-300 font-mono text-[10px]">Ctrl + C</kbd> চেপে কপি করে ব্লগারে পেস্ট করুন।
+          </div>
+        </div>
+
+        <!-- Action bar -->
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            প্রস্তুতকৃত কোড (<span id="blogger-code-stats">সকল পণ্য ও লোগো যুক্ত</span>):
+          </span>
+          <div class="flex items-center gap-2">
+            <button 
+              type="button" 
+              onclick="copyCodeFromTextarea()" 
+              id="modal-copy-code-btn"
+              class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer transition shadow-xs"
+            >
+              <i class="fa-solid fa-copy"></i> <span id="modal-copy-code-text">সম্পূর্ণ কোড কপি করুন</span>
+            </button>
+            <button 
+              type="button" 
+              onclick="selectAllInCodeBox()" 
+              class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1 cursor-pointer transition"
+            >
+              <i class="fa-solid fa-arrow-pointer"></i> সিলেক্ট অল
+            </button>
+          </div>
+        </div>
+
+        <!-- Code Box -->
+        <div class="relative flex-1 min-h-0 mb-3">
+          <textarea 
+            id="blogger-theme-textarea" 
+            readonly 
+            spellcheck="false"
+            class="w-full h-72 sm:h-80 font-mono text-[11px] p-3.5 rounded-2xl border border-slate-200 bg-slate-900 text-emerald-400 focus:outline-none focus:ring-2 focus:ring-[#008bf5] resize-none select-all"
+            placeholder="কোড লোড হচ্ছে..."
+          ></textarea>
+        </div>
+
+        <!-- Quick 2 Steps Instructions -->
+        <div class="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-3 text-[11px] text-slate-800 space-y-1">
+          <div class="font-bold text-amber-900 flex items-center gap-1.5">
+            <i class="fa-solid fa-lightbulb text-amber-600"></i> ব্লগারে যেভাবে পেস্ট করবেন (২টি সহজ ধাপ):
+          </div>
+          <ol class="list-decimal pl-5 space-y-0.5 text-slate-700">
+            <li><b>Blogger ➜ Theme (থিম) ➜ Customize এর পাশের তীর (🔻) ➜ Mobile settings ➜ "Desktop"</b> নির্বাচন করে Save দিন। <i>(মোবাইলে সঠিক লোগো ও পণ্য দেখানোর জন্য এটি আবশ্যক)</i></li>
+            <li><b>Blogger ➜ Theme ➜ Edit HTML</b> এ গিয়ে আগের সব কোড মুছে এই কোড পেস্ট করে <b>Save (সংরক্ষণ)</b> চাপুন।</li>
+          </ol>
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
+          <a 
+            href="https://bdsafeguard.blogspot.com" 
+            target="_blank" 
+            class="text-xs font-bold text-[#008bf5] hover:underline flex items-center gap-1"
+          >
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> আপনার ব্লগস্পট সাইট (bdsafeguard.blogspot.com)
+          </a>
+          <button 
+            type="button" 
+            onclick="closeBloggerCodeViewerModal()" 
+            class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+          >
+            বন্ধ করুন
           </button>
         </div>
       </div>
@@ -6163,6 +6271,18 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
       // ==================== BLOGGER THEME CODE GENERATOR ====================
       // Dynamically injects live products, categories, content, and payment data
       async function generateBloggerThemeHtml() {
+        // 1. Try to get server-compiled latest theme first
+        try {
+          const res = await fetch(getApiUrl('/api/blogger-theme'));
+          if (res.ok) {
+            const compiled = await res.text();
+            if (compiled && compiled.length > 1000) {
+              return compiled;
+            }
+          }
+        } catch(e) {}
+
+        // 2. Client-side fallback compilation with live data
         let baseHtml = '';
         try {
           const res = await fetch('/single-file-blogspot.html');
@@ -6190,13 +6310,34 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         const revJson = JSON.stringify(reviewsList, null, 2);
         const faqJson = JSON.stringify(faqsList, null, 2);
 
-        baseHtml = baseHtml.replace(/const\s+DEFAULT_PRODUCTS\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_PRODUCTS = ${pJson};`);
-        baseHtml = baseHtml.replace(/const\s+DEFAULT_CATEGORIES\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_CATEGORIES = ${cJson};`);
-        baseHtml = baseHtml.replace(/const\s+DEFAULT_PAYMENT_METHODS\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_PAYMENT_METHODS = ${payJson};`);
-        baseHtml = baseHtml.replace(/const\s+DEFAULT_SITE_CONTENT\s*=\s*\{[\s\S]*?\n\s*\};/m, `const DEFAULT_SITE_CONTENT = ${siteJson};`);
-        baseHtml = baseHtml.replace(/const\s+DEFAULT_WHY_US\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_WHY_US = ${whyJson};`);
-        baseHtml = baseHtml.replace(/const\s+DEFAULT_REVIEWS\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_REVIEWS = ${revJson};`);
-        baseHtml = baseHtml.replace(/const\s+DEFAULT_FAQS\s*=\s*\[[\s\S]*?\];/m, `const DEFAULT_FAQS = ${faqJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_PRODUCTS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_PRODUCTS = ${pJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_CATEGORIES\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_CATEGORIES = ${cJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_PAYMENT_METHODS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_PAYMENT_METHODS = ${payJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_SITE_CONTENT\s*=\s*\{[\s\S]*?\n\s*\};/m, () => `const DEFAULT_SITE_CONTENT = ${siteJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_WHY_US\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_WHY_US = ${whyJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_REVIEWS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_REVIEWS = ${revJson};`);
+        baseHtml = baseHtml.replace(/const\s+DEFAULT_FAQS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_FAQS = ${faqJson};`);
+
+        // Inject brand into static HTML tags so they appear immediately even before JS runs
+        const brand = siteContent.brand || {};
+        if (brand.name) {
+          baseHtml = baseHtml.replace(/<title>[\s\S]*?<\/title>/i, () => `<title>${brand.name} | ${brand.tagline || 'স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা'}</title>`);
+          baseHtml = baseHtml.replace(/(<span id="header-brand-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
+          baseHtml = baseHtml.replace(/(<span id="drawer-brand-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
+          baseHtml = baseHtml.replace(/(<span id="footer-store-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
+        }
+        if (brand.tagline) {
+          baseHtml = baseHtml.replace(/(<p id="header-brand-tagline"[^>]*>)([\s\S]*?)(<\/p>)/i, (match, p1, p2, p3) => `${p1}${brand.tagline}${p3}`);
+        }
+        if (brand.logoType === 'image' && brand.logoImageUrl) {
+          const imgHtml = `<img src="${brand.logoImageUrl}" alt="${brand.name || ''}" class="h-9 sm:h-11 w-auto max-w-[140px] sm:max-w-[190px] object-contain rounded-lg" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#008bf5] to-[#40a9ff] text-white flex items-center justify-center text-base sm:text-xl shadow-md\\'><i class=\\'fa-solid fa-microchip\\'></i></div>';" />`;
+          baseHtml = baseHtml.replace(/(<div id="header-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${imgHtml}${p3}`);
+          const drawerImg = `<img src="${brand.logoImageUrl}" alt="${brand.name || ''}" class="h-8 w-auto max-w-[120px] object-contain rounded-md" />`;
+          baseHtml = baseHtml.replace(/(<div id="drawer-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${drawerImg}${p3}`);
+        } else if (brand.logoIcon) {
+          const iconHtml = `<div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#008bf5] to-[#40a9ff] text-white flex items-center justify-center text-base sm:text-xl shadow-md"><i id="header-brand-icon" class="fa-solid ${brand.logoIcon}"></i></div>`;
+          baseHtml = baseHtml.replace(/(<div id="header-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${iconHtml}${p3}`);
+        }
 
         return baseHtml;
       }
@@ -6231,19 +6372,113 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         }
       }
 
-      async function downloadBloggerThemeFile() {
+      async function openBloggerCodeViewerModal() {
+        const modal = document.getElementById('blogger-code-viewer-modal');
+        const textarea = document.getElementById('blogger-theme-textarea');
+        const statsEl = document.getElementById('blogger-code-stats');
+        if (modal) modal.classList.remove('hidden');
+        if (textarea) textarea.value = 'কোড প্রস্তুত হচ্ছে, অনুগ্রহ করে একটু অপেক্ষা করুন...';
+
         try {
           const fullHtml = await generateBloggerThemeHtml();
-          const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = 'bdsafeguard-blogger-theme.html';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          showAdminToast('ডাউনলোড সম্পন্ন', `মোট ${productsData.length}টি পণ্যসহ থিম ফাইল সেভ হয়েছে।`, 'success');
+          if (textarea) {
+            textarea.value = fullHtml;
+            textarea.focus();
+            textarea.select();
+          }
+          if (statsEl) {
+            statsEl.textContent = `${productsData.length}টি পণ্য ও '${siteContent.brand?.name || "Safe Guard BD"}' সংযুক্ত`;
+          }
+        } catch(e) {
+          if (textarea) textarea.value = 'কোড লোড করতে ব্যর্থ হয়েছে। দয়া করে পেজ রিলোড দিয়ে চেষ্টা করুন।';
+        }
+      }
+
+      function closeBloggerCodeViewerModal() {
+        const modal = document.getElementById('blogger-code-viewer-modal');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      async function copyCodeFromTextarea() {
+        const textarea = document.getElementById('blogger-theme-textarea');
+        const btn = document.getElementById('modal-copy-code-btn');
+        const text = document.getElementById('modal-copy-code-text');
+        if (!textarea || !textarea.value) return;
+
+        try {
+          await navigator.clipboard.writeText(textarea.value);
+          if (text) text.textContent = 'কোড কপি সম্পন্ন! ✓';
+          if (btn) btn.classList.replace('bg-emerald-600', 'bg-blue-600');
+          showAdminToast('কপি সফল!', 'সম্পূর্ণ ব্লগার থিম কোড সফলভাবে ক্লিপবোর্ডে কপি হয়েছে।', 'success');
+          setTimeout(() => {
+            if (text) text.textContent = 'সম্পূর্ণ কোড কপি করুন';
+            if (btn) btn.classList.replace('bg-blue-600', 'bg-emerald-600');
+          }, 3000);
+        } catch(e) {
+          textarea.focus();
+          textarea.select();
+          document.execCommand('copy');
+          showAdminToast('কপি সফল!', 'কোড সিলেক্ট ও কপি করা হয়েছে।', 'success');
+        }
+      }
+
+      function selectAllInCodeBox() {
+        const textarea = document.getElementById('blogger-theme-textarea');
+        if (textarea) {
+          textarea.focus();
+          textarea.select();
+          showAdminToast('সিলেক্ট সম্পন্ন', 'সম্পূর্ণ কোড সিলেক্ট করা হয়েছে। এখন Ctrl+C চাপুন।', 'info');
+        }
+      }
+
+      async function downloadBloggerThemeFile() {
+        showAdminToast('প্রস্তুত হচ্ছে', 'সর্বশেষ থিম ফাইল প্রস্তুত ও কপি করা হচ্ছে...', 'info');
+        try {
+          const fullHtml = await generateBloggerThemeHtml();
+
+          // 1. Immediately copy to clipboard - this is 100% reliable even when browser blocks downloads in iframes!
+          try {
+            await navigator.clipboard.writeText(fullHtml);
+          } catch (clipErr) {
+            console.log('Clipboard fallback in download', clipErr);
+          }
+
+          // 2. Trigger browser download (try server URL first, then blob)
+          let downloaded = false;
+          try {
+            const downloadUrl = getApiUrl('/api/download-blogger-theme');
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = 'single-file-blogspot.html';
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+              try { document.body.removeChild(a); } catch(e){}
+            }, 1000);
+            downloaded = true;
+          } catch (e) {
+            try {
+              const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+              const a = document.createElement('a');
+              a.href = URL.createObjectURL(blob);
+              a.download = 'single-file-blogspot.html';
+              document.body.appendChild(a);
+              a.click();
+              setTimeout(() => {
+                try { document.body.removeChild(a); } catch(e){}
+              }, 1000);
+              downloaded = true;
+            } catch(e2) {}
+          }
+
+          // 3. Always open Code Viewer modal with code selected so the user can easily view or copy
+          await openBloggerCodeViewerModal();
+          showAdminToast('কোড প্রস্তুত ও কপি হয়েছে! ✓', 'সম্পূর্ণ থিম কোড ক্লিপবোর্ডে কপি হয়েছে। Blogger এ পেস্ট করুন অথবা বক্স থেকে কপি করুন।', 'success');
         } catch (e) {
-          showAdminToast('ডাউনলোড এরর', 'ফাইল তৈরিতে সমস্যা হয়েছে।', 'error');
+          await openBloggerCodeViewerModal();
+          showAdminToast('কোড ভিউয়ার ওপেন হয়েছে', 'নিচের বক্স থেকে সরাসরি কোড কপি করে ব্লগারে পেস্ট করুন।', 'info');
         }
       }
 
