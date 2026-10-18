@@ -346,11 +346,11 @@
 
         <!-- Drawer Bottom Hotline & Social -->
         <div class="pt-4 border-t border-slate-100 space-y-2.5">
-          <a href="tel:01700000000" class="w-full py-2.5 rounded-xl bg-blue-50 text-[#008bf5] font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-100 transition">
-            <i class="fa-solid fa-phone"></i> সরাসরি কল করুন: 01700-000000
+          <a id="drawer-phone-link" href="tel:01700000000" class="w-full py-2.5 rounded-xl bg-blue-50 text-[#008bf5] font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-100 transition">
+            <i class="fa-solid fa-phone"></i> সরাসরি কল করুন: <span id="drawer-phone-display">01700-000000</span>
           </a>
-          <a href="https://wa.me/8801700000000?text=Hello,%20I%20want%20to%20know%20about%20your%20gadgets" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 hover:bg-emerald-600 transition shadow-xs">
-            <i class="fa-brands fa-whatsapp text-sm"></i> হোয়াটসঅ্যাপে মেসেজ দিন
+          <a id="drawer-whatsapp-btn" href="https://wa.me/8801700000000?text=Hello,%20I%20want%20to%20order%20a%20gadget" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 hover:bg-emerald-600 transition shadow-xs" title="Chat on WhatsApp with +880 1700-000000">
+            <i class="fa-brands fa-whatsapp text-sm"></i> Chat on WhatsApp with <span id="drawer-whatsapp-display">+880 1700-000000</span>
           </a>
           <p class="text-center text-[10px] text-slate-400">সকাল ৯টা - রাত ১১টা খোলা</p>
         </div>
@@ -703,7 +703,12 @@
           <h4 class="font-bold text-slate-900 text-sm mb-3">কাস্টমার কেয়ার</h4>
           <ul class="space-y-2">
             <li><i class="fa-solid fa-phone mr-2 text-[#008bf5]"></i> <span id="footer-phone">01700-000000</span></li>
-            <li><i class="fa-brands fa-whatsapp mr-2 text-emerald-500"></i> <span id="footer-whatsapp">01700-000000</span></li>
+            <li id="footer-whatsapp-item">
+              <i class="fa-brands fa-whatsapp mr-2 text-emerald-500"></i> 
+              <a id="footer-whatsapp-link" href="https://wa.me/8801700000000?text=Hello,%20I%20want%20to%20order%20a%20gadget" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-600 font-semibold transition" title="Chat on WhatsApp with +880 1700-000000">
+                <span id="footer-whatsapp">+880 1700-000000</span>
+              </a>
+            </li>
             <li><i class="fa-solid fa-envelope mr-2 text-slate-400"></i> <span id="footer-email">support@gadgetbazarbd.com</span></li>
             <li><i class="fa-solid fa-clock mr-2 text-slate-400"></i> <span id="footer-hours">প্রতিদিন সকাল ৯টা - রাত ১১টা</span></li>
           </ul>
@@ -1351,6 +1356,14 @@
           >
             <i class="fa-solid fa-gear"></i> সেটিংস ও ব্যাকআপ
           </button>
+          <button 
+            type="button" 
+            onclick="switchAdminTab('whatsapp')" 
+            id="admin-tab-btn-whatsapp" 
+            class="admin-nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-2 cursor-pointer transition"
+          >
+            <i class="fa-brands fa-whatsapp text-emerald-500 text-sm"></i> হোয়াটসঅ্যাপ টুল
+          </button>
         </div>
 
         <!-- Dashboard Tab Contents -->
@@ -1833,6 +1846,35 @@
                   <i class="fa-solid fa-pen-to-square"></i> ফুটার তথ্য এডিট করুন
                 </button>
               </div>
+
+              <!-- Card 9: WhatsApp Chat & Contact Tool -->
+              <div class="bg-gradient-to-br from-emerald-500/5 via-white to-teal-50/20 p-4 sm:p-5 rounded-2xl border border-emerald-300 shadow-xs flex flex-col justify-between space-y-3">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                      <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <h4 class="font-bold text-slate-900 text-sm">WhatsApp চ্যাট ও কন্টাক্ট নম্বর টুল</h4>
+                        <span class="admin-wa-status-badge text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">সক্রিয়</span>
+                      </div>
+                      <p class="text-xs text-slate-500 mt-0.5">পেজের ফ্লোটিং বাটন, ফুটার ও মোবাইলে প্রদর্শিত হোয়াটসঅ্যাপ নম্বর পরিবর্তন, যোগ বা রিমুভ করুন।</p>
+                      <div class="mt-2 text-xs font-mono font-bold text-emerald-700 flex items-center gap-1.5">
+                        <i class="fa-solid fa-phone-volume text-[11px]"></i> বর্তমান নম্বর: <span class="admin-wa-preview-number text-slate-900 bg-white px-2 py-0.5 rounded-md border border-slate-200">+880 1700-000000</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-2 pt-1">
+                  <button type="button" onclick="switchAdminTab('whatsapp')" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition">
+                    <i class="fa-solid fa-pen-to-square"></i> নম্বর যোগ / এডিট / রিমুভ টুল
+                  </button>
+                  <button type="button" onclick="testWhatsAppLinkDirect()" class="py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1 cursor-pointer transition shadow-xs" title="চ্যাট টেস্ট করুন">
+                    <i class="fa-brands fa-whatsapp"></i> টেস্ট
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -2091,6 +2133,42 @@
               <p id="settings-tg-msg" class="text-[11px]"></p>
             </div>
 
+            <!-- WhatsApp Customer Support Card -->
+            <div class="bg-gradient-to-br from-emerald-500/5 via-white to-teal-50/20 p-4 sm:p-5 rounded-2xl border border-emerald-300 shadow-xs max-w-2xl space-y-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                      WhatsApp চ্যাট বাটন ও নম্বর ম্যানেজমেন্ট টুল
+                    </h4>
+                    <p class="text-xs text-slate-500 leading-relaxed mt-0.5">
+                      ওয়েবসাইট ও ব্লগস্পট পেজে ভিজিটরদের জন্য WhatsApp চ্যাট বাটন ও সাপোর্ট নম্বর যুক্ত, পরিবর্তন অথবা রিমুভ করুন।
+                    </p>
+                  </div>
+                </div>
+                <span class="admin-wa-status-badge text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 shrink-0">
+                  সক্রিয়
+                </span>
+              </div>
+              <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <span class="text-slate-500 font-semibold block text-[11px]">পেজে প্রদর্শিত WhatsApp নম্বর:</span>
+                  <div class="font-mono font-bold text-sm text-slate-900 mt-0.5 admin-wa-preview-number">+880 1700-000000</div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="switchAdminTab('whatsapp')" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition">
+                    <i class="fa-solid fa-sliders"></i> WhatsApp টুল খুলুন
+                  </button>
+                  <button type="button" onclick="handleRemoveWhatsAppTool()" class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs flex items-center gap-1 cursor-pointer transition">
+                    <i class="fa-solid fa-trash-can"></i> রিমুভ
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <!-- One-Click Blogger Theme Exporter & Mobile Sync Card -->
             <div class="bg-gradient-to-br from-blue-500/5 via-slate-50 to-indigo-50/30 p-4 sm:p-5 rounded-2xl border border-blue-200 shadow-xs max-w-2xl space-y-4">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-blue-100 pb-3">
@@ -2287,6 +2365,175 @@
               >
                 ডিফল্ট ক্যাটালগ রিসেট করুন
               </button>
+            </div>
+
+          </div>
+
+          <!-- TAB 7: WHATSAPP TOOL (ADD / EDIT / REMOVE / TEST) -->
+          <div id="admin-tab-whatsapp" class="hidden space-y-5">
+            <!-- Header Banner -->
+            <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-green-600 p-5 rounded-2xl text-white shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-2xl shrink-0">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-lg font-black tracking-tight">WhatsApp কন্টাক্ট ও চ্যাট টুল</h3>
+                    <span class="px-2.5 py-0.5 rounded-full bg-white/25 text-[10px] font-bold uppercase tracking-wider">Live Tool</span>
+                  </div>
+                  <p class="text-xs text-emerald-100 font-medium mt-0.5">সাইটের ফ্লোটিং বাটন, ফুটার ও মোবাইলে প্রদর্শিত হোয়াটসঅ্যাপ নম্বর সম্পূর্ণ নিয়ন্ত্রণ করুন।</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <span class="admin-wa-status-badge inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white text-emerald-800 shadow-xs">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> পেজে সক্রিয়
+                </span>
+              </div>
+            </div>
+
+            <!-- Live Customer Preview Box -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-eye text-emerald-600"></i> কাস্টমার স্ক্রিনে যেভাবে দেখা যাবে (Live Preview)
+                </h4>
+                <button type="button" onclick="testWhatsAppLinkDirect()" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition">
+                  <i class="fa-brands fa-whatsapp"></i> টেস্ট চ্যাট ওপেন করুন
+                </button>
+              </div>
+
+              <!-- Interactive Floating Button Preview -->
+              <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center text-2xl shadow-lg shrink-0">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </div>
+                  <div>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">ফ্লোটিং চ্যাট বাটন ও টেক্সট</span>
+                    <p class="font-bold text-slate-900 text-sm mt-0.5">
+                      Chat on WhatsApp with <span class="admin-wa-preview-number text-emerald-600 font-mono">+880 1700-000000</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="text-xs text-slate-500">
+                  <span class="text-slate-400 block text-[10px]">জেনারেটেড wa.me লিংক:</span>
+                  <a href="#" target="_blank" rel="noopener" class="admin-wa-preview-link font-mono font-semibold text-emerald-700 hover:underline break-all">
+                    https://wa.me/8801700000000
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add / Edit WhatsApp Form -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+              <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-[#008bf5]"></i> WhatsApp নম্বর যোগ / এডিট করুন (Add & Edit)
+                  </h4>
+                  <p class="text-xs text-slate-500 mt-0.5">নতুন নম্বর সেট করতে অথবা বিদ্যমান নম্বর এডিট করতে নিচের তথ্য আপডেট করুন।</p>
+                </div>
+              </div>
+
+              <form onsubmit="handleSaveWhatsAppTool(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">
+                      হোয়াটসঅ্যাপ নম্বর (WhatsApp Number) *
+                    </label>
+                    <input 
+                      type="text" 
+                      id="admin-wa-input-number" 
+                      required 
+                      value="+880 1700-000000"
+                      placeholder="+880 1700-000000 বা 01700000000" 
+                      class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-emerald-500 font-mono font-bold text-slate-900"
+                    />
+                    <p class="text-[11px] text-slate-400 mt-1">
+                      উদাহরণ: <span class="font-mono text-slate-600">+880 1700-000000</span> বা <span class="font-mono text-slate-600">01700-000000</span>। সিস্টেম স্বয়ংক্রিয়ভাবে আন্তর্জাতিক লিঙ্কে কনভার্ট করে নিবে।
+                    </p>
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">
+                      ডিফল্ট চ্যাট মেসেজ (Pre-filled Chat Message)
+                    </label>
+                    <input 
+                      type="text" 
+                      id="admin-wa-input-message" 
+                      value="Hello, I want to order a gadget"
+                      placeholder="যেমন: Hello, I want to order a gadget" 
+                      class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-emerald-500 font-medium"
+                    />
+                    <p class="text-[11px] text-slate-400 mt-1">
+                      কাস্টমার বাটনে ক্লিক করলে এই মেসেজটি স্বয়ংক্রিয়ভাবে হোয়াটসঅ্যাপ চ্যাট বক্সে চলে আসবে।
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Visibility Toggle Switch -->
+                <div class="p-3.5 bg-emerald-50/60 rounded-xl border border-emerald-200 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-700 flex items-center justify-center text-sm font-bold shrink-0">
+                      <i class="fa-solid fa-toggle-on"></i>
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold text-slate-900">পেজে হোয়াটসঅ্যাপ প্রদর্শন সক্রিয় রাখুন (Show on Page)</div>
+                      <div class="text-[11px] text-slate-500">অন থাকলে ফ্লোটিং বাটন, ফুটার ও ড্রয়ারে হোয়াটসঅ্যাপ আইকন ও লিংক দেখানো হবে।</div>
+                    </div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                    <input type="checkbox" id="admin-wa-toggle-enable" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-slate-200 peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                  </label>
+                </div>
+
+                <!-- Submit and Quick Action Buttons -->
+                <div class="flex flex-wrap items-center gap-2.5 pt-1">
+                  <button 
+                    type="submit" 
+                    class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs transition"
+                  >
+                    <i class="fa-solid fa-floppy-disk"></i> নম্বর সেভ ও পেজে আপডেট করুন
+                  </button>
+                  <button 
+                    type="button" 
+                    onclick="handleRestoreDefaultWhatsApp()" 
+                    class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-2 cursor-pointer transition border border-slate-200"
+                    title="ডিফল্ট +880 1700-000000 নম্বর সেট করুন"
+                  >
+                    <i class="fa-solid fa-rotate-left"></i> ডিফল্ট (+880 1700-000000) সেট করুন
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Remove / Delete Tool Card -->
+            <div class="bg-rose-50/60 p-4 sm:p-5 rounded-2xl border border-rose-200 shadow-xs space-y-3">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 text-sm">পেজ থেকে WhatsApp সম্পূর্ণ রিমুভ / হাইড করুন (Remove WhatsApp)</h4>
+                    <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                      আপনি যদি পেজ থেকে সাময়িকভাবে বা স্থায়ীভাবে WhatsApp বাটন ও নম্বর সম্পূর্ণ মুছে ফেলতে চান, তবে নিচের বাটনটি চাপুন। কাস্টমারদের স্ক্রিন থেকে ফ্লোটিং বাটন ও ফুটার নম্বর অবিলম্বে গায়েব হয়ে যাবে। পরবর্তীতে যেকোনো সময় আবার নতুন নম্বর যোগ করা যাবে।
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 pt-1">
+                <button 
+                  type="button" 
+                  onclick="handleRemoveWhatsAppTool()" 
+                  class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs transition"
+                >
+                  <i class="fa-solid fa-eye-slash"></i> পেজ থেকে WhatsApp নম্বর রিমুভ করুন
+                </button>
+                <span class="text-[11px] text-slate-500 font-medium">নিরাপদ ও যেকোনো সময় ডিফল্ট রিস্টোরযোগ্য</span>
+              </div>
             </div>
 
           </div>
@@ -3811,17 +4058,25 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
 
     <!-- ==================== END ADMIN SYSTEM MODALS ==================== -->
 
-    <!-- 12. Floating WhatsApp Order Button (Mobile & Desktop) -->
-    <a 
-      href="https://wa.me/8801700000000?text=Hello,%20I%20want%20to%20order%20a%20gadget" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      class="fixed bottom-20 md:bottom-6 right-4 z-30 w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-lg animate-float-pulse transition cursor-pointer"
-      aria-label="Chat on WhatsApp"
-      title="হোয়াটসঅ্যাপে অর্ডার করুন"
-    >
-      <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <!-- 12. Floating WhatsApp Order & Chat Widget (Mobile & Desktop) -->
+    <div id="floating-whatsapp-container" class="fixed bottom-20 md:bottom-6 right-4 z-30 flex items-center gap-2 group transition-all duration-300">
+      <a 
+        id="floating-whatsapp-btn"
+        href="https://wa.me/8801700000000?text=Hello,%20I%20want%20to%20order%20a%20gadget" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="flex items-center gap-2 group cursor-pointer"
+        aria-label="Chat on WhatsApp with +880 1700-000000"
+        title="Chat on WhatsApp with +880 1700-000000"
+      >
+        <span id="floating-whatsapp-pill" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-slate-800 font-bold text-xs shadow-lg border border-slate-200 group-hover:border-emerald-400 group-hover:text-emerald-700 transition">
+          <i class="fa-brands fa-whatsapp text-emerald-500 text-sm"></i> Chat on WhatsApp with <strong id="floating-whatsapp-number-display">+880 1700-000000</strong>
+        </span>
+        <span class="w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-xl animate-float-pulse transition shrink-0">
+          <i class="fa-brands fa-whatsapp"></i>
+        </span>
+      </a>
+    </div>
 
     <!-- 13. Mobile Bottom Navigation Bar (Sticky on Phones) -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 mobile-bottom-bar z-40 flex items-center justify-around shadow-lg">
@@ -4127,10 +4382,13 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
           about: "বাংলাদেশের নির্ভরযোগ্য স্মার্ট গ্যাজেট স্টোর। আমরা মানসম্মত গ্যাজেট দ্রুততম সময়ে আপনার দোরগোড়ায় পৌঁছে দিতে প্রতিশ্রুতিবদ্ধ।",
           phone: "01700-000000",
           phoneRaw: "01700000000",
-          whatsapp: "01700-000000",
+          whatsapp: "+880 1700-000000",
+          whatsappRaw: "8801700000000",
+          whatsappEnabled: true,
+          whatsappMessage: "Hello, I want to order a gadget",
           email: "safeguardbd.biz@gmail.com",
           hours: "প্রতিদিন সকাল ৯টা - রাত ১১টা",
-          copyright: "© 2026 GadgetBazar BD. সর্বস্বত্ব সংরক্ষিত।"
+          copyright: "© 2026 Safe Guard BD. সর্বস্বত্ব সংরক্ষিত।"
         },
         trustBar: [
           { id: 1, icon: "fa-truck-fast", title: "সারা দেশে হোম ডেলিভারি", subtitle: "২৪ থেকে ৭২ ঘণ্টায় পৌঁছাবে" },
@@ -4253,7 +4511,9 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         telegramBotToken: "",
         telegramChatId: "",
         googleScriptUrl: "",
-        whatsappNumber: "01700000000"
+        whatsappNumber: "+880 1700-000000",
+        whatsappEnabled: true,
+        whatsappMessage: "Hello, I want to order a gadget"
       };
       let isAdminLoggedIn = false;
       let currentCategory = 'all';
@@ -4311,6 +4571,30 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
             appSettings = Object.assign({}, appSettings, JSON.parse(savedSettings));
           } catch(e) {}
         }
+        const savedWaNum = localStorage.getItem('gb_whatsapp_number');
+        if (savedWaNum !== null) {
+          appSettings.whatsappNumber = savedWaNum;
+          if (siteContent.footer) siteContent.footer.whatsapp = savedWaNum;
+        }
+        const savedWaEnabled = localStorage.getItem('gb_whatsapp_enabled');
+        if (savedWaEnabled !== null) {
+          appSettings.whatsappEnabled = savedWaEnabled === 'true';
+          if (siteContent.footer) siteContent.footer.whatsappEnabled = (savedWaEnabled === 'true');
+        }
+        const savedWaMsg = localStorage.getItem('gb_whatsapp_message');
+        if (savedWaMsg !== null) {
+          appSettings.whatsappMessage = savedWaMsg;
+          if (siteContent.footer) siteContent.footer.whatsappMessage = savedWaMsg;
+        }
+
+        // Migrate placeholder 01700000000 / 01700-000000 to +880 1700-000000
+        if (!appSettings.whatsappNumber || appSettings.whatsappNumber === '01700000000' || appSettings.whatsappNumber === '01700-000000') {
+          appSettings.whatsappNumber = "+880 1700-000000";
+        }
+        if (siteContent.footer && (!siteContent.footer.whatsapp || siteContent.footer.whatsapp === '01700000000' || siteContent.footer.whatsapp === '01700-000000')) {
+          siteContent.footer.whatsapp = "+880 1700-000000";
+        }
+
         if (!siteContent.brand) {
           siteContent.brand = Object.assign({}, DEFAULT_SITE_CONTENT.brand);
         }
@@ -6066,6 +6350,7 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
 
         renderAdminContentLists();
         updateSettingsAdminAccountUI();
+        applyWhatsAppConfig();
       }
 
       // Admin Dashboard Modal & Tabs
@@ -6080,7 +6365,7 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
       }
 
       function switchAdminTab(tabName) {
-        const tabs = ['products', 'categories', 'orders', 'payments', 'content', 'settings'];
+        const tabs = ['products', 'categories', 'orders', 'payments', 'content', 'settings', 'whatsapp'];
         tabs.forEach(t => {
           const content = document.getElementById(`admin-tab-${t}`);
           const btn = document.getElementById(`admin-tab-btn-${t}`);
@@ -6111,6 +6396,7 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
           renderAdminContentLists();
         }
         if (tabName === 'settings') loadSettingsToUI();
+        if (tabName === 'whatsapp') applyWhatsAppConfig();
       }
 
       
@@ -8928,6 +9214,9 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         if (siteContent.brand) {
           applyBrandContent(siteContent.brand);
         }
+
+        // Apply WhatsApp floating widget & contacts
+        applyWhatsAppConfig();
       }
 
       // ==================== STORE BRANDING (NAME, LOGO, TAGLINE) ====================
@@ -9445,11 +9734,247 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         }
       }
 
+      // ==================== WHATSAPP TOOL & CHAT ENGINE (ADD / EDIT / REMOVE) ====================
+
+      function cleanWhatsAppDigits(phone) {
+        if (!phone) return "";
+        let digits = String(phone).replace(/[^0-9]/g, '');
+        if (digits.startsWith('880')) {
+          return digits;
+        }
+        if (digits.startsWith('0')) {
+          return '88' + digits;
+        }
+        if (digits.length === 10 && digits.startsWith('1')) {
+          return '880' + digits;
+        }
+        return digits;
+      }
+
+      function applyWhatsAppConfig() {
+        const num = (siteContent.footer && siteContent.footer.whatsapp) || appSettings.whatsappNumber || "+880 1700-000000";
+        const isEnabled = (siteContent.footer && siteContent.footer.whatsappEnabled !== undefined) 
+          ? siteContent.footer.whatsappEnabled 
+          : (appSettings.whatsappEnabled !== false);
+        const hasNumber = Boolean(num && String(num).trim() !== "" && String(num).trim() !== "N/A");
+        const isVisible = Boolean(isEnabled && hasNumber);
+        const msg = (siteContent.footer && siteContent.footer.whatsappMessage) || appSettings.whatsappMessage || "Hello, I want to order a gadget";
+        const cleanDigits = cleanWhatsAppDigits(num);
+        const waUrl = hasNumber && cleanDigits ? `https://wa.me/${cleanDigits}?text=${encodeURIComponent(msg)}` : "#";
+
+        // 1. Floating WhatsApp Button
+        const floatCont = document.getElementById('floating-whatsapp-container');
+        const floatBtn = document.getElementById('floating-whatsapp-btn');
+        const floatNumDisplay = document.getElementById('floating-whatsapp-number-display');
+        if (floatCont) {
+          if (isVisible) {
+            floatCont.classList.remove('hidden');
+            if (floatBtn) {
+              floatBtn.href = waUrl;
+              floatBtn.setAttribute('title', `Chat on WhatsApp with ${num}`);
+              floatBtn.setAttribute('aria-label', `Chat on WhatsApp with ${num}`);
+            }
+            if (floatNumDisplay) floatNumDisplay.textContent = num;
+          } else {
+            floatCont.classList.add('hidden');
+          }
+        }
+
+        // 2. Footer WhatsApp
+        const footerItem = document.getElementById('footer-whatsapp-item');
+        const footerWhatsapp = document.getElementById('footer-whatsapp');
+        const footerLink = document.getElementById('footer-whatsapp-link');
+        if (footerItem) {
+          if (isVisible) {
+            footerItem.classList.remove('hidden');
+            if (footerWhatsapp) footerWhatsapp.textContent = num;
+            if (footerLink) {
+              footerLink.href = waUrl;
+              footerLink.setAttribute('title', `Chat on WhatsApp with ${num}`);
+            }
+          } else {
+            footerItem.classList.add('hidden');
+          }
+        }
+
+        // 3. Mobile Navigation Drawer WhatsApp Link
+        const drawerWaBtn = document.getElementById('drawer-whatsapp-btn');
+        const drawerWaNum = document.getElementById('drawer-whatsapp-display');
+        if (drawerWaBtn) {
+          if (isVisible) {
+            drawerWaBtn.classList.remove('hidden');
+            drawerWaBtn.href = waUrl;
+            drawerWaBtn.setAttribute('title', `Chat on WhatsApp with ${num}`);
+            if (drawerWaNum) drawerWaNum.textContent = num;
+          } else {
+            drawerWaBtn.classList.add('hidden');
+          }
+        }
+
+        // 4. Order Success WhatsApp button
+        const successWaBtn = document.getElementById('success-whatsapp-btn');
+        if (successWaBtn) {
+          if (isVisible) {
+            successWaBtn.classList.remove('hidden');
+            successWaBtn.href = waUrl;
+          } else {
+            successWaBtn.classList.add('hidden');
+          }
+        }
+
+        // 5. Update Admin Tool UI if rendered
+        updateAdminWhatsAppUI(num, isVisible, msg, waUrl);
+      }
+
+      function updateAdminWhatsAppUI(num, isVisible, msg, waUrl) {
+        const tabNumInput = document.getElementById('admin-wa-input-number');
+        if (tabNumInput && document.activeElement !== tabNumInput) {
+          tabNumInput.value = num || "";
+        }
+        const tabMsgInput = document.getElementById('admin-wa-input-message');
+        if (tabMsgInput && document.activeElement !== tabMsgInput) {
+          tabMsgInput.value = msg || "";
+        }
+        const tabToggle = document.getElementById('admin-wa-toggle-enable');
+        if (tabToggle) tabToggle.checked = Boolean(isVisible);
+
+        const statusBadges = document.querySelectorAll('.admin-wa-status-badge');
+        statusBadges.forEach(b => {
+          if (isVisible) {
+            b.className = 'admin-wa-status-badge inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300';
+            b.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> পেজে সক্রিয় (Showing on Page)';
+          } else {
+            b.className = 'admin-wa-status-badge inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300';
+            b.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500"></span> পেজ থেকে লুকানো / রিমুভড (Hidden)';
+          }
+        });
+
+        const previewNumbers = document.querySelectorAll('.admin-wa-preview-number');
+        previewNumbers.forEach(p => {
+          p.textContent = (isVisible && num) ? num : '(কোনো নম্বর সক্রিয় নেই - রিমুভড)';
+        });
+
+        const previewLinks = document.querySelectorAll('.admin-wa-preview-link');
+        previewLinks.forEach(p => {
+          if (isVisible && waUrl && waUrl !== '#') {
+            p.href = waUrl;
+            p.textContent = waUrl;
+            p.classList.remove('pointer-events-none', 'opacity-50');
+          } else {
+            p.href = '#';
+            p.textContent = 'নম্বর রিমুভ থাকায় কোনো লিঙ্ক তৈরি হয়নি';
+            p.classList.add('pointer-events-none', 'opacity-50');
+          }
+        });
+      }
+
+      function handleSaveWhatsAppTool(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        const numInput = document.getElementById('admin-wa-input-number');
+        const msgInput = document.getElementById('admin-wa-input-message');
+        const toggle = document.getElementById('admin-wa-toggle-enable');
+
+        const newNum = numInput ? numInput.value.trim() : "";
+        const newMsg = msgInput ? msgInput.value.trim() : "Hello, I want to order a gadget";
+        const isEnabled = toggle ? toggle.checked : true;
+
+        if (isEnabled && !newNum) {
+          showAdminToast('সতর্কতা', 'অনুগ্রহ করে একটি হোয়াটসঅ্যাপ নম্বর লিখুন অথবা টগলটি বন্ধ করুন।', 'error');
+          return;
+        }
+
+        saveWhatsAppSettingsUnified(newNum, newMsg, isEnabled);
+        showAdminToast('WhatsApp সফলভাবে আপডেট হয়েছে', `নম্বর: ${newNum || 'রিমুভড'} | পেজে স্ট্যাটাস: ${isEnabled && newNum ? 'দৃশ্যমান' : 'লুকানো'}`, 'success');
+      }
+
+      function handleRemoveWhatsAppTool() {
+        if (!confirm('আপনি কি নিশ্চিত যে পেজ থেকে WhatsApp চ্যাট বাটন ও নম্বর সম্পূর্ণ মুছে দিতে চান?')) {
+          return;
+        }
+        saveWhatsAppSettingsUnified("", "", false);
+        showAdminToast('WhatsApp রিমুভ করা হয়েছে', 'পেজ থেকে হোয়াটসঅ্যাপ বাটন ও নম্বর সফলভাবে মুছে ফেলা হয়েছে।', 'info');
+      }
+
+      function handleRestoreDefaultWhatsApp() {
+        saveWhatsAppSettingsUnified("+880 1700-000000", "Hello, I want to order a gadget", true);
+        showAdminToast('ডিফল্ট রিস্টোর হয়েছে', 'হোয়াটসঅ্যাপ নম্বর ডিফল্ট +880 1700-000000 এ সেট করা হয়েছে।', 'success');
+      }
+
+      function testWhatsAppLinkDirect() {
+        const num = (siteContent.footer && siteContent.footer.whatsapp) || appSettings.whatsappNumber || "+880 1700-000000";
+        const cleanDigits = cleanWhatsAppDigits(num);
+        const msg = (siteContent.footer && siteContent.footer.whatsappMessage) || appSettings.whatsappMessage || "Hello, I want to order a gadget";
+        if (!cleanDigits) {
+          showAdminToast('ত্রুটি', 'কোনো সক্রিয় হোয়াটসঅ্যাপ নম্বর পাওয়া যায়নি!', 'error');
+          return;
+        }
+        window.open(`https://wa.me/${cleanDigits}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+      }
+
+      function openWhatsAppToolModal() {
+        openAdminDashboard('whatsapp');
+      }
+
+      async function saveWhatsAppSettingsUnified(number, message, isEnabled) {
+        siteContent.footer = siteContent.footer || {};
+        siteContent.footer.whatsapp = number;
+        siteContent.footer.whatsappEnabled = isEnabled;
+        siteContent.footer.whatsappMessage = message;
+        siteContent.footer.whatsappRaw = cleanWhatsAppDigits(number);
+
+        appSettings.whatsappNumber = number;
+        appSettings.whatsappEnabled = isEnabled;
+        appSettings.whatsappMessage = message;
+
+        try {
+          localStorage.setItem('gb_site_content', JSON.stringify(siteContent));
+          localStorage.setItem('gb_app_settings', JSON.stringify(appSettings));
+          localStorage.setItem('gb_whatsapp_number', number);
+          localStorage.setItem('gb_whatsapp_enabled', String(isEnabled));
+          localStorage.setItem('gb_whatsapp_message', message);
+        } catch(e) {}
+
+        applyWhatsAppConfig();
+
+        // Sync with backend API
+        try {
+          const apiBase = getBackendApiBase();
+          if (apiBase) {
+            await fetch(`${apiBase}/api/whatsapp`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                whatsappNumber: number,
+                whatsappEnabled: isEnabled,
+                whatsappMessage: message
+              })
+            });
+          }
+        } catch (err) {
+          console.warn('Backend whatsapp sync error:', err);
+        }
+
+        // Also sync Supabase if connected
+        try {
+          if (typeof isSupabaseConnected !== 'undefined' && isSupabaseConnected && typeof supabaseClient !== 'undefined' && supabaseClient) {
+            await supabaseClient.from('site_content').upsert({
+              id: 'footer_whatsapp',
+              data: { whatsapp: number, whatsappEnabled: isEnabled, whatsappMessage: message },
+              updated_at: new Date().toISOString()
+            });
+          }
+        } catch (err) {}
+      }
+
       // ==================== SECTION EDIT MODAL ====================
 
       function openEditSectionModal(sectionId) {
         if (sectionId === 'brand') {
           openBrandModal();
+          return;
+        }
+        if (sectionId === 'whatsapp') {
+          openWhatsAppToolModal();
           return;
         }
 

@@ -266,10 +266,13 @@ const SEED_SITE_CONTENT = {
     about: "বাংলাদেশের নির্ভরযোগ্য স্মার্ট গ্যাজেট স্টোর। আমরা মানসম্মত গ্যাজেট দ্রুততম সময়ে আপনার দোরগোড়ায় পৌঁছে দিতে প্রতিশ্রুতিবদ্ধ।",
     phone: "01700-000000",
     phoneRaw: "01700000000",
-    whatsapp: "01700-000000",
+    whatsapp: "+880 1700-000000",
+    whatsappRaw: "8801700000000",
+    whatsappEnabled: true,
+    whatsappMessage: "Hello, I want to order a gadget",
     email: "safeguardbd.biz@gmail.com",
     hours: "প্রতিদিন সকাল ৯টা - রাত ১১টা",
-    copyright: "© 2026 GadgetBazar BD. সর্বস্বত্ব সংরক্ষিত।"
+    copyright: "© 2026 Safe Guard BD. সর্বস্বত্ব সংরক্ষিত।"
   },
   trustBar: [
     { id: 1, icon: "fa-truck-fast", title: "সারা দেশে হোম ডেলিভারি", subtitle: "২৪ থেকে ৭২ ঘণ্টায় পৌঁছাবে" },
@@ -445,7 +448,9 @@ async function startServer() {
         telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || "",
         telegramChatId: process.env.TELEGRAM_CHAT_ID || "",
         googleScriptUrl: process.env.GOOGLE_SCRIPT_URL || "",
-        whatsappNumber: "01700000000"
+        whatsappNumber: "+880 1700-000000",
+        whatsappEnabled: true,
+        whatsappMessage: "Hello, I want to order a gadget"
       });
       const admin = readJsonFile(ADMIN_FILE, { password: "MAQuaiyum@123" });
       const lastUpdated = getLastUpdated();
@@ -475,7 +480,9 @@ async function startServer() {
       telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || "",
       telegramChatId: process.env.TELEGRAM_CHAT_ID || "",
       googleScriptUrl: process.env.GOOGLE_SCRIPT_URL || "",
-      whatsappNumber: "01700000000"
+      whatsappNumber: "+880 1700-000000",
+      whatsappEnabled: true,
+      whatsappMessage: "Hello, I want to order a gadget"
     });
     res.json(settings);
   });
@@ -486,7 +493,9 @@ async function startServer() {
         telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || "",
         telegramChatId: process.env.TELEGRAM_CHAT_ID || "",
         googleScriptUrl: process.env.GOOGLE_SCRIPT_URL || "",
-        whatsappNumber: "01700000000"
+        whatsappNumber: "+880 1700-000000",
+        whatsappEnabled: true,
+        whatsappMessage: "Hello, I want to order a gadget"
       });
       const updated = { ...current, ...req.body };
       writeJsonFile(SETTINGS_FILE, updated);
@@ -494,6 +503,65 @@ async function startServer() {
       return res.json({ success: true, settings: updated });
     } catch (err: any) {
       return res.status(500).json({ success: false, message: err.message });
+    }
+  });
+
+  // Dedicated WhatsApp Management Tool API (Add, Edit, Remove, Test)
+  app.get("/api/whatsapp", (req, res) => {
+    try {
+      const siteContent = readJsonFile(SITE_CONTENT_FILE, SEED_SITE_CONTENT);
+      const settings = readJsonFile<Record<string, any>>(SETTINGS_FILE, {});
+      const whatsappNumber = settings.whatsappNumber ?? siteContent.footer?.whatsapp ?? "+880 1700-000000";
+      const whatsappEnabled = settings.whatsappEnabled !== undefined ? settings.whatsappEnabled : (siteContent.footer?.whatsappEnabled !== false);
+      const whatsappMessage = settings.whatsappMessage ?? siteContent.footer?.whatsappMessage ?? "Hello, I want to order a gadget";
+      return res.json({
+        whatsappNumber,
+        whatsappEnabled: Boolean(whatsappEnabled),
+        whatsappMessage,
+        cleanDigits: String(whatsappNumber).replace(/[^0-9]/g, "")
+      });
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/whatsapp", (req, res) => {
+    try {
+      const { whatsappNumber, whatsappEnabled, whatsappMessage } = req.body;
+      const settings = readJsonFile<Record<string, any>>(SETTINGS_FILE, {});
+      const siteContent = readJsonFile(SITE_CONTENT_FILE, SEED_SITE_CONTENT);
+
+      const isEnabled = whatsappEnabled !== undefined ? Boolean(whatsappEnabled) : true;
+      const num = whatsappNumber !== undefined ? String(whatsappNumber).trim() : "+880 1700-000000";
+      const msg = whatsappMessage !== undefined ? String(whatsappMessage).trim() : "Hello, I want to order a gadget";
+
+      const updatedSettings = {
+        ...settings,
+        whatsappNumber: num,
+        whatsappEnabled: isEnabled,
+        whatsappMessage: msg
+      };
+      writeJsonFile(SETTINGS_FILE, updatedSettings);
+
+      if (siteContent.footer) {
+        siteContent.footer.whatsapp = num;
+        siteContent.footer.whatsappEnabled = isEnabled;
+        siteContent.footer.whatsappMessage = msg;
+        siteContent.footer.whatsappRaw = String(num).replace(/[^0-9]/g, "");
+      }
+      writeJsonFile(SITE_CONTENT_FILE, siteContent);
+
+      touchLastUpdated();
+      syncSingleFileBlogspotHtmlOnDisk();
+
+      return res.json({
+        success: true,
+        whatsappNumber: num,
+        whatsappEnabled: isEnabled,
+        whatsappMessage: msg
+      });
+    } catch (err: any) {
+      return res.status(500).json({ success: false, error: err.message });
     }
   });
 
@@ -563,6 +631,10 @@ async function startServer() {
     html = html.replace(/const\s+DEFAULT_WHY_US\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_WHY_US = ${JSON.stringify(whyUs, null, 2)};`);
     html = html.replace(/const\s+DEFAULT_REVIEWS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_REVIEWS = ${JSON.stringify(reviews, null, 2)};`);
     html = html.replace(/const\s+DEFAULT_FAQS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_FAQS = ${JSON.stringify(faqs, null, 2)};`);
+    const settings = readJsonFile<Record<string, any>>(SETTINGS_FILE, {});
+    if (settings && Object.keys(settings).length > 0) {
+      html = html.replace(/let\s+appSettings\s*=\s*\{[\s\S]*?\n\s*\};/m, () => `let appSettings = ${JSON.stringify(settings, null, 2)};`);
+    }
 
     // Clean title update in head
     if (brand && brand.name) {

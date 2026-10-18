@@ -40,7 +40,10 @@
     "about": "বাংলাদেশের নির্ভরযোগ্য স্মার্ট গ্যাজেট স্টোর। আমরা মানসম্মত গ্যাজেট দ্রুততম সময়ে আপনার দোরগোড়ায় পৌঁছে দিতে প্রতিশ্রুতিবদ্ধ।",
     "phone": "01700-000000",
     "phoneRaw": "01700000000",
-    "whatsapp": "01700-000000",
+    "whatsapp": "+880 1700-000000",
+    "whatsappRaw": "8801700000000",
+    "whatsappEnabled": true,
+    "whatsappMessage": "Hello, I want to order a gadget",
     "email": "safeguardbd.biz@gmail.com",
     "hours": "প্রতিদিন সকাল ৯টা - রাত ১১টা",
     "copyright": "© 2026 Safe Guard BD. সর্বস্বত্ব সংরক্ষিত।"
