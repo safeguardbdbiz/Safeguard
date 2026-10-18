@@ -227,7 +227,7 @@ const SEED_PRODUCTS = [
 
 const SEED_SITE_CONTENT = {
   brand: {
-    name: "GadgetBazar BD",
+    name: "Safe Guard BD",
     tagline: "স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা",
     logoType: "icon",
     logoIcon: "fa-microchip",
@@ -549,7 +549,7 @@ async function startServer() {
     const paymentMethods = readJsonFile(PAYMENT_METHODS_FILE, SEED_PAYMENT_METHODS);
 
     const brand = siteContent.brand || {
-      name: "GadgetBazar BD",
+      name: "Safe Guard BD",
       tagline: "স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা",
       logoType: "icon",
       logoIcon: "fa-microchip",
@@ -564,24 +564,10 @@ async function startServer() {
     html = html.replace(/const\s+DEFAULT_REVIEWS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_REVIEWS = ${JSON.stringify(reviews, null, 2)};`);
     html = html.replace(/const\s+DEFAULT_FAQS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_FAQS = ${JSON.stringify(faqs, null, 2)};`);
 
-    // Pre-render static HTML elements so shop name and logo appear immediately even on first paint
-    if (brand.name) {
-      html = html.replace(/<title>[\s\S]*?<\/title>/i, () => `<title>${brand.name} | ${brand.tagline || 'স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা'}</title>`);
-      html = html.replace(/(<span id="header-brand-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
-      html = html.replace(/(<span id="drawer-brand-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
-      html = html.replace(/(<span id="footer-store-name"[^>]*>)([\s\S]*?)(<\/span>)/i, (match, p1, p2, p3) => `${p1}${brand.name}${p3}`);
-    }
-    if (brand.tagline) {
-      html = html.replace(/(<p id="header-brand-tagline"[^>]*>)([\s\S]*?)(<\/p>)/i, (match, p1, p2, p3) => `${p1}${brand.tagline}${p3}`);
-    }
-    if (brand.logoType === 'image' && brand.logoImageUrl) {
-      const imgHtml = `<img src="${brand.logoImageUrl}" alt="${brand.name}" class="h-9 sm:h-11 w-auto max-w-[140px] sm:max-w-[190px] object-contain rounded-lg" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#008bf5] to-[#40a9ff] text-white flex items-center justify-center text-base sm:text-xl shadow-md\\'><i class=\\'fa-solid fa-microchip\\'></i></div>';" />`;
-      html = html.replace(/(<div id="header-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${imgHtml}${p3}`);
-      const drawerImgHtml = `<img src="${brand.logoImageUrl}" alt="${brand.name}" class="h-8 w-auto max-w-[120px] object-contain rounded-md" />`;
-      html = html.replace(/(<div id="drawer-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${drawerImgHtml}${p3}`);
-    } else if (brand.logoIcon) {
-      const iconHtml = `<div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#008bf5] to-[#40a9ff] text-white flex items-center justify-center text-base sm:text-xl shadow-md"><i id="header-brand-icon" class="fa-solid ${brand.logoIcon}"></i></div>`;
-      html = html.replace(/(<div id="header-brand-logo-container"[^>]*>)([\s\S]*?)(<\/div>)/i, (match, p1, p2, p3) => `${p1}${iconHtml}${p3}`);
+    // Clean title update in head
+    if (brand && brand.name) {
+      const cleanTitle = `${brand.name} | ${brand.tagline || 'স্মার্ট গ্যাজেটের নির্ভরযোগ্য ঠিকানা'}`;
+      html = html.replace(/<title>[\s\S]*?<\/title>/i, () => `<title>${cleanTitle}</title>`);
     }
 
     return html;
@@ -792,17 +778,55 @@ async function startServer() {
     }
   });
 
-  // Admin Password Sync API
+  // Admin Account & Password Sync API
+  const activeRecoveryCodes = new Map<string, { code: string; expiresAt: number }>();
+
+  app.get("/api/admin-account", (req, res) => {
+    const admin = readJsonFile(ADMIN_FILE, { email: "admin@safeguardbd.com", password: "MAQuaiyum@123", recoveryEmail: "admin@safeguardbd.com" });
+    return res.json({
+      email: admin.email || "admin@safeguardbd.com",
+      password: admin.password || "MAQuaiyum@123",
+      recoveryEmail: admin.recoveryEmail || "admin@safeguardbd.com"
+    });
+  });
+
+  app.post("/api/admin-account", (req, res) => {
+    try {
+      const { email, password, recoveryEmail } = req.body;
+      const admin = readJsonFile(ADMIN_FILE, { email: "admin@safeguardbd.com", password: "MAQuaiyum@123", recoveryEmail: "admin@safeguardbd.com" });
+      if (email && typeof email === "string" && email.includes("@")) {
+        admin.email = email.trim().toLowerCase();
+      }
+      if (password && typeof password === "string" && password.trim().length >= 4) {
+        admin.password = password.trim();
+      }
+      if (recoveryEmail && typeof recoveryEmail === "string" && recoveryEmail.includes("@")) {
+        admin.recoveryEmail = recoveryEmail.trim().toLowerCase();
+      }
+      writeJsonFile(ADMIN_FILE, admin);
+      const lastUpdated = touchLastUpdated();
+      return res.json({ success: true, admin, lastUpdated });
+    } catch (err) {
+      console.error("Error updating admin account:", err);
+      return res.status(500).json({ error: "Failed to update admin account" });
+    }
+  });
+
   app.get("/api/admin-password", (req, res) => {
-    const admin = readJsonFile(ADMIN_FILE, { password: "MAQuaiyum@123" });
-    return res.json({ password: admin.password || "MAQuaiyum@123" });
+    const admin = readJsonFile(ADMIN_FILE, { email: "admin@safeguardbd.com", password: "MAQuaiyum@123" });
+    return res.json({ 
+      email: admin.email || "admin@safeguardbd.com",
+      password: admin.password || "MAQuaiyum@123" 
+    });
   });
 
   app.post("/api/admin-password", (req, res) => {
     try {
       const { password } = req.body;
       if (typeof password === "string" && password.trim().length >= 4) {
-        writeJsonFile(ADMIN_FILE, { password: password.trim() });
+        const admin = readJsonFile(ADMIN_FILE, { email: "admin@safeguardbd.com", password: "MAQuaiyum@123" });
+        admin.password = password.trim();
+        writeJsonFile(ADMIN_FILE, admin);
         const lastUpdated = touchLastUpdated();
         return res.json({ success: true, lastUpdated });
       }
@@ -810,6 +834,92 @@ async function startServer() {
     } catch (err) {
       console.error("Error saving admin password:", err);
       return res.status(500).json({ error: "Failed to save admin password" });
+    }
+  });
+
+  // Password Recovery API
+  app.post("/api/admin-recover-request", async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email || typeof email !== "string") {
+        return res.status(400).json({ success: false, message: "ইমেইল প্রদান করুন" });
+      }
+      const admin = readJsonFile(ADMIN_FILE, { email: "admin@safeguardbd.com", password: "MAQuaiyum@123", recoveryEmail: "admin@safeguardbd.com" });
+      const enteredEmail = email.trim().toLowerCase();
+      const adminEmail = (admin.email || "admin@safeguardbd.com").trim().toLowerCase();
+      const recoveryEmail = (admin.recoveryEmail || "").trim().toLowerCase();
+
+      if (enteredEmail !== adminEmail && enteredEmail !== recoveryEmail && !enteredEmail.includes("admin")) {
+        return res.status(404).json({ success: false, message: "এই ইমেইলটি নিবন্ধিত অ্যাডমিন অ্যাকাউন্টের সাথে মিলছে না।" });
+      }
+
+      // Generate 6-digit OTP
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      activeRecoveryCodes.set(enteredEmail, {
+        code: otp,
+        expiresAt: Date.now() + 15 * 60 * 1000 // 15 minutes
+      });
+
+      // If Telegram bot is active, notify the owner
+      const settings = readJsonFile<Record<string, any>>(SETTINGS_FILE, {});
+      const token = settings.telegramBotToken || process.env.TELEGRAM_BOT_TOKEN;
+      const chatId = settings.telegramChatId || process.env.TELEGRAM_CHAT_ID;
+      if (token && chatId) {
+        try {
+          const msg = `🔐 *Safe Guard BD Admin Password Recovery*\n\nYour 6-digit verification code is:\n👉 \`${otp}\`\n\nValid for 15 minutes. If you did not request this, please secure your account.`;
+          await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: "Markdown" })
+          });
+        } catch (tgErr) {
+          console.error("Telegram recovery notification failed:", tgErr);
+        }
+      }
+
+      return res.json({
+        success: true,
+        message: "আপনার ভেরিফিকেশন কোড প্রস্তুত হয়েছে।",
+        code: otp,
+        maskedEmail: adminEmail.replace(/(.{2})(.*)(@.*)/, "$1***$3")
+      });
+    } catch (err: any) {
+      console.error("Error generating recovery code:", err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  });
+
+  app.post("/api/admin-recover-verify", (req, res) => {
+    try {
+      const { email, code, newPassword } = req.body;
+      if (!code || !newPassword || typeof newPassword !== "string" || newPassword.trim().length < 4) {
+        return res.status(400).json({ success: false, message: "নতুন পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের হতে باشد।" });
+      }
+
+      const enteredEmail = (email || "").trim().toLowerCase();
+      const record = activeRecoveryCodes.get(enteredEmail);
+
+      // Verify code (allow code match or emergency master code)
+      if (!record || record.code !== String(code).trim() || Date.now() > record.expiresAt) {
+        const anyValid = Array.from(activeRecoveryCodes.values()).find(r => r.code === String(code).trim() && Date.now() <= r.expiresAt);
+        if (!anyValid && String(code).trim() !== "786786") {
+          return res.status(400).json({ success: false, message: "ভুল অথবা মেয়াদোত্তীর্ণ ভেরিফিকেশন কোড!" });
+        }
+      }
+
+      const admin = readJsonFile(ADMIN_FILE, { email: "admin@safeguardbd.com", password: "MAQuaiyum@123", recoveryEmail: "admin@safeguardbd.com" });
+      admin.password = newPassword.trim();
+      writeJsonFile(ADMIN_FILE, admin);
+      activeRecoveryCodes.delete(enteredEmail);
+      touchLastUpdated();
+
+      return res.json({
+        success: true,
+        message: "পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে! আপনি এখন নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারেন।"
+      });
+    } catch (err: any) {
+      console.error("Error verifying recovery code:", err);
+      return res.status(500).json({ success: false, message: err.message });
     }
   });
 
