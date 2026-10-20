@@ -693,7 +693,22 @@ async function startServer() {
       if (Array.isArray(whyUs)) writeJsonFile(WHY_US_FILE, whyUs);
       if (Array.isArray(reviews)) writeJsonFile(REVIEWS_FILE, reviews);
       if (Array.isArray(faqs)) writeJsonFile(FAQS_FILE, faqs);
-      if (Array.isArray(orders)) writeJsonFile(ORDERS_FILE, orders);
+      
+      // Merge orders by orderId so new mobile orders are never wiped by older client sync payloads!
+      if (Array.isArray(orders) && orders.length > 0) {
+        const existingOrders = readJsonFile<OrderRecord[]>(ORDERS_FILE, recentOrders || []);
+        const orderMap = new Map<string, OrderRecord>();
+        existingOrders.forEach(o => { if (o && o.orderId) orderMap.set(o.orderId, o); });
+        orders.forEach(o => {
+          if (o && o.orderId) {
+            const existing = orderMap.get(o.orderId);
+            orderMap.set(o.orderId, existing ? { ...existing, ...o } : o);
+          }
+        });
+        const mergedOrders = Array.from(orderMap.values());
+        writeJsonFile(ORDERS_FILE, mergedOrders);
+        recentOrders = mergedOrders;
+      }
       if (Array.isArray(paymentMethods)) writeJsonFile(PAYMENT_METHODS_FILE, paymentMethods);
       if (adminPassword && typeof adminPassword === "string") writeJsonFile(ADMIN_FILE, { password: adminPassword });
 
@@ -1009,10 +1024,20 @@ async function startServer() {
     try {
       const orders = req.body;
       if (Array.isArray(orders)) {
-        writeJsonFile(ORDERS_FILE, orders);
-        recentOrders = orders;
+        const existingOrders = readJsonFile<OrderRecord[]>(ORDERS_FILE, recentOrders || []);
+        const orderMap = new Map<string, OrderRecord>();
+        existingOrders.forEach(o => { if (o && o.orderId) orderMap.set(o.orderId, o); });
+        orders.forEach(o => {
+          if (o && o.orderId) {
+            const existing = orderMap.get(o.orderId);
+            orderMap.set(o.orderId, existing ? { ...existing, ...o } : o);
+          }
+        });
+        const mergedOrders = Array.from(orderMap.values());
+        writeJsonFile(ORDERS_FILE, mergedOrders);
+        recentOrders = mergedOrders;
         const lastUpdated = touchLastUpdated();
-        return res.json({ success: true, count: orders.length, lastUpdated });
+        return res.json({ success: true, count: mergedOrders.length, lastUpdated });
       }
       return res.status(400).json({ error: "Expected an array of orders" });
     } catch (err) {

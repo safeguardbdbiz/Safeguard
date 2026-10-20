@@ -169,6 +169,9 @@
         <button type="button" onclick="openAdminDashboard('whatsapp')" class="px-2.5 sm:px-3 py-1 bg-teal-600 hover:bg-teal-700 rounded-lg text-white font-bold text-xs flex items-center gap-1 cursor-pointer transition" title="WhatsApp নম্বর যোগ, এডিট ও রিমুভ টুল">
           <i class="fa-brands fa-whatsapp text-white"></i> <span>WhatsApp</span>
         </button>
+        <button type="button" onclick="openAdminDashboard('supabase')" class="px-2.5 sm:px-3 py-1 bg-emerald-700 hover:bg-emerald-800 rounded-lg text-white font-bold text-xs flex items-center gap-1 cursor-pointer transition shadow-xs" title="Supabase ক্লাউড ডেটাবেজ ম্যানেজমেন্ট">
+          <i class="fa-solid fa-database text-emerald-300"></i> <span>Supabase</span>
+        </button>
         <button type="button" onclick="forceSyncNow()" class="px-2.5 sm:px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-emerald-400 hover:text-emerald-300 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition" title="মোবাইল ও ল্যাপটপ ডেটা সিঙ্ক করুন">
           <i id="topbar-sync-icon" class="fa-solid fa-arrows-rotate"></i> <span class="hidden sm:inline">সিঙ্ক</span>
         </button>
@@ -1183,6 +1186,9 @@
           <button type="button" onclick="switchAdminTab('whatsapp')" id="admin-tab-btn-whatsapp" class="admin-nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-2 cursor-pointer transition">
             <i class="fa-brands fa-whatsapp text-emerald-500 text-sm"></i> হোয়াটসঅ্যাপ টুল
           </button>
+          <button type="button" onclick="switchAdminTab('supabase')" id="admin-tab-btn-supabase" class="admin-nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-2 cursor-pointer transition">
+            <i class="fa-solid fa-database text-emerald-500 text-sm"></i> Supabase ডেটাবেজ
+          </button>
         </div>
 
         <!-- Dashboard Tab Contents -->
@@ -2154,10 +2160,301 @@
                 <button type="button" onclick="handleRemoveWhatsAppTool()" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs transition">
                   <i class="fa-solid fa-eye-slash"></i> পেজ থেকে WhatsApp নম্বর রিমুভ করুন
                 </button>
-                <span class="text-[11px] text-slate-500 font-medium">নিরাপদ ও যেকোনো সময় ডিফল্ট রিস্টোরযোগ্য</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 8: SUPABASE CLOUD DATA MANAGEMENT HUB -->
+          <div id="admin-tab-supabase" class="hidden space-y-5">
+            <!-- Header Banner -->
+            <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 p-5 rounded-2xl text-white shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-2xl shrink-0">
+                  <i class="fa-solid fa-database"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-lg font-black tracking-tight">Supabase ক্লাউড ডেটাবেজ ম্যানেজমেন্ট</h3>
+                    <span id="supabase-hub-badge" class="px-2.5 py-0.5 rounded-full bg-white/25 text-[10px] font-bold uppercase tracking-wider">Cloud Connected</span>
+                  </div>
+                  <p class="text-xs text-emerald-100 font-medium mt-0.5">রিয়েল-টাইম PostgreSQL ডেটাবেজের মাধ্যমে মোবাইল, কম্পিউটার ও ব্লগস্পটের সকল পণ্য ও কাস্টমার অর্ডার সরাসরি পরিচালনা করুন।</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button type="button" onclick="testSupabaseConnectionDetailed()" class="px-3 py-1.5 rounded-xl bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition">
+                  <i id="supabase-ping-icon" class="fa-solid fa-bolt text-emerald-600"></i> <span id="supabase-ping-text">সংযোগ পরীক্ষা</span>
+                </button>
               </div>
             </div>
 
+            <!-- Credentials & Setup Card -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+              <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-key text-emerald-600"></i> Supabase প্রজেক্ট কানেকশন তথ্য (API Credentials)
+                  </h4>
+                  <p class="text-xs text-slate-500 mt-0.5">আপনার Supabase প্রজেক্টের Project URL ও anon key এখানে দিন।</p>
+                </div>
+                <button type="button" onclick="openSupabaseSqlModal()" class="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition shadow-2xs">
+                  <i class="fa-solid fa-code"></i> SQL টেবিল কোড দেখুন
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">
+                    Supabase Project URL *
+                    <span class="text-slate-400 font-normal text-[10px]">(যেমন: https://xyz.supabase.co)</span>
+                  </label>
+                  <input type="url" id="supabase-hub-url" value="https://snnpntkutvyscaempgkp.supabase.co" placeholder="https://xyz.supabase.co" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-emerald-500 font-mono text-slate-900" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">
+                    Supabase Anon Public Key *
+                    <span class="text-slate-400 font-normal text-[10px]">(anon public)</span>
+                  </label>
+                  <input type="password" id="supabase-hub-key" value="sb_publishable_LntMI7URToAeMQenCS9hHw_Jw-GhTey" placeholder="sb_publishable_..." class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-emerald-500 font-mono text-slate-900" />
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <button type="button" onclick="handleSaveSupabaseHub()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs transition">
+                    <i class="fa-solid fa-floppy-disk"></i> কানেকশন সংরক্ষণ ও সক্রিয় করুন
+                  </button>
+                  <button type="button" onclick="handleResetSupabaseDefaults()" class="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition border border-slate-200" title="ডিফল্ট প্রজেক্ট তথ্য রিস্টোর করুন">
+                    <i class="fa-solid fa-rotate-left"></i> ডিফল্ট কী রিস্টোর
+                  </button>
+                </div>
+                <div id="supabase-hub-status-text" class="text-xs font-semibold text-slate-500">
+                  স্ট্যাটাস: লোড হচ্ছে...
+                </div>
+              </div>
+            </div>
+
+            <!-- Full Store Data Synchronization Card -->
+            <div class="bg-gradient-to-br from-emerald-50/50 via-white to-blue-50/30 p-4 sm:p-5 rounded-2xl border border-emerald-200 shadow-xs space-y-4">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-arrows-rotate text-emerald-600"></i> এক-ক্লিকে ফুল ডেটা সিঙ্ক ও ব্যাকআপ (One-Click Cloud Sync)
+                  </h4>
+                  <p class="text-xs text-slate-600 mt-0.5">
+                    স্টোরের সকল প্রোডাক্ট, অর্ডার, ক্যাটাগরি, FAQ ও সেটিংস সরাসরি Supabase ক্লাউড ডেটাবেজে ব্যাকআপ ও আপলোড করুন অথবা ক্লাউড থেকে রিস্টোর করুন।
+                  </p>
+                </div>
+                <!-- Real-Time Auto Sync Switch -->
+                <div class="flex items-center gap-2.5 px-3 py-1.5 bg-white rounded-xl border border-emerald-300 shadow-2xs shrink-0">
+                  <span class="text-xs font-bold text-slate-800">অটো-সিঙ্ক:</span>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="supabase-auto-sync-toggle" onchange="toggleSupabaseAutoSync(this.checked)" class="sr-only peer" checked="checked" />
+                    <div class="w-9 h-5 bg-slate-200 peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                  </label>
+                  <span id="supabase-auto-sync-label" class="text-[11px] font-bold text-emerald-700">অন</span>
+                </div>
+              </div>
+
+              <!-- Main Push / Pull Master Buttons -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <button type="button" onclick="pushAllDataToSupabase()" id="btn-supabase-push-all" class="p-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-xs transition group">
+                  <div class="flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-cloud-arrow-up group-hover:-translate-y-0.5 transition"></i>
+                    <span>সব ডেটা Supabase এ আপলোড (Push)</span>
+                  </div>
+                  <span class="text-[10px] text-emerald-100 font-normal">প্রোডাক্ট, ক্যাটাগরি, অর্ডার, FAQ ক্লাউডে পাঠান</span>
+                </button>
+
+                <button type="button" onclick="pullAllDataFromSupabase()" id="btn-supabase-pull-all" class="p-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-xs transition group">
+                  <div class="flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-cloud-arrow-down group-hover:translate-y-0.5 transition"></i>
+                    <span>Supabase থেকে ডেটা নামান (Pull)</span>
+                  </div>
+                  <span class="text-[10px] text-blue-100 font-normal">ক্লাউড থেকে প্রোডাক্ট ও অর্ডার ডিভাইসে লোড করুন</span>
+                </button>
+
+                <button type="button" onclick="syncOrdersFromSupabase(true)" id="btn-supabase-sync-orders" class="p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-xs transition group">
+                  <div class="flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-clipboard-list text-amber-400"></i>
+                    <span>নতুন কাস্টমার অর্ডার রিফ্রেশ করুন</span>
+                  </div>
+                  <span class="text-[10px] text-slate-300 font-normal">মোবাইল বা ব্লগারে আসা অর্ডার এখনই দেখুন</span>
+                </button>
+              </div>
+
+              <!-- Sync Log / Status Output -->
+              <div id="supabase-sync-log-box" class="p-3 bg-slate-900 rounded-xl text-emerald-400 font-mono text-[11px] max-h-36 overflow-y-auto space-y-1">
+                <div>&gt; Supabase ক্লাউড ডেটাবেজ রেডি। উপরের বাটন চাপুন।</div>
+              </div>
+            </div>
+
+            <!-- Live Supabase Tables Grid -->
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-table-list text-emerald-600"></i> Supabase ডেটাবেজ টেবিলসমূহ ও লাইভ কাউন্ট
+                </h4>
+                <button type="button" onclick="refreshSupabaseTableCounts()" class="text-xs text-emerald-600 font-bold hover:underline flex items-center gap-1 cursor-pointer">
+                  <i class="fa-solid fa-arrows-rotate"></i> কাউন্ট রিফ্রেশ
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <!-- Table 1: Products -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-500">Products (পণ্য)</span>
+                    <i class="fa-solid fa-box text-emerald-600"></i>
+                  </div>
+                  <div class="flex items-baseline justify-between">
+                    <span id="supa-count-products" class="text-xl font-black text-slate-900 font-mono">--</span>
+                    <span class="text-[10px] text-slate-400 font-mono">লোকাল: <b id="local-count-products">0</b></span>
+                  </div>
+                  <div class="flex gap-1.5 pt-1">
+                    <button type="button" onclick="uploadAllProductsToSupabase()" class="flex-1 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-[10px] transition cursor-pointer">
+                      আপলোড
+                    </button>
+                    <button type="button" onclick="fetchSupabaseProducts()" class="flex-1 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[10px] transition cursor-pointer">
+                      ডাউনলোড
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Table 2: Orders -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-500">Orders (অর্ডার)</span>
+                    <i class="fa-solid fa-clipboard-check text-blue-600"></i>
+                  </div>
+                  <div class="flex items-baseline justify-between">
+                    <span id="supa-count-orders" class="text-xl font-black text-slate-900 font-mono">--</span>
+                    <span class="text-[10px] text-slate-400 font-mono">লোকাল: <b id="local-count-orders">0</b></span>
+                  </div>
+                  <div class="flex gap-1.5 pt-1">
+                    <button type="button" onclick="uploadOrdersToSupabase()" class="flex-1 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-[10px] transition cursor-pointer">
+                      আপলোড
+                    </button>
+                    <button type="button" onclick="syncOrdersFromSupabase(true)" class="flex-1 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[10px] transition cursor-pointer">
+                      ডাউনলোড
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Table 3: Categories -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-500">Categories</span>
+                    <i class="fa-solid fa-folder-tree text-purple-600"></i>
+                  </div>
+                  <div class="flex items-baseline justify-between">
+                    <span id="supa-count-categories" class="text-xl font-black text-slate-900 font-mono">--</span>
+                    <span class="text-[10px] text-slate-400 font-mono">লোকাল: <b id="local-count-categories">0</b></span>
+                  </div>
+                  <div class="pt-1">
+                    <button type="button" onclick="uploadCategoriesToSupabase()" class="w-full py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-[10px] transition cursor-pointer">
+                      ক্লাউডে পাঠান
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Table 4: FAQs -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-500">FAQs (প্রশ্নোত্তর)</span>
+                    <i class="fa-solid fa-circle-question text-indigo-600"></i>
+                  </div>
+                  <div class="flex items-baseline justify-between">
+                    <span id="supa-count-faqs" class="text-xl font-black text-slate-900 font-mono">--</span>
+                    <span class="text-[10px] text-slate-400 font-mono">লোকাল: <b id="local-count-faqs">0</b></span>
+                  </div>
+                  <div class="pt-1">
+                    <button type="button" onclick="uploadFaqsToSupabase()" class="w-full py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[10px] transition cursor-pointer">
+                      ক্লাউডে পাঠান
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Table 5: Reviews -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-500">Reviews (রিভিউ)</span>
+                    <i class="fa-solid fa-star text-amber-500"></i>
+                  </div>
+                  <div class="flex items-baseline justify-between">
+                    <span id="supa-count-reviews" class="text-xl font-black text-slate-900 font-mono">--</span>
+                    <span class="text-[10px] text-slate-400 font-mono">লোকাল: <b id="local-count-reviews">0</b></span>
+                  </div>
+                  <div class="pt-1">
+                    <button type="button" onclick="uploadReviewsToSupabase()" class="w-full py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-[10px] transition cursor-pointer">
+                      ক্লাউডে পাঠান
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Table 6: Why Us -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-500">Why Us (বৈশিষ্ট্য)</span>
+                    <i class="fa-solid fa-award text-rose-500"></i>
+                  </div>
+                  <div class="flex items-baseline justify-between">
+                    <span id="supa-count-whyus" class="text-xl font-black text-slate-900 font-mono">--</span>
+                    <span class="text-[10px] text-slate-400 font-mono">লোকাল: <b id="local-count-whyus">0</b></span>
+                  </div>
+                  <div class="pt-1">
+                    <button type="button" onclick="uploadWhyUsToSupabase()" class="w-full py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-[10px] transition cursor-pointer">
+                      ক্লাউডে পাঠান
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Table 7: Payment Methods -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-500">Payment Methods</span>
+                    <i class="fa-solid fa-money-bill-transfer text-teal-600"></i>
+                  </div>
+                  <div class="flex items-baseline justify-between">
+                    <span id="supa-count-payments" class="text-xl font-black text-slate-900 font-mono">--</span>
+                    <span class="text-[10px] text-slate-400 font-mono">লোকাল: <b id="local-count-payments">0</b></span>
+                  </div>
+                  <div class="pt-1">
+                    <button type="button" onclick="uploadPaymentsToSupabase()" class="w-full py-1 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-700 font-bold text-[10px] transition cursor-pointer">
+                      ক্লাউডে পাঠান
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Table 8: Site Content -->
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-500">Site Content</span>
+                    <i class="fa-solid fa-palette text-blue-600"></i>
+                  </div>
+                  <div class="flex items-baseline justify-between">
+                    <span id="supa-count-content" class="text-xl font-black text-slate-900 font-mono">--</span>
+                    <span class="text-[10px] text-slate-400 font-mono">হেডার/ফুটার/ব্যানার</span>
+                  </div>
+                  <div class="pt-1">
+                    <button type="button" onclick="uploadSiteContentToSupabase()" class="w-full py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[10px] transition cursor-pointer">
+                      ক্লাউডে পাঠান
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Helpful 3-step Instructions Box -->
+            <div class="bg-amber-50/70 border border-amber-200/90 rounded-2xl p-4 text-xs text-slate-800 space-y-2">
+              <div class="font-bold text-amber-900 flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-question text-amber-600"></i> Supabase কিভাবে কাজ করে এবং কীভাবে ডাটাবেজ তৈরি করবেন:
+              </div>
+              <ol class="list-decimal pl-5 space-y-1 text-slate-700 text-xs">
+                <li><b>Supabase.com</b> এ গিয়ে একটি অ্যাকাউন্ট খুলে <b>New Project</b> তৈরি করুন।</li>
+                <li>বাম পাশের মেনু থেকে <b>SQL Editor</b> এ ক্লিক করে <b>"SQL টেবিল কোড দেখুন"</b> বাটন থেকে কোড কপি করে পেস্ট করে <b>Run</b> চাপুন।</li>
+                <li>প্রজেক্ট সেটিংস থেকে <b>Project URL</b> এবং <b>anon public key</b> কপি করে উপরের বক্সে পেস্ট করে <b>"কানেকশন সংরক্ষণ ও সক্রিয় করুন"</b> এ ক্লিক করুন।</li>
+              </ol>
+            </div>
           </div>
 
         </div>
@@ -3229,8 +3526,8 @@
           </div>
 
           <div class="relative">
-            <textarea id="supabase-sql-code-block" readonly="readonly" rows="12" class="w-full bg-slate-900 text-emerald-400 font-mono text-[11px] p-4 rounded-2xl leading-relaxed focus:outline-hidden resize-none selection:bg-emerald-600 selection:text-white">-- ========================================================
--- Gadget Bazar BD: Supabase PostgreSQL Schema
+            <textarea id="supabase-sql-code-block" readonly="readonly" rows="16" class="w-full bg-slate-900 text-emerald-400 font-mono text-[11px] p-4 rounded-2xl leading-relaxed focus:outline-hidden resize-none selection:bg-emerald-600 selection:text-white">-- ========================================================
+-- Safe Guard BD: Supabase PostgreSQL Schema (Full Data Management)
 -- ========================================================
 
 -- 1. Create Products Table
@@ -3264,31 +3561,107 @@ CREATE TABLE IF NOT EXISTS public.orders (
   total_price NUMERIC,
   customer_name TEXT,
   phone TEXT,
+  district TEXT,
   full_address TEXT,
   order_notes TEXT,
   payment_method TEXT,
+  payment_code TEXT,
   trx_id TEXT,
   order_status TEXT DEFAULT 'Pending',
   order_source TEXT DEFAULT 'Blogspot Store',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
 );
 
--- 3. Enable Row Level Security (RLS)
+-- 3. Create Categories Table
+CREATE TABLE IF NOT EXISTS public.categories (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  bangla_name TEXT NOT NULL,
+  icon TEXT,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- 4. Create FAQs Table
+CREATE TABLE IF NOT EXISTS public.faqs (
+  id BIGINT PRIMARY KEY,
+  question TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- 5. Create Reviews Table
+CREATE TABLE IF NOT EXISTS public.reviews (
+  id BIGINT PRIMARY KEY,
+  author TEXT NOT NULL,
+  text TEXT NOT NULL,
+  rating INTEGER DEFAULT 5,
+  badge TEXT,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- 6. Create Why Us (Features) Table
+CREATE TABLE IF NOT EXISTS public.why_us (
+  id BIGINT PRIMARY KEY,
+  title TEXT NOT NULL,
+  desc_text TEXT NOT NULL,
+  icon TEXT,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- 7. Create Payment Methods Table
+CREATE TABLE IF NOT EXISTS public.payment_methods (
+  id TEXT PRIMARY KEY,
+  provider TEXT NOT NULL,
+  provider_bangla TEXT NOT NULL,
+  number TEXT NOT NULL,
+  type TEXT,
+  type_bangla TEXT,
+  instruction TEXT,
+  active BOOLEAN DEFAULT true,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- 8. Create Site Content Table
+CREATE TABLE IF NOT EXISTS public.site_content (
+  id TEXT PRIMARY KEY,
+  data JSONB NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- Enable Row Level Security (RLS) on all tables
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.faqs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.why_us ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payment_methods ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.site_content ENABLE ROW LEVEL SECURITY;
 
--- 4. Public Policies for Blogspot &amp; Mobile Access
-DROP POLICY IF EXISTS "Public products read" ON public.products;
-CREATE POLICY "Public products read" ON public.products FOR SELECT USING (true);
-
+-- Public Access Policies
 DROP POLICY IF EXISTS "Public products manage" ON public.products;
 CREATE POLICY "Public products manage" ON public.products FOR ALL USING (true) WITH CHECK (true);
 
-DROP POLICY IF EXISTS "Public orders create" ON public.orders;
-CREATE POLICY "Public orders create" ON public.orders FOR INSERT WITH CHECK (true);
-
 DROP POLICY IF EXISTS "Public orders manage" ON public.orders;
-CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH CHECK (true);</textarea>
+CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public categories manage" ON public.categories;
+CREATE POLICY "Public categories manage" ON public.categories FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public faqs manage" ON public.faqs;
+CREATE POLICY "Public faqs manage" ON public.faqs FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public reviews manage" ON public.reviews;
+CREATE POLICY "Public reviews manage" ON public.reviews FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public why_us manage" ON public.why_us;
+CREATE POLICY "Public why_us manage" ON public.why_us FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public payment_methods manage" ON public.payment_methods;
+CREATE POLICY "Public payment_methods manage" ON public.payment_methods FOR ALL USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public site_content manage" ON public.site_content;
+CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING (true) WITH CHECK (true);</textarea>
           </div>
         </div>
 
@@ -3929,7 +4302,39 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         if (savedReviews) reviewsList = JSON.parse(savedReviews);
 
         const savedFaqs = localStorage.getItem('gb_faqs');
-        if (savedFaqs) faqsList = JSON.parse(savedFaqs);
+        if (savedFaqs) {
+          try {
+            const parsed = JSON.parse(savedFaqs);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              const cleaned = parsed.map((item, idx) => {
+                if (!item || typeof item !== 'object') return null;
+                const rawQ = item.question || item.title || item.q || item.questionText;
+                const rawA = item.answer || item.desc || item.subtitle || item.a || item.answerText;
+                const isBadQ = !rawQ || String(rawQ).trim() === 'undefined' || String(rawQ).trim() === '';
+                const isBadA = !rawA || String(rawA).trim() === 'undefined' || String(rawA).trim() === '';
+                const fallback = DEFAULT_FAQS[idx % DEFAULT_FAQS.length];
+                return {
+                  id: Number(item.id) || (idx + 1),
+                  question: !isBadQ ? String(rawQ).trim() : fallback.question,
+                  answer: !isBadA ? String(rawA).trim() : fallback.answer
+                };
+              }).filter(Boolean);
+              if (cleaned.length > 0) {
+                faqsList = cleaned;
+              } else {
+                faqsList = JSON.parse(JSON.stringify(DEFAULT_FAQS));
+              }
+            } else {
+              faqsList = JSON.parse(JSON.stringify(DEFAULT_FAQS));
+            }
+          } catch(e) {
+            faqsList = JSON.parse(JSON.stringify(DEFAULT_FAQS));
+          }
+        }
+        if (!Array.isArray(faqsList) || faqsList.length === 0 || faqsList.every(f => !f || !f.question || f.question === 'undefined')) {
+          faqsList = JSON.parse(JSON.stringify(DEFAULT_FAQS));
+        }
+        try { localStorage.setItem('gb_faqs', JSON.stringify(faqsList)); } catch(e){}
 
         const savedPayments = localStorage.getItem('gb_payment_methods');
         if (savedPayments) {
@@ -5141,7 +5546,7 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
 
         // 0. Post to Supabase Cloud Database (if configured)
         try {
-          submitSupabaseOrder(payload);
+          await submitSupabaseOrder(payload);
         } catch (err) {
           console.warn('Supabase order submit error:', err);
         }
@@ -5739,7 +6144,7 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
       }
 
       function switchAdminTab(tabName) {
-        const tabs = ['products', 'categories', 'orders', 'payments', 'content', 'settings', 'whatsapp'];
+        const tabs = ['products', 'categories', 'orders', 'payments', 'content', 'settings', 'whatsapp', 'supabase'];
         tabs.forEach(t => {
           const content = document.getElementById(`admin-tab-${t}`);
           const btn = document.getElementById(`admin-tab-btn-${t}`);
@@ -5771,6 +6176,7 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         }
         if (tabName === 'settings') loadSettingsToUI();
         if (tabName === 'whatsapp') applyWhatsAppConfig();
+        if (tabName === 'supabase') updateSupabaseUIState();
       }
 
       
@@ -6166,51 +6572,154 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         saveAndTestBackendUrl();
       }
 
-      // ==================== SUPABASE CLOUD DATABASE ENGINE ====================
+      // ==================== SUPABASE CLOUD DATABASE ENGINE (FULL DATA MANAGEMENT) ====================
       const DEFAULT_SUPABASE_URL = "https://snnpntkutvyscaempgkp.supabase.co";
       const DEFAULT_SUPABASE_KEY = "sb_publishable_LntMI7URToAeMQenCS9hHw_Jw-GhTey";
+      
+      let isSupabaseAutoSync = localStorage.getItem('gb_supabase_auto_sync') !== 'false';
+      let supabaseOrderSyncTimer = null;
+
       function getSupabaseConfig() {
         const url = (localStorage.getItem('gb_supabase_url') || DEFAULT_SUPABASE_URL).trim().replace(/\/+$/, '');
         const key = (localStorage.getItem('gb_supabase_key') || DEFAULT_SUPABASE_KEY).trim();
         return { url, key, isConfigured: Boolean(url && key) };
       }
 
+      function appendSupabaseLog(text, type = 'info') {
+        const box = document.getElementById('supabase-sync-log-box');
+        if (!box) return;
+        const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+        let colorClass = 'text-emerald-400';
+        if (type === 'error') colorClass = 'text-red-400';
+        if (type === 'warn') colorClass = 'text-amber-400';
+        if (type === 'success') colorClass = 'text-emerald-300 font-bold';
+        
+        const line = document.createElement('div');
+        line.className = colorClass;
+        line.textContent = `[${time}] ${text}`;
+        box.appendChild(line);
+        box.scrollTop = box.scrollHeight;
+      }
+
       function updateSupabaseUIState() {
         const config = getSupabaseConfig();
-        const urlInput = document.getElementById('settings-supabase-url');
-        const keyInput = document.getElementById('settings-supabase-key');
-        const badge = document.getElementById('supabase-status-badge');
-        const msg = document.getElementById('settings-supabase-msg');
+        
+        // Sync inputs across both Hub tab and Settings tab
+        const hubUrl = document.getElementById('supabase-hub-url');
+        const hubKey = document.getElementById('supabase-hub-key');
+        const setUrl = document.getElementById('settings-supabase-url');
+        const setKey = document.getElementById('settings-supabase-key');
 
-        if (urlInput && !urlInput.value && config.url) urlInput.value = config.url;
-        if (keyInput && !keyInput.value && config.key) keyInput.value = config.key;
+        if (hubUrl && config.url) hubUrl.value = config.url;
+        if (hubKey && config.key) hubKey.value = config.key;
+        if (setUrl && config.url) setUrl.value = config.url;
+        if (setKey && config.key) setKey.value = config.key;
 
-        if (badge) {
-          if (config.isConfigured) {
-            badge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 shrink-0';
-            badge.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> সংযুক্ত';
-          } else {
-            badge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 shrink-0';
-            badge.textContent = 'অসংযুক্ত';
+        // Auto Sync Toggle
+        const autoSyncToggle = document.getElementById('supabase-auto-sync-toggle');
+        const autoSyncLabel = document.getElementById('supabase-auto-sync-label');
+        if (autoSyncToggle) autoSyncToggle.checked = isSupabaseAutoSync;
+        if (autoSyncLabel) autoSyncLabel.textContent = isSupabaseAutoSync ? 'অন' : 'অফ';
+
+        // Badges
+        const hubBadge = document.getElementById('supabase-hub-badge');
+        const setBadge = document.getElementById('supabase-status-badge');
+        const statusText = document.getElementById('supabase-hub-status-text');
+
+        if (config.isConfigured) {
+          if (hubBadge) {
+            hubBadge.className = 'px-2.5 py-0.5 rounded-full bg-emerald-400 text-slate-950 font-black text-[10px] uppercase tracking-wider shadow-xs';
+            hubBadge.textContent = 'কানেক্টেড ও সক্রিয়';
+          }
+          if (setBadge) {
+            setBadge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 shrink-0';
+            setBadge.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> সংযুক্ত';
+          }
+          if (statusText) {
+            statusText.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> কানেকশন কনফিগার করা আছে</span>`;
+          }
+        } else {
+          if (hubBadge) {
+            hubBadge.className = 'px-2.5 py-0.5 rounded-full bg-slate-700 text-slate-300 font-bold text-[10px] uppercase tracking-wider';
+            hubBadge.textContent = 'সংযোগহীন';
+          }
+          if (setBadge) {
+            setBadge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 shrink-0';
+            setBadge.textContent = 'অসংযুক্ত';
+          }
+          if (statusText) {
+            statusText.innerHTML = `<span class="text-slate-400 font-medium">কোনো কানেকশন নেই</span>`;
           }
         }
+
+        // Update local count indicators
+        const localProd = document.getElementById('local-count-products');
+        if (localProd) localProd.textContent = productsData.length;
+        const localOrd = document.getElementById('local-count-orders');
+        if (localOrd) localOrd.textContent = ordersList.length;
+        const localCat = document.getElementById('local-count-categories');
+        if (localCat) localCat.textContent = categoriesData.length;
+        const localFaq = document.getElementById('local-count-faqs');
+        if (localFaq) localFaq.textContent = faqsList.length;
+        const localRev = document.getElementById('local-count-reviews');
+        if (localRev) localRev.textContent = reviewsList.length;
+        const localWhy = document.getElementById('local-count-whyus');
+        if (localWhy) localWhy.textContent = whyUsList.length;
+        const localPay = document.getElementById('local-count-payments');
+        if (localPay) localPay.textContent = paymentMethodsData.length;
+
+        refreshSupabaseTableCounts();
+      }
+
+      function toggleSupabaseAutoSync(enabled) {
+        isSupabaseAutoSync = Boolean(enabled);
+        try {
+          localStorage.setItem('gb_supabase_auto_sync', String(isSupabaseAutoSync));
+        } catch(e) {}
+        const label = document.getElementById('supabase-auto-sync-label');
+        if (label) label.textContent = isSupabaseAutoSync ? 'অন' : 'অফ';
+        appendSupabaseLog(`অটো-সিঙ্ক ${isSupabaseAutoSync ? 'চালু' : 'বন্ধ'} করা হয়েছে।`);
+        showAdminToast('অটো-সিঙ্ক আপডেট', `Supabase অটো-সিঙ্ক ${isSupabaseAutoSync ? 'সক্রিয়' : 'নিষ্ক্রিয়'} করা হয়েছে।`, 'info');
+      }
+
+      function handleSaveSupabaseHub() {
+        const urlInput = document.getElementById('supabase-hub-url');
+        const keyInput = document.getElementById('supabase-hub-key');
+        if (!urlInput || !keyInput) return;
+        saveAndTestSupabaseCore(urlInput.value, keyInput.value);
+      }
+
+      function handleResetSupabaseDefaults() {
+        const hubUrl = document.getElementById('supabase-hub-url');
+        const hubKey = document.getElementById('supabase-hub-key');
+        if (hubUrl) hubUrl.value = DEFAULT_SUPABASE_URL;
+        if (hubKey) hubKey.value = DEFAULT_SUPABASE_KEY;
+        saveAndTestSupabaseCore(DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_KEY);
       }
 
       async function saveAndTestSupabase() {
         const urlInput = document.getElementById('settings-supabase-url');
         const keyInput = document.getElementById('settings-supabase-key');
-        const msg = document.getElementById('settings-supabase-msg');
-
         if (!urlInput || !keyInput) return;
-        const url = urlInput.value.trim().replace(/\/+$/, '');
-        const key = keyInput.value.trim();
+        saveAndTestSupabaseCore(urlInput.value, keyInput.value);
+      }
+
+      async function saveAndTestSupabaseCore(rawUrl, rawKey) {
+        const url = (rawUrl || '').trim().replace(/\/+$/, '');
+        const key = (rawKey || '').trim();
+        const statusText = document.getElementById('supabase-hub-status-text');
+        const setMsg = document.getElementById('settings-supabase-msg');
 
         if (!url || !key) {
-          if (msg) msg.innerHTML = '<span class="text-amber-600 font-semibold">অনুগ্রহ করে Supabase Project URL এবং Anon Key দিন।</span>';
+          showAdminToast('সতর্কতা', 'Supabase Project URL এবং Anon Public Key দুটোই দেওয়া আবশ্যক।', 'error');
+          if (statusText) statusText.innerHTML = '<span class="text-rose-600 font-bold">URL ও Key দিন</span>';
+          if (setMsg) setMsg.innerHTML = '<span class="text-rose-600 font-bold">URL ও Key দিন</span>';
           return;
         }
 
-        if (msg) msg.innerHTML = '<span class="text-blue-500 font-semibold"><i class="fa-solid fa-spinner fa-spin"></i> Supabase সংযোগ পরীক্ষা করা হচ্ছে...</span>';
+        if (statusText) statusText.innerHTML = '<span class="text-blue-600 font-bold"><i class="fa-solid fa-spinner fa-spin"></i> সংযোগ যাচাই হচ্ছে...</span>';
+        if (setMsg) setMsg.innerHTML = '<span class="text-blue-600 font-bold"><i class="fa-solid fa-spinner fa-spin"></i> সংযোগ যাচাই হচ্ছে...</span>';
+        appendSupabaseLog(`Supabase এ সংযোগ পরীক্ষা শুরু হচ্ছে: ${url}`);
 
         try {
           const t0 = performance.now();
@@ -6220,29 +6729,136 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
               'Authorization': `Bearer ${key}`
             }
           });
+          const ping = Math.round(performance.now() - t0);
+
+          localStorage.setItem('gb_supabase_url', url);
+          localStorage.setItem('gb_supabase_key', key);
+          appSettings.supabaseUrl = url;
+          appSettings.supabaseAnonKey = key;
+          try {
+            localStorage.setItem('gb_app_settings', JSON.stringify(appSettings));
+          } catch(e) {}
+
+          // Also notify backend server
+          try {
+            fetch(getApiUrl('/api/settings'), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ supabaseUrl: url, supabaseAnonKey: key })
+            }).catch(() => {});
+          } catch(e) {}
+
+          updateSupabaseUIState();
 
           if (res.ok) {
-            const ping = Math.round(performance.now() - t0);
-            localStorage.setItem('gb_supabase_url', url);
-            localStorage.setItem('gb_supabase_key', key);
-            updateSupabaseUIState();
-            if (msg) msg.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Supabase সফলভাবে সংযুক্ত! (${ping}ms) ডেটাবেজ এখন সক্রিয়।</span>`;
-            showAdminToast('Supabase কানেক্টেড', 'সফলভাবে ক্লাউড ডেটাবেজে সংযুক্ত হয়েছে।', 'success');
-            fetchSupabaseProducts();
+            const successMsg = `সংযোগ সফল! (${ping}ms) Supabase ডেটাবেজ সক্রিয়।`;
+            if (statusText) statusText.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> ${successMsg}</span>`;
+            if (setMsg) setMsg.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> ${successMsg}</span>`;
+            appendSupabaseLog(`কানেকশন সফল! পিং: ${ping}ms`, 'success');
+            showAdminToast('Supabase কানেক্টেড', `ক্লাউড ডেটাবেজে সফলভাবে সংযুক্ত (${ping}ms)`, 'success');
+            refreshSupabaseTableCounts();
           } else {
             const errBody = await res.text();
             if (res.status === 404 || errBody.includes('relation') || errBody.includes('does not exist')) {
-              localStorage.setItem('gb_supabase_url', url);
-              localStorage.setItem('gb_supabase_key', key);
-              updateSupabaseUIState();
-              if (msg) msg.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> কানেকশন হয়েছে, তবে 'products' টেবিল পাওয়া যায়নি। 'SQL টেবিল কোড কপি' বাটনে ক্লিক করে Supabase এ রান করুন।</span>`;
+              const warnMsg = `কানেকশন হয়েছে, তবে টেবিল পাওয়া যায়নি (${ping}ms)। 'SQL টেবিল কোড দেখুন' বাটন চেপে রান করুন।`;
+              if (statusText) statusText.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> ${warnMsg}</span>`;
+              if (setMsg) setMsg.innerHTML = `<span class="text-amber-600 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> ${warnMsg}</span>`;
+              appendSupabaseLog(`কানেক্টেড, কিন্তু টেবিল তৈরি করা নেই (${ping}ms)। SQL রান করুন।`, 'warn');
+              showAdminToast('টেবিল নেই', 'Supabase SQL Editor এ গিয়ে টেবিল কোড রান করুন।', 'warning');
             } else {
-              if (msg) msg.innerHTML = `<span class="text-red-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> কানেকশন ব্যর্থ (${res.status}): API Key বা URL যাচাই করুন।</span>`;
+              const failMsg = `কানেকশন ব্যর্থ (${res.status}): API Key বা URL যাচাই করুন।`;
+              if (statusText) statusText.innerHTML = `<span class="text-rose-600 font-bold"><i class="fa-solid fa-circle-xmark"></i> ${failMsg}</span>`;
+              if (setMsg) setMsg.innerHTML = `<span class="text-rose-600 font-bold"><i class="fa-solid fa-circle-xmark"></i> ${failMsg}</span>`;
+              appendSupabaseLog(`কানেকশন ব্যর্থ (${res.status}): ${errBody}`, 'error');
+              showAdminToast('কানেকশন ব্যর্থ', failMsg, 'error');
             }
           }
         } catch (err) {
-          if (msg) msg.innerHTML = `<span class="text-red-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> নেটওয়ার্ক এরর: ${err.message}</span>`;
-          showAdminToast('কানেকশন এরর', 'Supabase সার্ভারে পৌঁছানো যাচ্ছে না।', 'error');
+          const errMsg = `সার্ভারে পৌঁছানো যাচ্ছে না (${err.message})`;
+          if (statusText) statusText.innerHTML = `<span class="text-rose-600 font-bold"><i class="fa-solid fa-circle-xmark"></i> ${errMsg}</span>`;
+          if (setMsg) setMsg.innerHTML = `<span class="text-rose-600 font-bold"><i class="fa-solid fa-circle-xmark"></i> ${errMsg}</span>`;
+          appendSupabaseLog(`নেটওয়ার্ক এরর: ${err.message}`, 'error');
+          showAdminToast('নেটওয়ার্ক এরর', 'Supabase সার্ভারে সংযোগ স্থাপন করা যায়নি।', 'error');
+        }
+      }
+
+      async function testSupabaseConnectionDetailed() {
+        const config = getSupabaseConfig();
+        const pingIcon = document.getElementById('supabase-ping-icon');
+        const pingText = document.getElementById('supabase-ping-text');
+        if (pingIcon) pingIcon.className = 'fa-solid fa-spinner fa-spin text-emerald-600';
+        if (pingText) pingText.textContent = 'টেস্ট হচ্ছে...';
+
+        try {
+          const t0 = performance.now();
+          const res = await fetch(`${config.url}/rest/v1/products?select=id&limit=1`, {
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`
+            }
+          });
+          const latency = Math.round(performance.now() - t0);
+          if (pingIcon) pingIcon.className = 'fa-solid fa-bolt text-emerald-600';
+          if (pingText) pingText.textContent = `${latency}ms`;
+
+          if (res.ok) {
+            appendSupabaseLog(`লাইভ পিং সফল: ${latency}ms | ডেটাবেজ সম্পূর্ণ সক্রিয়`, 'success');
+            showAdminToast('সংযোগ সক্রিয়', `Supabase ক্লাউড ডেটাবেজ রেডি (${latency}ms)`, 'success');
+            refreshSupabaseTableCounts();
+          } else {
+            appendSupabaseLog(`লাইভ পিং রেসপন্স কোড: ${res.status}`, 'warn');
+          }
+        } catch(err) {
+          if (pingIcon) pingIcon.className = 'fa-solid fa-circle-xmark text-rose-600';
+          if (pingText) pingText.textContent = 'এরর';
+          appendSupabaseLog(`পিং ব্যর্থ: ${err.message}`, 'error');
+        }
+      }
+
+      async function refreshSupabaseTableCounts() {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+
+        const tables = [
+          { name: 'products', elId: 'supa-count-products' },
+          { name: 'orders', elId: 'supa-count-orders' },
+          { name: 'categories', elId: 'supa-count-categories' },
+          { name: 'faqs', elId: 'supa-count-faqs' },
+          { name: 'reviews', elId: 'supa-count-reviews' },
+          { name: 'why_us', elId: 'supa-count-whyus' },
+          { name: 'payment_methods', elId: 'supa-count-payments' },
+          { name: 'site_content', elId: 'supa-count-content' }
+        ];
+
+        for (const t of tables) {
+          const el = document.getElementById(t.elId);
+          if (!el) continue;
+          try {
+            const res = await fetch(`${config.url}/rest/v1/${t.name}?select=count`, {
+              headers: {
+                'apikey': config.key,
+                'Authorization': `Bearer ${config.key}`,
+                'Prefer': 'count=exact'
+              }
+            });
+            if (res.ok) {
+              const range = res.headers.get('content-range');
+              if (range && range.includes('/')) {
+                const total = range.split('/')[1];
+                el.textContent = total;
+                el.className = 'text-xl font-black text-emerald-600 font-mono';
+              } else {
+                const arr = await res.json();
+                el.textContent = Array.isArray(arr) ? arr.length : '0';
+              }
+            } else {
+              el.textContent = 'N/A';
+              el.className = 'text-base font-bold text-slate-400 font-mono';
+            }
+          } catch(e) {
+            el.textContent = 'এরর';
+            el.className = 'text-base font-bold text-rose-400 font-mono';
+          }
         }
       }
 
@@ -6271,15 +6887,49 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         });
       }
 
-      async function uploadAllProductsToSupabase() {
+      // ----------------- PUSH TO SUPABASE -----------------
+      async function pushAllDataToSupabase() {
         const config = getSupabaseConfig();
-        const msg = document.getElementById('settings-supabase-msg');
         if (!config.isConfigured) {
-          showAdminToast('অসংযুক্ত', 'প্রথমে Supabase URL ও Key সংরক্ষণ করুন।', 'error');
+          showAdminToast('অসংযুক্ত', 'প্রথমে Supabase URL ও Key সেভ করুন।', 'error');
           return;
         }
 
-        if (msg) msg.innerHTML = '<span class="text-blue-500 font-semibold"><i class="fa-solid fa-spinner fa-spin"></i> সকল পণ্য Supabase এ আপলোড করা হচ্ছে...</span>';
+        const btn = document.getElementById('btn-supabase-push-all');
+        if (btn) {
+          btn.disabled = true;
+          btn.classList.add('opacity-75');
+        }
+
+        appendSupabaseLog('ক্লাউডে ফুল স্টোর ডেটা পুশ শুরু হচ্ছে...', 'info');
+
+        try {
+          await uploadAllProductsToSupabase(true);
+          await uploadCategoriesToSupabase(true);
+          await uploadOrdersToSupabase(true);
+          await uploadFaqsToSupabase(true);
+          await uploadReviewsToSupabase(true);
+          await uploadWhyUsToSupabase(true);
+          await uploadPaymentsToSupabase(true);
+          await uploadSiteContentToSupabase(true);
+
+          appendSupabaseLog('অভিনন্দন! স্টোরের সকল প্রোডাক্ট, ক্যাটাগরি, অর্ডার ও কন্টেন্ট Supabase এ সফলভাবে সংরক্ষিত হয়েছে।', 'success');
+          showAdminToast('ফুল সিঙ্ক সম্পন্ন', 'সকল স্টোর ডেটা Supabase ক্লাউডে সফলভাবে আপলোড হয়েছে।', 'success');
+          refreshSupabaseTableCounts();
+        } catch (err) {
+          appendSupabaseLog(`সিঙ্ক ত্রুটি: ${err.message}`, 'error');
+          showAdminToast('সিঙ্ক ত্রুটি', err.message, 'error');
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.classList.remove('opacity-75');
+          }
+        }
+      }
+
+      async function uploadAllProductsToSupabase(silent = false) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
 
         const payload = productsData.map(p => ({
           id: p.id,
@@ -6294,28 +6944,307 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
           specs: p.specs || {}
         }));
 
-        try {
-          const res = await fetch(`${config.url}/rest/v1/products`, {
-            method: 'POST',
-            headers: {
-              'apikey': config.key,
-              'Authorization': `Bearer ${config.key}`,
-              'Content-Type': 'application/json',
-              'Prefer': 'resolution=merge-duplicates'
-            },
-            body: JSON.stringify(payload)
-          });
+        appendSupabaseLog(`Products টেবিলে ${payload.length}টি পণ্য আপলোড হচ্ছে...`);
+        const res = await fetch(`${config.url}/rest/v1/products`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.key,
+            'Authorization': `Bearer ${config.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
 
-          if (res.ok) {
-            if (msg) msg.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> মোট ${payload.length}টি পণ্য সফলভাবে Supabase এ আপলোড হয়েছে!</span>`;
-            showAdminToast('আপলোড সম্পন্ন', `${payload.length}টি পণ্য Supabase ডেটাবেজে সিঙ্ক হয়েছে।`, 'success');
-          } else {
-            const err = await res.text();
-            if (msg) msg.innerHTML = `<span class="text-red-500 font-bold"><i class="fa-solid fa-circle-xmark"></i> আপলোড ব্যর্থ: ${err}</span>`;
-            showAdminToast('আপলোড ব্যর্থ', 'SQL টেবিল তৈরি করা আছে কি না যাচাই করুন।', 'error');
+        if (res.ok) {
+          appendSupabaseLog(`✓ Products: ${payload.length}টি পণ্য সফলভাবে সিঙ্ক হয়েছে`, 'success');
+          if (!silent) showAdminToast('পণ্য আপলোড', `${payload.length}টি পণ্য Supabase এ সিঙ্ক হয়েছে।`, 'success');
+        } else {
+          const err = await res.text();
+          appendSupabaseLog(`✗ Products ব্যর্থ: ${err}`, 'error');
+          if (!silent) showAdminToast('আপলোড ব্যর্থ', 'Products টেবিল ত্রুটি', 'error');
+        }
+      }
+
+      async function uploadOrdersToSupabase(silent = false) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured || ordersList.length === 0) return;
+
+        const payload = ordersList.map(ord => ({
+          order_id: ord.orderId,
+          date_time: ord.dateTime,
+          product_id: ord.productId,
+          product_name: ord.productName,
+          product_bangla_name: ord.productBanglaName,
+          color: ord.color,
+          size: ord.size,
+          quantity: ord.quantity,
+          product_price: ord.productPrice,
+          product_total: ord.productTotal,
+          delivery_charge: ord.deliveryCharge,
+          total_price: ord.totalPrice,
+          customer_name: ord.customerName,
+          phone: ord.phone,
+          district: ord.district || '',
+          full_address: ord.fullAddress,
+          order_notes: ord.orderNotes || '',
+          payment_method: ord.paymentMethod,
+          payment_code: ord.paymentCode || '',
+          trx_id: ord.trxId || ord.paymentCode || '',
+          order_status: ord.orderStatus || 'Pending',
+          order_source: ord.orderSource || 'Blogspot Store'
+        }));
+
+        appendSupabaseLog(`Orders টেবিলে ${payload.length}টি অর্ডার আপলোড হচ্ছে...`);
+        const res = await fetch(`${config.url}/rest/v1/orders`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.key,
+            'Authorization': `Bearer ${config.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          appendSupabaseLog(`✓ Orders: ${payload.length}টি অর্ডার সফলভাবে সিঙ্ক হয়েছে`, 'success');
+          if (!silent) showAdminToast('অর্ডার আপলোড', `${payload.length}টি অর্ডার Supabase এ সেভ হয়েছে।`, 'success');
+        } else {
+          const err = await res.text();
+          appendSupabaseLog(`✗ Orders ব্যর্থ: ${err}`, 'error');
+          if (!silent) showAdminToast('অর্ডার আপলোড ব্যর্থ', err, 'error');
+        }
+      }
+
+      async function uploadCategoriesToSupabase(silent = false) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+
+        const payload = categoriesData.map(c => ({
+          id: c.id,
+          name: c.name,
+          bangla_name: c.banglaName || c.name,
+          icon: c.icon || 'fa-tag'
+        }));
+
+        appendSupabaseLog(`Categories টেবিলে ${payload.length}টি ক্যাটাগরি আপলোড হচ্ছে...`);
+        const res = await fetch(`${config.url}/rest/v1/categories`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.key,
+            'Authorization': `Bearer ${config.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          appendSupabaseLog(`✓ Categories: ${payload.length}টি ক্যাটাগরি সিঙ্ক হয়েছে`, 'success');
+          if (!silent) showAdminToast('ক্যাটাগরি আপলোড', `${payload.length}টি ক্যাটাগরি Supabase এ আপলোড হয়েছে।`, 'success');
+        } else {
+          const err = await res.text();
+          appendSupabaseLog(`✗ Categories ব্যর্থ: ${err}`, 'error');
+        }
+      }
+
+      async function uploadFaqsToSupabase(silent = false) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+
+        const payload = faqsList.map((f, idx) => ({
+          id: f.id || (idx + 1),
+          question: f.question || f.title || 'প্রশ্ন',
+          answer: f.answer || f.desc || 'উত্তর'
+        }));
+
+        appendSupabaseLog(`FAQs টেবিলে ${payload.length}টি প্রশ্নোত্তর আপলোড হচ্ছে...`);
+        const res = await fetch(`${config.url}/rest/v1/faqs`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.key,
+            'Authorization': `Bearer ${config.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          appendSupabaseLog(`✓ FAQs: ${payload.length}টি প্রশ্ন সিঙ্ক হয়েছে`, 'success');
+          if (!silent) showAdminToast('FAQs আপলোড', `${payload.length}টি প্রশ্নোত্তর Supabase এ সেভ হয়েছে।`, 'success');
+        } else {
+          const err = await res.text();
+          appendSupabaseLog(`✗ FAQs ব্যর্থ: ${err}`, 'error');
+        }
+      }
+
+      async function uploadReviewsToSupabase(silent = false) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+
+        const payload = reviewsList.map(r => ({
+          id: r.id,
+          author: r.author,
+          text: r.text,
+          rating: r.rating || 5,
+          badge: r.badge || 'ভেরিফাইড ক্রেতা'
+        }));
+
+        appendSupabaseLog(`Reviews টেবিলে ${payload.length}টি রিভিউ আপলোড হচ্ছে...`);
+        const res = await fetch(`${config.url}/rest/v1/reviews`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.key,
+            'Authorization': `Bearer ${config.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          appendSupabaseLog(`✓ Reviews: ${payload.length}টি রিভিউ সিঙ্ক হয়েছে`, 'success');
+          if (!silent) showAdminToast('রিভিউ আপলোড', `${payload.length}টি রিভিউ সেভ হয়েছে।`, 'success');
+        } else {
+          const err = await res.text();
+          appendSupabaseLog(`✗ Reviews ব্যর্থ: ${err}`, 'error');
+        }
+      }
+
+      async function uploadWhyUsToSupabase(silent = false) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+
+        const payload = whyUsList.map(w => ({
+          id: w.id,
+          title: w.title,
+          desc_text: w.desc,
+          icon: w.icon || 'fa-award'
+        }));
+
+        appendSupabaseLog(`Why Us টেবিলে ${payload.length}টি বৈশিষ্ট্য আপলোড হচ্ছে...`);
+        const res = await fetch(`${config.url}/rest/v1/why_us`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.key,
+            'Authorization': `Bearer ${config.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          appendSupabaseLog(`✓ Why Us: ${payload.length}টি বৈশিষ্ট্য সিঙ্ক হয়েছে`, 'success');
+          if (!silent) showAdminToast('Why Us আপলোড', `${payload.length}টি বৈশিষ্ট্য সেভ হয়েছে।`, 'success');
+        } else {
+          const err = await res.text();
+          appendSupabaseLog(`✗ Why Us ব্যর্থ: ${err}`, 'error');
+        }
+      }
+
+      async function uploadPaymentsToSupabase(silent = false) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+
+        const payload = paymentMethodsData.map(p => ({
+          id: p.id,
+          provider: p.provider,
+          provider_bangla: p.providerBangla || p.provider,
+          number: p.number,
+          type: p.type || 'Personal',
+          type_bangla: p.typeBangla || 'পার্সোনাল',
+          instruction: p.instruction || '',
+          active: p.active !== false
+        }));
+
+        appendSupabaseLog(`Payment Methods টেবিলে ${payload.length}টি মাধ্যম আপলোড হচ্ছে...`);
+        const res = await fetch(`${config.url}/rest/v1/payment_methods`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.key,
+            'Authorization': `Bearer ${config.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          appendSupabaseLog(`✓ Payment Methods: ${payload.length}টি পেমেন্ট মাধ্যম সিঙ্ক হয়েছে`, 'success');
+          if (!silent) showAdminToast('পেমেন্ট আপলোড', `${payload.length}টি পেমেন্ট মেথড সেভ হয়েছে।`, 'success');
+        } else {
+          const err = await res.text();
+          appendSupabaseLog(`✗ Payment Methods ব্যর্থ: ${err}`, 'error');
+        }
+      }
+
+      async function uploadSiteContentToSupabase(silent = false) {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+
+        const payload = [
+          { id: 'site_content_main', data: siteContent }
+        ];
+
+        appendSupabaseLog('Site Content টেবিলে কন্টেন্ট আপলোড হচ্ছে...');
+        const res = await fetch(`${config.url}/rest/v1/site_content`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.key,
+            'Authorization': `Bearer ${config.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          appendSupabaseLog('✓ Site Content: স্টোর ব্র্যান্ডিং ও টেক্সট সিঙ্ক হয়েছে', 'success');
+          if (!silent) showAdminToast('কন্টেন্ট আপলোড', 'সাইট কন্টেন্ট Supabase এ সংরক্ষিত হয়েছে।', 'success');
+        } else {
+          const err = await res.text();
+          appendSupabaseLog(`✗ Site Content ব্যর্থ: ${err}`, 'error');
+        }
+      }
+
+      // ----------------- PULL FROM SUPABASE -----------------
+      async function pullAllDataFromSupabase() {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) {
+          showAdminToast('অসংযুক্ত', 'প্রথমে Supabase URL ও Key সেভ করুন।', 'error');
+          return;
+        }
+
+        const btn = document.getElementById('btn-supabase-pull-all');
+        if (btn) {
+          btn.disabled = true;
+          btn.classList.add('opacity-75');
+        }
+
+        appendSupabaseLog('Supabase ক্লাউড থেকে সব ডেটা ডাউনলোড শুরু হচ্ছে...', 'info');
+
+        try {
+          await fetchSupabaseProducts();
+          await syncOrdersFromSupabase(false);
+          await fetchSupabaseCategories();
+          await fetchSupabaseFaqs();
+          await fetchSupabaseReviews();
+          await fetchSupabaseWhyUs();
+
+          appendSupabaseLog('সব ডেটা Supabase থেকে সফলভাবে নামিয়ে পেজে আপডেট করা হয়েছে!', 'success');
+          showAdminToast('ডাউনলোড সম্পন্ন', 'Supabase ক্লাউড থেকে সব তথ্য সফলভাবে সিঙ্ক হয়েছে।', 'success');
+          refreshSupabaseTableCounts();
+        } catch(err) {
+          appendSupabaseLog(`পুল ত্রুটি: ${err.message}`, 'error');
+          showAdminToast('পুল ত্রুটি', err.message, 'error');
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.classList.remove('opacity-75');
           }
-        } catch (e) {
-          if (msg) msg.innerHTML = `<span class="text-red-500 font-bold">এরর: ${e.message}</span>`;
         }
       }
 
@@ -6353,12 +7282,131 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
               renderCategoryTabs();
               updateAdminStats();
               if (isAdminLoggedIn) renderAdminProductsTable();
-              console.log(`Loaded ${mapped.length} products live from Supabase PostgreSQL!`);
+              appendSupabaseLog(`✓ Products: ${mapped.length}টি পণ্য ক্লাউড থেকে লোড হয়েছে`);
             }
           }
         } catch (e) {
           console.warn("Supabase products fetch failed:", e);
         }
+      }
+
+      async function fetchSupabaseCategories() {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+        try {
+          const res = await fetch(`${config.url}/rest/v1/categories?select=*`, {
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              categoriesData = data.map(c => ({
+                id: c.id,
+                name: c.name,
+                banglaName: c.bangla_name || c.name,
+                icon: c.icon || 'fa-tag'
+              }));
+              try { localStorage.setItem('gb_custom_categories', JSON.stringify(categoriesData)); } catch(e){}
+              renderCategoryTabs();
+              if (isAdminLoggedIn) renderAdminCategoriesList();
+              appendSupabaseLog(`✓ Categories: ${categoriesData.length}টি ক্যাটাগরি লোড হয়েছে`);
+            }
+          }
+        } catch(e) {}
+      }
+
+      async function fetchSupabaseFaqs() {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+        try {
+          const res = await fetch(`${config.url}/rest/v1/faqs?select=*&order=id.asc`, {
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              faqsList = data.map((f, idx) => {
+                const rawQ = f.question || f.title || f.q || f.questionText;
+                const rawA = f.answer || f.desc || f.subtitle || f.a || f.answerText;
+                const isBadQ = !rawQ || String(rawQ).trim() === 'undefined' || String(rawQ).trim() === '';
+                const isBadA = !rawA || String(rawA).trim() === 'undefined' || String(rawA).trim() === '';
+                const fallback = DEFAULT_FAQS[idx % DEFAULT_FAQS.length];
+                return {
+                  id: Number(f.id) || (idx + 1),
+                  question: !isBadQ ? String(rawQ).trim() : fallback.question,
+                  answer: !isBadA ? String(rawA).trim() : fallback.answer
+                };
+              });
+              try { localStorage.setItem('gb_faqs', JSON.stringify(faqsList)); } catch(e){}
+              renderFaqSection();
+              if (isAdminLoggedIn) renderAdminContentLists();
+              appendSupabaseLog(`✓ FAQs: ${faqsList.length}টি প্রশ্নোত্তর লোড হয়েছে`);
+            }
+          }
+        } catch(e) {}
+      }
+
+      async function fetchSupabaseReviews() {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+        try {
+          const res = await fetch(`${config.url}/rest/v1/reviews?select=*&order=id.asc`, {
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              reviewsList = data.map(r => ({
+                id: Number(r.id),
+                author: r.author,
+                text: r.text,
+                rating: Number(r.rating) || 5,
+                badge: r.badge || 'ভেরিফাইড ক্রেতা'
+              }));
+              try { localStorage.setItem('gb_reviews', JSON.stringify(reviewsList)); } catch(e){}
+              renderReviewsSection();
+              if (isAdminLoggedIn) renderAdminContentLists();
+              appendSupabaseLog(`✓ Reviews: ${reviewsList.length}টি রিভিউ লোড হয়েছে`);
+            }
+          }
+        } catch(e) {}
+      }
+
+      async function fetchSupabaseWhyUs() {
+        const config = getSupabaseConfig();
+        if (!config.isConfigured) return;
+        try {
+          const res = await fetch(`${config.url}/rest/v1/why_us?select=*&order=id.asc`, {
+            headers: {
+              'apikey': config.key,
+              'Authorization': `Bearer ${config.key}`
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              whyUsList = data.map(w => ({
+                id: Number(w.id),
+                title: w.title,
+                desc: w.desc_text || w.desc,
+                icon: w.icon || 'fa-award'
+              }));
+              try { localStorage.setItem('gb_why_us', JSON.stringify(whyUsList)); } catch(e){}
+              renderWhyUsSection();
+              if (isAdminLoggedIn) renderAdminContentLists();
+              appendSupabaseLog(`✓ Why Us: ${whyUsList.length}টি বৈশিষ্ট্য লোড হয়েছে`);
+            }
+          }
+        } catch(e) {}
       }
 
       async function submitSupabaseOrder(ord) {
@@ -6381,10 +7429,12 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
             total_price: ord.totalPrice,
             customer_name: ord.customerName,
             phone: ord.phone,
+            district: ord.district || '',
             full_address: ord.fullAddress,
             order_notes: ord.orderNotes || '',
             payment_method: ord.paymentMethod,
-            trx_id: ord.trxId || '',
+            payment_code: ord.paymentCode || ord.trxId || '',
+            trx_id: ord.trxId || ord.paymentCode || '',
             order_status: ord.orderStatus || 'Pending',
             order_source: ord.orderSource || 'Blogspot Store'
           };
@@ -6422,7 +7472,7 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         }
       }
 
-      async function fetchSupabaseOrders() {
+      async function syncOrdersFromSupabase(isManual = false) {
         const config = getSupabaseConfig();
         if (!config.isConfigured) return;
         try {
@@ -6450,10 +7500,12 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
                 totalPrice: Number(item.total_price),
                 customerName: item.customer_name,
                 phone: item.phone,
+                district: item.district || '',
                 fullAddress: item.full_address,
                 orderNotes: item.order_notes || '',
                 paymentMethod: item.payment_method,
-                trxId: item.trx_id || '',
+                paymentCode: item.payment_code || item.trx_id || 'N/A',
+                trxId: item.trx_id || item.payment_code || '',
                 orderStatus: item.order_status || 'Pending',
                 orderSource: item.order_source || 'Supabase Cloud'
               }));
@@ -6462,8 +7514,14 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
               if (newOrders.length > 0) {
                 ordersList = [...newOrders, ...ordersList];
                 saveOrdersState();
-                renderAdminOrdersTable();
+                renderAdminOrdersList();
                 updateAdminStats();
+                appendSupabaseLog(`✓ Orders: ${newOrders.length}টি নতুন কাস্টমার অর্ডার লোড হয়েছে!`, 'success');
+                if (isManual) {
+                  showAdminToast('নতুন অর্ডার!', `${newOrders.length}টি নতুন অর্ডার সিঙ্ক হয়েছে।`, 'success');
+                }
+              } else if (isManual) {
+                showAdminToast('আপ-টু-ডেট', 'কোনো নতুন অর্ডার আসেনি।', 'info');
               }
             }
           }
@@ -6471,6 +7529,13 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
           console.warn("Supabase orders fetch error:", e);
         }
       }
+
+      // Auto-refresh Supabase orders in background every 20s if logged in and configured
+      setInterval(() => {
+        if (isAdminLoggedIn && isSupabaseAutoSync) {
+          syncOrdersFromSupabase(false);
+        }
+      }, 20000);
 
       // ==================== UTF-8 & BASE64 SAFE UTILITIES ====================
       function utf8ToBase64(str) {
@@ -8865,28 +9930,40 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
         try {
           const res = await fetch(getApiUrl('/api/orders'));
           if (res.ok) {
-            const remoteOrders = await res.json();
+            const raw = await res.json();
+            const remoteOrders = Array.isArray(raw) ? raw : (Array.isArray(raw?.orders) ? raw.orders : []);
             if (Array.isArray(remoteOrders)) {
               // Merge remote orders with existing local orders by orderId
               let updatedCount = 0;
               let addedCount = 0;
+              const localMap = new Map();
+              ordersList.forEach(lo => { if (lo && lo.orderId) localMap.set(lo.orderId, lo); });
+
               remoteOrders.forEach(ro => {
-                const localOrder = ordersList.find(lo => lo.orderId === ro.orderId);
-                if (localOrder) {
+                if (!ro || !ro.orderId) return;
+                if (localMap.has(ro.orderId)) {
+                  const localOrder = localMap.get(ro.orderId);
                   if (ro.orderStatus && localOrder.orderStatus !== ro.orderStatus) {
                     localOrder.orderStatus = ro.orderStatus;
                     updatedCount++;
                   }
                 } else {
                   ordersList.unshift(ro);
+                  localMap.set(ro.orderId, ro);
                   addedCount++;
                 }
               });
-              saveOrdersState();
-              renderAdminOrdersList();
-              updateAdminStats();
+
+              if (addedCount > 0 || updatedCount > 0) {
+                saveOrdersState();
+                renderAdminOrdersList();
+                updateAdminStats();
+                if (addedCount > 0 && isAdminLoggedIn) {
+                  showAdminToast('নতুন কাস্টমার অর্ডার!', `${addedCount}টি নতুন অর্ডার সিঙ্ক হয়েছে (মোবাইল/ওয়েব থেকে)।`, 'success');
+                }
+              }
               if (showToast) {
-                showAdminToast('অর্ডার সিঙ্ক সম্পন্ন', `${ordersList.length} টি কাস্টমার অর্ডার আপডেট হয়েছে (নতুন: ${addedCount}, স্ট্যাটাস আপডেট: ${updatedCount})`, 'success');
+                showAdminToast('অর্ডার সিঙ্ক সম্পন্ন', `${ordersList.length} টি কাস্টমার অর্ডার লোড হয়েছে (নতুন: ${addedCount}, স্ট্যাটাস আপডেট: ${updatedCount})`, 'success');
               }
             }
           }
@@ -9067,7 +10144,31 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
       function renderFaqSection() {
         const container = document.getElementById('faq-accordion-container');
         if (!container) return;
-        container.innerHTML = faqsList.map((faq, idx) => `
+        if (!Array.isArray(faqsList) || faqsList.length === 0) {
+          faqsList = JSON.parse(JSON.stringify(DEFAULT_FAQS));
+        }
+        let hasFixedInvalid = false;
+        const sanitized = faqsList.map((faq, idx) => {
+          if (!faq || typeof faq !== 'object') return null;
+          const rawQ = faq.question || faq.title || faq.q || faq.questionText;
+          const rawA = faq.answer || faq.desc || faq.subtitle || faq.a || faq.answerText;
+          const isBadQ = !rawQ || String(rawQ).trim() === 'undefined' || String(rawQ).trim() === '';
+          const isBadA = !rawA || String(rawA).trim() === 'undefined' || String(rawA).trim() === '';
+          if (isBadQ || isBadA) hasFixedInvalid = true;
+          const fallback = DEFAULT_FAQS[idx % DEFAULT_FAQS.length];
+          return {
+            id: Number(faq.id) || (idx + 1),
+            question: !isBadQ ? String(rawQ).trim() : fallback.question,
+            answer: !isBadA ? String(rawA).trim() : fallback.answer
+          };
+        }).filter(Boolean);
+
+        const listToRender = sanitized.length > 0 ? sanitized : JSON.parse(JSON.stringify(DEFAULT_FAQS));
+        faqsList = listToRender;
+        if (hasFixedInvalid) {
+          try { localStorage.setItem('gb_faqs', JSON.stringify(faqsList)); } catch(e){}
+        }
+        container.innerHTML = listToRender.map((faq, idx) => `
           <div class="bg-white rounded-2xl border ${isAdminLoggedIn ? 'border-amber-300 ring-2 ring-amber-400/20' : 'border-slate-200'} shadow-xs overflow-hidden transition">
             <div class="flex items-center justify-between p-4 sm:p-5 cursor-pointer hover:bg-slate-50 transition" onclick="toggleFaq(${idx})">
               <h3 class="font-bold text-slate-900 text-xs sm:text-sm flex-1 pr-3 flex items-center gap-2">
@@ -10090,6 +11191,16 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
             // If client has local unsynced edits newer than server, push them to server to prevent data loss!
             if (clientSaved > serverUpdated && serverUpdated > 0 && productsData.length > 0) {
               console.log('Client has newer local admin edits than server. Syncing to server...');
+              // Always merge server orders into local ordersList before pushing so we don't erase recent mobile orders!
+              if (Array.isArray(data.orders)) {
+                const exIds = new Set(ordersList.map(o => o.orderId));
+                data.orders.forEach(ro => {
+                  if (ro && ro.orderId && !exIds.has(ro.orderId)) {
+                    ordersList.unshift(ro);
+                  }
+                });
+                try { localStorage.setItem('gb_orders', JSON.stringify(ordersList)); } catch(e){}
+              }
               await syncFullToServer({
                 products: productsData,
                 categories: categoriesData,
@@ -10132,14 +11243,46 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
               changed = true;
             }
             if (Array.isArray(data.faqs) && data.faqs.length > 0) {
-              faqsList = data.faqs;
+              const cleanedFaqs = data.faqs.map((f, idx) => {
+                const rawQ = f.question || f.title || f.q || f.questionText;
+                const rawA = f.answer || f.desc || f.subtitle || f.a || f.answerText;
+                const isBadQ = !rawQ || String(rawQ).trim() === 'undefined' || String(rawQ).trim() === '';
+                const isBadA = !rawA || String(rawA).trim() === 'undefined' || String(rawA).trim() === '';
+                const fallback = DEFAULT_FAQS[idx % DEFAULT_FAQS.length];
+                return {
+                  id: Number(f.id) || (idx + 1),
+                  question: !isBadQ ? String(rawQ).trim() : fallback.question,
+                  answer: !isBadA ? String(rawA).trim() : fallback.answer
+                };
+              });
+              faqsList = cleanedFaqs;
               try { localStorage.setItem('gb_faqs', JSON.stringify(faqsList)); } catch(e){}
               changed = true;
             }
             if (Array.isArray(data.orders)) {
-              ordersList = data.orders;
+              let addedNewCount = 0;
+              const orderMap = new Map();
+              ordersList.forEach(o => { if (o && o.orderId) orderMap.set(o.orderId, o); });
+              data.orders.forEach(ro => {
+                if (ro && ro.orderId) {
+                  if (orderMap.has(ro.orderId)) {
+                    const ex = orderMap.get(ro.orderId);
+                    if (ro.orderStatus && ex.orderStatus !== ro.orderStatus) {
+                      ex.orderStatus = ro.orderStatus;
+                      changed = true;
+                    }
+                  } else {
+                    orderMap.set(ro.orderId, ro);
+                    ordersList.unshift(ro);
+                    addedNewCount++;
+                    changed = true;
+                  }
+                }
+              });
               try { localStorage.setItem('gb_orders', JSON.stringify(ordersList)); } catch(e){}
-              changed = true;
+              if (addedNewCount > 0 && isAdminLoggedIn) {
+                showAdminToast('নতুন কাস্টমার অর্ডার!', `${addedNewCount}টি নতুন অর্ডার এসেছে।`, 'success');
+              }
             }
             if (Array.isArray(data.paymentMethods) && data.paymentMethods.length > 0) {
               paymentMethodsData = data.paymentMethods;
@@ -10149,6 +11292,12 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
             if (data.settings && typeof data.settings === 'object') {
               appSettings = Object.assign({}, appSettings, data.settings);
               try { localStorage.setItem('gb_app_settings', JSON.stringify(appSettings)); } catch(e){}
+              if (data.settings.supabaseUrl) {
+                localStorage.setItem('gb_supabase_url', data.settings.supabaseUrl);
+              }
+              if (data.settings.supabaseAnonKey) {
+                localStorage.setItem('gb_supabase_key', data.settings.supabaseAnonKey);
+              }
             }
             if (data.adminPassword) {
               try { localStorage.setItem('gb_admin_password', data.adminPassword); } catch(e){}
@@ -10208,6 +11357,16 @@ CREATE POLICY "Public orders manage" ON public.orders FOR ALL USING (true) WITH 
             }
           }
         } catch (e) {}
+
+        // When admin is logged in, continuously check for new customer orders from mobile/web in real time
+        if (isAdminLoggedIn) {
+          try {
+            syncOrdersFromRemote(false);
+            if (isSupabaseAutoSync) {
+              syncOrdersFromSupabase(false);
+            }
+          } catch(e) {}
+        }
       }
 
       async function forceSyncNow() {
