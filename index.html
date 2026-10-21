@@ -207,6 +207,12 @@
           <a href="#reviews-section" class="px-2 xl:px-2.5 py-1.5 rounded-lg whitespace-nowrap hover:text-[#008bf5] hover:bg-blue-50/70 transition">রিভিউ</a>
           <a href="#faq-section" class="px-2 xl:px-2.5 py-1.5 rounded-lg whitespace-nowrap hover:text-[#008bf5] hover:bg-blue-50/70 transition">প্রশ্নোত্তর</a>
           <a href="#contact-section" class="px-2 xl:px-2.5 py-1.5 rounded-lg whitespace-nowrap hover:text-[#008bf5] hover:bg-blue-50/70 transition">যোগাযোগ</a>
+          <a href="#vendors-directory-section" onclick="openVendorsDirectoryModal()" class="px-2 xl:px-2.5 py-1.5 rounded-lg whitespace-nowrap hover:text-emerald-600 hover:bg-emerald-50 transition flex items-center gap-1 text-slate-700">
+            <i class="fa-solid fa-shop text-emerald-600 text-xs"></i> ভেন্ডর শপ
+          </a>
+          <button type="button" onclick="openSellerRegisterModal()" class="px-2.5 py-1 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold text-xs transition flex items-center gap-1 cursor-pointer border border-emerald-200">
+            <i class="fa-solid fa-user-plus text-[10px]"></i> সেলার নিবন্ধন
+          </button>
         </nav>
 
         <!-- Right Header Actions -->
@@ -343,6 +349,12 @@
             </a>
             <a href="#contact-section" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#008bf5] transition">
               <i class="fa-solid fa-headset text-[#008bf5] w-5"></i> হেল্পলাইন
+            </a>
+            <a href="javascript:void(0)" onclick="toggleMobileMenu(); openVendorsDirectoryModal();" class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-50 text-emerald-800 transition">
+              <i class="fa-solid fa-shop text-emerald-600 w-5"></i> ভেন্ডর শপসমূহ
+            </a>
+            <a href="javascript:void(0)" onclick="toggleMobileMenu(); openSellerRegisterModal();" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-emerald-50 text-emerald-800 font-bold transition">
+              <i class="fa-solid fa-user-plus text-emerald-600 w-5"></i> সেলার নিবন্ধন (বিক্রেতা হন)
             </a>
             <button type="button" onclick="toggleMobileMenu(); handleAdminButtonClick();" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-blue-50 text-slate-700 hover:text-[#008bf5] transition cursor-pointer">
               <i class="fa-solid fa-user-shield text-[#008bf5] w-5"></i> অ্যাডমিন মোড
@@ -507,6 +519,60 @@
           <button type="button" onclick="openAdminDashboard('products')" class="px-3 py-1.5 rounded-xl bg-[#008bf5] hover:bg-blue-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm cursor-pointer transition">
             <i class="fa-solid fa-gauge-high"></i> ড্যাশবোর্ড
           </button>
+        </div>
+      </div>
+
+      <!-- Dedicated Vendor Storefront Banner (Active when viewing specific seller's store) -->
+      <div id="vendor-storefront-banner" class="hidden mb-6 rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-white">
+        <div class="h-32 sm:h-48 w-full relative bg-slate-900">
+          <img id="storefront-banner-img" src="https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=1200" alt="Vendor Cover" class="w-full h-full object-cover opacity-85" />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent"></div>
+          <button type="button" onclick="closeVendorShop()" class="absolute top-3 right-3 px-3 py-1.5 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 transition cursor-pointer border border-white/20">
+            <i class="fa-solid fa-arrow-left"></i> সকল পণ্য ও স্টোরে ফিরুন
+          </button>
+        </div>
+        <div class="px-4 sm:px-6 pb-5 pt-0 relative">
+          <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 -mt-10 sm:-mt-12">
+            <div class="flex items-end gap-3.5">
+              <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white p-1 shadow-lg border-2 border-white overflow-hidden relative shrink-0">
+                <img id="storefront-logo-img" src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=200" alt="Logo" class="w-full h-full object-cover rounded-xl" />
+                <span class="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px]" title="ভেরিফাইড মার্চেন্ট">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </div>
+              <div class="text-slate-900 pt-1">
+                <div class="flex items-center gap-2">
+                  <h3 id="storefront-name" class="text-lg sm:text-2xl font-black text-slate-900 leading-tight">Vendor Name</h3>
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">ভেরিফাইড সেলার</span>
+                </div>
+                <p id="storefront-bangla-name" class="text-xs sm:text-sm text-slate-500 font-medium">ভেন্ডর বাংলা নাম</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+              <div class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-semibold flex items-center gap-1.5">
+                <i class="fa-solid fa-star text-amber-400"></i>
+                <span id="storefront-rating">5.0</span>
+                <span class="text-slate-400">(<span id="storefront-reviews-count">0</span> রিভিউ)</span>
+              </div>
+              <div class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-semibold flex items-center gap-1.5">
+                <i class="fa-solid fa-bag-shopping text-emerald-600"></i>
+                <span><span id="storefront-sales-count">0</span>+ সফল সেলস</span>
+              </div>
+              <div class="px-3 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-[#008bf5] font-semibold flex items-center gap-1.5">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="storefront-district">ঢাকা</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600">
+            <p id="storefront-bio" class="text-slate-600 leading-snug">ভেন্ডর পরিচিতি ও বিবরণ...</p>
+            <div class="shrink-0 flex items-center gap-2">
+              <span class="text-[11px] text-slate-400 font-medium">স্টোর আইডি: <code id="storefront-vendor-id" class="text-slate-600 font-mono">v_xxx</code></span>
+              <button type="button" onclick="closeVendorShop()" class="text-[#008bf5] hover:underline font-bold text-xs cursor-pointer">
+                ফিল্টার মুছুন
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -834,6 +900,11 @@
               <div id="qv-specs-list" class="bg-slate-50 rounded-xl p-2.5 border border-slate-200/80 space-y-1"></div>
             </div>
 
+            <!-- Vendor Store Information -->
+            <div id="qv-vendor-box" class="pt-1">
+              <!-- Populated dynamically -->
+            </div>
+
             <div class="pt-2 flex flex-col sm:flex-row gap-2">
               <button id="qv-buy-btn" class="flex-1 py-2.5 px-3 rounded-xl btn-primary font-bold text-xs flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-95 transition">
                 <i class="fa-solid fa-bolt text-yellow-300"></i> এখনই অর্ডার করুন
@@ -872,6 +943,15 @@
                 <span class="text-[10px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-bold">ইন স্টক</span>
               </div>
             </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1.5 border-t border-blue-200/60 text-[11px]">
+            <span class="text-slate-500 font-medium">বিক্রেতা শপ:</span>
+            <span id="order-vendor-badge" class="font-bold text-slate-800 flex items-center gap-1">
+              <i class="fa-solid fa-store text-emerald-600 text-[10px]"></i>
+              <span id="order-vendor-name">Safe Guard BD</span>
+              <i class="fa-solid fa-circle-check text-blue-500 text-[9px]"></i>
+            </span>
           </div>
           
           <div id="order-summary-details-box" class="pt-2 border-t border-blue-200/60 text-xs space-y-1.5">
@@ -1377,6 +1457,14 @@
             class="admin-nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-2 cursor-pointer transition"
           >
             <i class="fa-solid fa-database text-emerald-500 text-sm"></i> Supabase ডেটাবেজ
+          </button>
+          <button 
+            type="button" 
+            onclick="switchAdminTab('vendors')" 
+            id="admin-tab-btn-vendors" 
+            class="admin-nav-tab px-4 py-2.5 text-xs sm:text-sm font-semibold rounded-t-xl text-slate-600 hover:text-slate-900 shrink-0 flex items-center gap-2 cursor-pointer transition"
+          >
+            <i class="fa-solid fa-shop text-amber-500 text-sm"></i> মাল্টিভেন্ডর ও কমিশন (<span id="admin-vendor-count-badge">0</span>)
           </button>
         </div>
 
@@ -2879,7 +2967,330 @@
             </div>
           </div>
 
-        </div>
+          <!-- TAB 9: MULTIVENDOR & SALES COMMISSION ACCOUNTING HUB -->
+          <div id="admin-tab-vendors" class="hidden space-y-5">
+            <!-- Header Banner -->
+            <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-5 rounded-2xl text-white shadow-md flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border border-indigo-500/30">
+              <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-400 flex items-center justify-center text-2xl shrink-0">
+                  <i class="fa-solid fa-shop"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-lg font-black tracking-tight">মাল্টিভেন্ডর ও সেলস কমিশন অ্যাকাউন্টিং হাব</h3>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[10px] font-bold uppercase tracking-wider">Multivendor Core</span>
+                  </div>
+                  <p class="text-xs text-slate-300 font-medium mt-0.5">ভেন্ডর স্টোর ম্যানেজমেন্ট, শতাংশ হারে সেলস কমিশন ক্যালকুলেশন, অর্ডার ভিত্তিক কমিশন লেজার এবং ভেন্ডর পে-আউট নিষ্পত্তি পরিচালনা করুন।</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-2 self-end lg:self-auto">
+                <button type="button" onclick="openAddVendorModal()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition">
+                  <i class="fa-solid fa-plus"></i> নতুন ভেন্ডর যুক্ত করুন
+                </button>
+                <button type="button" onclick="openVendorPayoutModal()" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition">
+                  <i class="fa-solid fa-money-bill-transfer"></i> পে-আউট প্রদান
+                </button>
+                <button type="button" onclick="exportCommissionLedgerCsv()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs transition" title="কমিশন লেজার এক্সপোর্ট">
+                  <i class="fa-solid fa-file-csv"></i> CSV ডাউনলোড
+                </button>
+              </div>
+            </div>
+
+            <!-- Financial Metric KPI Cards (5 Cards) -->
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
+              <!-- Card 1: Gross GMV -->
+              <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                  <span class="text-xs font-bold">মোট গ্রস সেলস (GMV)</span>
+                  <div class="w-7 h-7 rounded-lg bg-blue-50 text-[#008bf5] flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-chart-line"></i>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-lg sm:text-xl font-black text-slate-900">৳<span id="mv-kpi-gmv">0</span></div>
+                  <span class="text-[10px] text-slate-400 font-medium">সকল ভেন্ডরের মোট বিক্রি</span>
+                </div>
+              </div>
+
+              <!-- Card 2: Platform Commission -->
+              <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                  <span class="text-xs font-bold">প্ল্যাটফর্ম কমিশন আয়</span>
+                  <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-percent"></i>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-lg sm:text-xl font-black text-emerald-600">৳<span id="mv-kpi-platform-comm">0</span></div>
+                  <span class="text-[10px] text-emerald-700 font-medium">প্ল্যাটফর্মের অর্জিত লাভ</span>
+                </div>
+              </div>
+
+              <!-- Card 3: Vendor Earnings -->
+              <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                  <span class="text-xs font-bold">ভেন্ডর মোট আয় (Net)</span>
+                  <div class="w-7 h-7 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-wallet"></i>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-lg sm:text-xl font-black text-purple-600">৳<span id="mv-kpi-vendor-earnings">0</span></div>
+                  <span class="text-[10px] text-purple-700 font-medium">কমিশন বাদে বিক্রেতার প্রাপ্য</span>
+                </div>
+              </div>
+
+              <!-- Card 4: Paid Payouts -->
+              <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                  <span class="text-xs font-bold">পরিশোধিত পে-আউট</span>
+                  <div class="w-7 h-7 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-circle-check"></i>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-lg sm:text-xl font-black text-teal-700">৳<span id="mv-kpi-paid-payouts">0</span></div>
+                  <span class="text-[10px] text-teal-600 font-medium">সেটেল্ড ভেন্ডর পেমেন্ট</span>
+                </div>
+              </div>
+
+              <!-- Card 5: Pending Balance -->
+              <div class="bg-white p-4 rounded-2xl border border-amber-300 shadow-xs flex flex-col justify-between col-span-2 lg:col-span-1 bg-gradient-to-br from-amber-50/60 to-white">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                  <span class="text-xs font-bold text-amber-900">বকেয়া পে-আউট</span>
+                  <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-lg sm:text-xl font-black text-amber-700">৳<span id="mv-kpi-pending-balance">0</span></div>
+                  <span class="text-[10px] text-amber-800 font-bold">ভেন্ডরদের প্রদেয় বাকি</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Commission Calculator & Quick Summary -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-xl bg-blue-50 text-[#008bf5] flex items-center justify-center text-sm font-bold">
+                    <i class="fa-solid fa-calculator"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 text-sm">সেলস কমিশন সিমুলেটর (Live Interactive Calculator)</h4>
+                    <p class="text-[11px] text-slate-500">মূল্য এবং কমিশন রেট পরিবর্তন করে স্বয়ংক্রিয় আর্থিক বিভাজন দেখুন</p>
+                  </div>
+                </div>
+                <span class="text-[11px] bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg font-mono">Formula: Platform Comm = Gross × (Rate ÷ 100)</span>
+              </div>
+
+              <!-- Calculator Inputs -->
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">পণ্যের বিক্রয় মূল্য (৳)</label>
+                  <input 
+                    type="number" 
+                    id="calc-input-price" 
+                    value="1200" 
+                    min="10" 
+                    oninput="runCommissionCalculator()" 
+                    class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">অর্ডার পরিমাণ (Quantity)</label>
+                  <input 
+                    type="number" 
+                    id="calc-input-qty" 
+                    value="2" 
+                    min="1" 
+                    oninput="runCommissionCalculator()" 
+                    class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">ভেন্ডর কমিশন রেট (%)</label>
+                  <div class="relative">
+                    <input 
+                      type="number" 
+                      id="calc-input-rate" 
+                      value="10" 
+                      min="0" 
+                      max="100" 
+                      step="0.5" 
+                      oninput="runCommissionCalculator()" 
+                      class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold"
+                    />
+                    <span class="absolute right-3 top-2 text-xs font-bold text-slate-400">%</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">প্রিসেট ভেন্ডর থেকে নিন</label>
+                  <select 
+                    id="calc-select-vendor" 
+                    onchange="applyCalculatorVendorPreset(this.value)" 
+                    class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-medium text-slate-800 bg-white"
+                  >
+                    <!-- Populated dynamically -->
+                  </select>
+                </div>
+              </div>
+
+              <!-- Calculator Real-Time Outputs -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 text-center">
+                <div class="bg-white p-2.5 rounded-lg border border-slate-200 shadow-2xs">
+                  <span class="text-[10px] text-slate-500 font-bold block uppercase">মোট বিক্রয় (Gross Sales)</span>
+                  <div class="text-base font-black text-slate-900 mt-0.5">৳<span id="calc-out-gross">2,400</span></div>
+                </div>
+                <div class="bg-white p-2.5 rounded-lg border border-emerald-200 shadow-2xs">
+                  <span class="text-[10px] text-emerald-700 font-bold block uppercase">প্ল্যাটফর্ম কমিশন (<span id="calc-out-rate-badge">10%</span>)</span>
+                  <div class="text-base font-black text-emerald-600 mt-0.5">৳<span id="calc-out-comm">240</span></div>
+                </div>
+                <div class="bg-white p-2.5 rounded-lg border border-purple-200 shadow-2xs">
+                  <span class="text-[10px] text-purple-700 font-bold block uppercase">ভেন্ডর নিট আর্নিং</span>
+                  <div class="text-base font-black text-purple-600 mt-0.5">৳<span id="calc-out-net">2,160</span></div>
+                </div>
+                <div class="bg-white p-2.5 rounded-lg border border-blue-200 shadow-2xs">
+                  <span class="text-[10px] text-blue-700 font-bold block uppercase">ডেলিভারি চার্জ (কুরিয়ার)</span>
+                  <div class="text-base font-black text-blue-600 mt-0.5">৳৮০ / ৳১৩০</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vendors Directory Management Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-users-gear text-slate-600"></i> নিবন্ধিত ভেন্ডর তালিকা (<span id="mv-vendor-count-header">0</span>)
+                  </h4>
+                  <p class="text-xs text-slate-500">ভেন্ডর শপের কমিশন রেট, তথ্য এবং সক্রিয়তা পরিচালনা করুন</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <input 
+                    type="text" 
+                    id="mv-vendor-search" 
+                    placeholder="ভেন্ডর খুঁজুন..." 
+                    oninput="renderAdminVendorsList()" 
+                    class="text-xs px-3 py-1.5 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden w-40 sm:w-56"
+                  />
+                  <button type="button" onclick="openAddVendorModal()" class="px-3 py-1.5 rounded-xl bg-[#008bf5] hover:bg-blue-600 text-white font-bold text-xs flex items-center gap-1 cursor-pointer transition">
+                    <i class="fa-solid fa-plus"></i> যোগ করুন
+                  </button>
+                </div>
+              </div>
+
+              <!-- Vendor List Grid / Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 text-[11px] uppercase tracking-wider">
+                      <th class="py-3 px-3.5 font-bold">ভেন্ডর শপ</th>
+                      <th class="py-3 px-3 font-bold">মালিক ও যোগাযোগ</th>
+                      <th class="py-3 px-3 font-bold">জেলা</th>
+                      <th class="py-3 px-3 font-bold text-center">কমিশন রেট</th>
+                      <th class="py-3 px-3 font-bold text-center">স্ট্যাটাস</th>
+                      <th class="py-3 px-3 font-bold text-right">মোট সেলস</th>
+                      <th class="py-3 px-3 font-bold text-right">বকেয়া ব্যালেন্স</th>
+                      <th class="py-3 px-3.5 font-bold text-center">অ্যাকশন</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mv-vendors-table-body" class="divide-y divide-slate-100 text-slate-700">
+                    <!-- Populated dynamically by renderAdminVendorsList() -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Commission Orders & Settlement Ledger -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-receipt text-emerald-600"></i> সেলস কমিশন ও পে-আউট লেজার
+                  </h4>
+                  <p class="text-xs text-slate-500">প্রতিটি অর্ডারের কমিশন বিভাজন এবং ভেন্ডর পে-আউট নিষ্পত্তি হিস্ট্রি</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <select 
+                    id="mv-ledger-vendor-filter" 
+                    onchange="renderCommissionLedgerTable()" 
+                    class="text-xs px-2.5 py-1.5 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden bg-white text-slate-700 font-medium"
+                  >
+                    <option value="all">সকল ভেন্ডর</option>
+                  </select>
+                  <select 
+                    id="mv-ledger-status-filter" 
+                    onchange="renderCommissionLedgerTable()" 
+                    class="text-xs px-2.5 py-1.5 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden bg-white text-slate-700 font-medium"
+                  >
+                    <option value="all">সকল পে-আউট স্ট্যাটাস</option>
+                    <option value="Pending">বকেয়া (Pending)</option>
+                    <option value="Paid">পরিশোধিত (Paid)</option>
+                  </select>
+                  <button type="button" onclick="exportCommissionLedgerCsv()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1 cursor-pointer transition">
+                    <i class="fa-solid fa-download"></i> CSV
+                  </button>
+                </div>
+              </div>
+
+              <!-- Ledger Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 text-[11px] uppercase tracking-wider">
+                      <th class="py-3 px-3.5 font-bold">অর্ডার আইডি ও সময়</th>
+                      <th class="py-3 px-3 font-bold">পণ্য বিবরণ</th>
+                      <th class="py-3 px-3 font-bold">গ্রাহক</th>
+                      <th class="py-3 px-3 font-bold">ভেন্ডর শপ</th>
+                      <th class="py-3 px-3 font-bold text-right">গ্রস মূল্য</th>
+                      <th class="py-3 px-3 font-bold text-center">কমিশন %</th>
+                      <th class="py-3 px-3 font-bold text-right text-emerald-600">প্ল্যাটফর্ম ফি</th>
+                      <th class="py-3 px-3 font-bold text-right text-purple-700">ভেন্ডর আর্নিং</th>
+                      <th class="py-3 px-3 font-bold text-center">পে-আউট</th>
+                      <th class="py-3 px-3.5 font-bold text-center">অ্যাকশন</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mv-ledger-table-body" class="divide-y divide-slate-100 text-slate-700">
+                    <!-- Populated dynamically by renderCommissionLedgerTable() -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Payouts Settlement History Archive -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-purple-600"></i> সম্পন্নকৃত পে-আউট হিস্ট্রি
+                  </h4>
+                  <p class="text-xs text-slate-500">ভেন্ডরদের অনুকূলে নিষ্পত্তিকৃত পেমেন্ট ট্রানজেকশনসমূহ</p>
+                </div>
+                <button type="button" onclick="openVendorPayoutModal()" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-1 cursor-pointer transition">
+                  <i class="fa-solid fa-plus"></i> নতুন পে-আউট দিন
+                </button>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 text-[11px] uppercase tracking-wider">
+                      <th class="py-3 px-3.5 font-bold">পে-আউট আইডি</th>
+                      <th class="py-3 px-3 font-bold">তারিখ ও সময়</th>
+                      <th class="py-3 px-3 font-bold">ভেন্ডর নাম</th>
+                      <th class="py-3 px-3 font-bold text-right">পরিশোধিত অঙ্ক</th>
+                      <th class="py-3 px-3 font-bold">মেথড ও TrxID</th>
+                      <th class="py-3 px-3 font-bold">নোট</th>
+                      <th class="py-3 px-3.5 font-bold text-center">স্ট্যাটাস</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mv-payouts-table-body" class="divide-y divide-slate-100 text-slate-700">
+                    <!-- Populated dynamically by renderAdminPayoutsHistory() -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
       </div>
     </div>
@@ -2962,6 +3373,41 @@
                 placeholder="যেমন: 1200" 
                 class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
               />
+            </div>
+          </div>
+
+          <!-- Vendor / Seller Assignment -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-amber-50/60 rounded-2xl border border-amber-200/90">
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                <i class="fa-solid fa-store text-amber-600 mr-1"></i> বিক্রেতা / ভেন্ডর স্টোর *
+              </label>
+              <select 
+                id="product-form-vendor" 
+                onchange="handleProductFormVendorChange(this.value)"
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-amber-300 focus:border-[#008bf5] focus:outline-hidden font-semibold text-slate-800 bg-white"
+              >
+                <!-- Dynamically populated with vendors -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                <i class="fa-solid fa-percent text-blue-600 mr-1"></i> সেলস কমিশন রেট (%)
+              </label>
+              <div class="relative">
+                <input 
+                  type="number" 
+                  id="product-form-commission-rate" 
+                  min="0" 
+                  max="50" 
+                  step="0.5" 
+                  placeholder="যেমন: 10" 
+                  class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold bg-white"
+                />
+                <span class="absolute right-3 top-2 text-xs font-bold text-slate-400">%</span>
+              </div>
+              <p class="text-[10px] text-slate-500 mt-1">প্রতি বিক্রয়ে প্ল্যাটফর্মের কেটে নেওয়া ফি</p>
             </div>
           </div>
 
@@ -3855,6 +4301,38 @@
               </div>
             </div>
           </div>
+
+          <!-- Vendor & Commission Breakdown Card -->
+          <div class="bg-amber-50/70 p-3.5 sm:p-4 rounded-2xl border border-amber-200/90 text-xs">
+            <div class="flex items-center justify-between mb-2.5">
+              <h4 class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                <i class="fa-solid fa-shop text-amber-600"></i> ভেন্ডর ও কমিশন হিসাব
+              </h4>
+              <span id="detail-modal-payout-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-100 text-amber-800 border border-amber-300">Pending</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+              <div class="bg-white p-2 rounded-xl border border-amber-200/60 shadow-2xs">
+                <span class="text-[10px] text-slate-500 block">বিক্রেতা স্টোর</span>
+                <strong id="detail-modal-vendor-name" class="text-xs text-slate-900 truncate block mt-0.5">Safe Guard BD</strong>
+              </div>
+              <div class="bg-white p-2 rounded-xl border border-amber-200/60 shadow-2xs">
+                <span class="text-[10px] text-slate-500 block">কমিশন রেট</span>
+                <strong id="detail-modal-comm-rate" class="text-xs text-blue-600 block mt-0.5">10%</strong>
+              </div>
+              <div class="bg-white p-2 rounded-xl border border-amber-200/60 shadow-2xs">
+                <span class="text-[10px] text-slate-500 block">প্ল্যাটফর্ম কমিশন</span>
+                <strong id="detail-modal-comm-amount" class="text-xs text-emerald-600 block mt-0.5">৳0</strong>
+              </div>
+              <div class="bg-white p-2 rounded-xl border border-amber-200/60 shadow-2xs">
+                <span class="text-[10px] text-slate-500 block">ভেন্ডর নিট আর্নিং</span>
+                <strong id="detail-modal-vendor-earnings" class="text-xs text-purple-700 font-black block mt-0.5">৳0</strong>
+              </div>
+            </div>
+            <div id="detail-modal-payout-trx-box" class="hidden mt-2 pt-2 border-t border-amber-200/70 flex items-center justify-between text-[11px] text-slate-600">
+              <span>পে-আউট ট্রানজেকশন আইডি:</span>
+              <span id="detail-modal-payout-trx" class="font-mono font-bold text-slate-800">-</span>
+            </div>
+          </div>
         </div>
 
         <!-- Modal Footer: Quick Actions (Mark Shipped, Mark Completed, Print) -->
@@ -4495,6 +4973,503 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
       </a>
     </div>
 
+    <!-- ==================== MULTIVENDOR MARKETPLACE MODALS ==================== -->
+
+    <!-- 1. All Vendors Directory Modal (Customer Exploration) -->
+    <div id="vendors-directory-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto">
+      <div class="relative w-full max-w-4xl bg-white rounded-3xl p-5 sm:p-7 shadow-2xl my-auto max-h-[92vh] overflow-y-auto">
+        <button onclick="closeVendorsDirectoryModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center z-10 cursor-pointer transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+              <i class="fa-solid fa-shop"></i>
+            </div>
+            <div>
+              <h3 class="text-lg sm:text-xl font-black text-slate-900">ভেন্ডর স্টোরসমূহ (Multivendor Directory)</h3>
+              <p class="text-xs text-slate-500">আমাদের বিশ্বস্ত ও ভেরিফাইড বিক্রেতা স্টোরসমূহ থেকে সেরা দামে গ্যাজেট কিনুন</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeVendorsDirectoryModal(); openSellerRegisterModal();" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-xs transition shrink-0 self-start sm:self-auto">
+            <i class="fa-solid fa-user-plus"></i> সেলার নিবন্ধন করুন
+          </button>
+        </div>
+
+        <!-- Vendor Cards Grid -->
+        <div id="vendors-directory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Populated dynamically by renderVendorsDirectoryModal() -->
+        </div>
+
+        <!-- Call to Action Banner -->
+        <div class="mt-6 p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#008bf5] text-white flex items-center justify-center text-lg shrink-0">
+              <i class="fa-solid fa-handshake"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 text-xs sm:text-sm">আপনি কি পাইকারি বা খুচরা গ্যাজেট বিক্রেতা?</h4>
+              <p class="text-[11px] text-slate-600">আমাদের কোটি কাস্টমারের কাছে আপনার গ্যাজেট বিক্রি করে ব্যবসা বাড়ান।</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeVendorsDirectoryModal(); openSellerRegisterModal();" class="px-4 py-2 rounded-xl bg-[#008bf5] hover:bg-blue-600 text-white font-bold text-xs cursor-pointer shadow-xs transition shrink-0">
+            মার্কেটপ্লেস সেলার হন
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Customer-Facing Seller Registration Modal (সেলার নিবন্ধন) -->
+    <div id="seller-register-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto">
+      <div class="relative w-full max-w-xl bg-white rounded-3xl p-5 sm:p-7 shadow-2xl my-auto max-h-[92vh] overflow-y-auto">
+        <button onclick="closeSellerRegisterModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center z-10 cursor-pointer transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+
+        <div class="flex items-center gap-3 pb-3 mb-4 border-b border-slate-100">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shrink-0">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-slate-900">মার্কেটপ্লেস সেলার নিবন্ধন (Seller Onboarding)</h3>
+            <p class="text-xs text-slate-500">আপনার শপের সঠিক তথ্য দিয়ে নিবন্ধন সম্পূর্ণ করুন</p>
+          </div>
+        </div>
+
+        <form onsubmit="handleSellerRegister(event)" class="space-y-3.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">দোকানের ইংরেজি নাম *</label>
+              <input 
+                type="text" 
+                id="seller-reg-name" 
+                required 
+                placeholder="যেমন: Gadget World BD" 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">দোকানের বাংলা নাম *</label>
+              <input 
+                type="text" 
+                id="seller-reg-banglaname" 
+                required 
+                placeholder="যেমন: গ্যাজেট ওয়ার্ল্ড বিডি" 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">মালিকের পুরো নাম *</label>
+              <input 
+                type="text" 
+                id="seller-reg-owner" 
+                required 
+                placeholder="মোঃ তানভীর আহমেদ" 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর * (১১ ডিজিট)</label>
+              <input 
+                type="tel" 
+                id="seller-reg-phone" 
+                required 
+                pattern="^01[3-9]\d{8}$" 
+                placeholder="01712345678" 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden font-mono"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">ইমেইল ঠিকানা</label>
+              <input 
+                type="email" 
+                id="seller-reg-email" 
+                placeholder="vendor@example.com" 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">জেলা *</label>
+              <select 
+                id="seller-reg-district" 
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden bg-white text-slate-800"
+              >
+                <option value="Dhaka">ঢাকা (Dhaka)</option>
+                <option value="Chittagong">চট্টগ্রাম (Chittagong)</option>
+                <option value="Sylhet">সিলেট (Sylhet)</option>
+                <option value="Rajshahi">রাজশাহী (Rajshahi)</option>
+                <option value="Khulna">খুলনা (Khulna)</option>
+                <option value="Barisal">বরিশাল (Barisal)</option>
+                <option value="Rangpur">রংপুর (Rangpur)</option>
+                <option value="Mymensingh">ময়মনসিংহ (Mymensingh)</option>
+                <option value="Gazipur">গাজীপুর (Gazipur)</option>
+                <option value="Narayanganj">নারায়ণগঞ্জ (Narayanganj)</option>
+                <option value="Comilla">কুমিল্লা (Comilla)</option>
+                <option value="Bogra">বগুড়া (Bogra)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">দোকান / গোডাউনের বিস্তারিত ঠিকানা *</label>
+            <input 
+              type="text" 
+              id="seller-reg-address" 
+              required 
+              placeholder="দোকান নং, মার্কেট/বিল্ডিং, রোড নং, এলাকা" 
+              class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                <i class="fa-solid fa-money-bill-transfer text-emerald-600 mr-1"></i> পে-আউট মাধ্যম ও নম্বর *
+              </label>
+              <input 
+                type="text" 
+                id="seller-reg-payout" 
+                required 
+                placeholder="bKash Personal: 01712345678" 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden bg-white"
+              />
+              <span class="text-[10px] text-slate-500 mt-0.5 block">বিকাশ / নগদ / রকেট অথবা ব্যাংক তথ্য</span>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">
+                <i class="fa-solid fa-percent text-blue-600 mr-1"></i> প্ল্যাটফর্ম কমিশন রেট
+              </label>
+              <input 
+                type="number" 
+                id="seller-reg-commission" 
+                value="10" 
+                readonly 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-700 font-bold"
+              />
+              <span class="text-[10px] text-slate-500 mt-0.5 block">স্ট্যান্ডার্ড মার্কেটপ্লেস ফি (১০%)</span>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">দোকানের সংক্ষিপ্ত বিবরণ (Bio)</label>
+            <textarea 
+              id="seller-reg-bio" 
+              rows="2" 
+              placeholder="আপনার দোকানের পণ্যের ধরন ও প্রতিশ্রুতি..." 
+              class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-emerald-500 focus:outline-hidden"
+            ></textarea>
+          </div>
+
+          <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+            <button 
+              type="button" 
+              onclick="closeSellerRegisterModal()" 
+              class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer transition"
+            >
+              বাতিল
+            </button>
+            <button 
+              type="submit" 
+              id="seller-reg-submit-btn" 
+              class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-md transition"
+            >
+              <i class="fa-solid fa-check"></i> সেলার নিবন্ধন সম্পূর্ণ করুন
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 3. Admin Vendor Add / Edit Modal -->
+    <div id="vendor-form-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto">
+      <div class="relative w-full max-w-xl bg-white rounded-3xl p-5 sm:p-7 shadow-2xl my-auto max-h-[92vh] overflow-y-auto">
+        <button onclick="closeVendorFormModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center z-10 cursor-pointer transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+
+        <div class="flex items-center gap-3 pb-3 mb-4 border-b border-slate-100">
+          <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shrink-0">
+            <i class="fa-solid fa-shop"></i>
+          </div>
+          <div>
+            <h3 id="vendor-form-title" class="text-base sm:text-lg font-black text-slate-900">ভেন্ডর তথ্য পরিচালনা</h3>
+            <p class="text-xs text-slate-500">ভেন্ডরের কমিশন রেট ও স্টোর প্রোফাইল আপডেট করুন</p>
+          </div>
+        </div>
+
+        <form onsubmit="handleAdminVendorFormSubmit(event)" class="space-y-3.5">
+          <input type="hidden" id="vendor-form-id" value="" />
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">দোকানের নাম (English) *</label>
+              <input 
+                type="text" 
+                id="vendor-form-name" 
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">দোকানের বাংলা নাম *</label>
+              <input 
+                type="text" 
+                id="vendor-form-banglaname" 
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">মালিকের নাম *</label>
+              <input 
+                type="text" 
+                id="vendor-form-owner" 
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর *</label>
+              <input 
+                type="text" 
+                id="vendor-form-phone" 
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-mono"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">জেলা *</label>
+              <input 
+                type="text" 
+                id="vendor-form-district" 
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">কমিশন রেট (%) *</label>
+              <div class="relative">
+                <input 
+                  type="number" 
+                  id="vendor-form-commission" 
+                  min="0" 
+                  max="100" 
+                  step="0.5" 
+                  required 
+                  class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold"
+                />
+                <span class="absolute right-3 top-2 text-xs font-bold text-slate-400">%</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">স্ট্যাটাস *</label>
+              <select 
+                id="vendor-form-status" 
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden bg-white text-slate-800 font-semibold"
+              >
+                <option value="Active">সক্রিয় (Active)</option>
+                <option value="Suspended">স্থগিত (Suspended)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">দোকানের সম্পূর্ণ ঠিকানা</label>
+            <input 
+              type="text" 
+              id="vendor-form-address" 
+              class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">পে-আউট মেথড ও অ্যাকাউন্ট</label>
+            <input 
+              type="text" 
+              id="vendor-form-payout-method" 
+              placeholder="bKash (01711223344 - Merchant)" 
+              class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">লোগো ছবি (URL)</label>
+              <input 
+                type="text" 
+                id="vendor-form-logo" 
+                placeholder="https://..." 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">ব্যানার কভার (URL)</label>
+              <input 
+                type="text" 
+                id="vendor-form-banner" 
+                placeholder="https://..." 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">ভেন্ডর বায়ো / বিবরণ</label>
+            <textarea 
+              id="vendor-form-bio" 
+              rows="2" 
+              class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+            ></textarea>
+          </div>
+
+          <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+            <button 
+              type="button" 
+              onclick="closeVendorFormModal()" 
+              class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer transition"
+            >
+              বাতিল
+            </button>
+            <button 
+              type="submit" 
+              class="px-5 py-2.5 rounded-xl bg-[#008bf5] hover:bg-blue-600 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-md transition"
+            >
+              <i class="fa-solid fa-check"></i> সংরক্ষণ করুন
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 4. Admin Vendor Payout Settlement Modal -->
+    <div id="vendor-payout-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/80 modal-overlay overflow-y-auto">
+      <div class="relative w-full max-w-lg bg-white rounded-3xl p-5 sm:p-7 shadow-2xl my-auto max-h-[92vh] overflow-y-auto">
+        <button onclick="closeVendorPayoutModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center z-10 cursor-pointer transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+
+        <div class="flex items-center gap-3 pb-3 mb-4 border-b border-slate-100">
+          <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shrink-0">
+            <i class="fa-solid fa-money-bill-transfer"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-slate-900">ভেন্ডর পে-আউট নিষ্পত্তি (Vendor Settlement)</h3>
+            <p class="text-xs text-slate-500">কমিশন বাদে বিক্রেতাকে অর্থ প্রদান রেকর্ড করুন</p>
+          </div>
+        </div>
+
+        <form onsubmit="handleRecordVendorPayout(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">ভেন্ডর স্টোর নির্বাচন করুন *</label>
+            <select 
+              id="payout-vendor-select" 
+              onchange="handlePayoutVendorChange(this.value)" 
+              required 
+              class="w-full text-xs px-3 py-2.5 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold text-slate-900 bg-white"
+            >
+              <!-- Populated dynamically with vendors -->
+            </select>
+          </div>
+
+          <!-- Vendor Live Financial Status Card -->
+          <div class="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-200/90 space-y-2 text-xs">
+            <div class="flex items-center justify-between font-bold text-slate-800">
+              <span>মোট অর্জিত আর্নিং (Net):</span>
+              <span class="text-purple-700 font-black">৳<span id="payout-stat-earnings">0</span></span>
+            </div>
+            <div class="flex items-center justify-between text-slate-600">
+              <span>পূর্বের পরিশোধিত অঙ্ক:</span>
+              <span class="text-teal-700 font-bold">৳<span id="payout-stat-paid">0</span></span>
+            </div>
+            <div class="flex items-center justify-between border-t border-amber-200/80 pt-1.5 font-extrabold text-sm">
+              <span class="text-amber-950">বর্তমান বকেয়া ব্যালেন্স:</span>
+              <span class="text-rose-600">৳<span id="payout-stat-balance">0</span></span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">পরিশোধের অঙ্ক (৳) *</label>
+              <input 
+                type="number" 
+                id="payout-form-amount" 
+                required 
+                min="10" 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-bold text-slate-900 text-base"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">পেমেন্ট মেথড *</label>
+              <select 
+                id="payout-form-method" 
+                required 
+                class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden bg-white text-slate-800 font-medium"
+              >
+                <option value="bKash">bKash (বিকাশ)</option>
+                <option value="Nagad">Nagad (নগদ)</option>
+                <option value="Rocket">Rocket (রকেট)</option>
+                <option value="Bank Transfer">ব্যাংক ট্রান্সফার (EFTN/NPSB)</option>
+                <option value="Cash Handover">ক্যাশ হ্যান্ডওভার (নগদ গ্রহণ)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">ট্রানজেকশন আইডি (TrxID / ভাউচার নং) *</label>
+            <input 
+              type="text" 
+              id="payout-form-trxid" 
+              required 
+              placeholder="যেমন: BKS99238471 অথবা ভাউচার নম্বর" 
+              class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden font-mono"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">নোট / রেফারেন্স বিবরণ</label>
+            <input 
+              type="text" 
+              id="payout-form-note" 
+              placeholder="যেমন: সপ্তাহ-৩ এর সফল অর্ডারসমূহের পে-আউট সেটেলমেন্ট" 
+              class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:border-[#008bf5] focus:outline-hidden"
+            />
+          </div>
+
+          <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+            <button 
+              type="button" 
+              onclick="closeVendorPayoutModal()" 
+              class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer transition"
+            >
+              বাতিল
+            </button>
+            <button 
+              type="submit" 
+              id="payout-submit-btn" 
+              class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-md transition"
+            >
+              <i class="fa-solid fa-check-double"></i> পে-আউট নিশ্চিত ও সেটেল করুন
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- 13. Mobile Bottom Navigation Bar (Sticky on Phones) -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 mobile-bottom-bar z-40 flex items-center justify-around shadow-lg">
       <a href="#hero" class="flex flex-col items-center justify-center py-1.5 px-3 text-slate-600 hover:text-[#008bf5]">
@@ -4842,6 +5817,148 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
         { id: 12, question: "ক্যাশ অন ডেলিভারিতে কি কোনো বাড়তি লুকানো চার্জ আছে?", answer: "না, কোনো প্রকার লুকানো বা অতিরিক্ত চার্জ নেই। ইনভয়েসে উল্লেখিত পণ্যের মূল্য এবং নির্ধারিত ডেলিভারি চার্জ ব্যতীত আপনাকে অতিরিক্ত কোনো টাকা প্রদান করতে হবে না।" }
       ];
 
+      const DEFAULT_VENDORS = [
+        {
+          id: "v_official",
+          name: "Safe Guard Official Store",
+          banglaName: "সেফ গার্ড অফিসিয়াল স্টোর",
+          slug: "official-store",
+          owner: "হেড অফিস এডমিন",
+          phone: "01700-000000",
+          email: "safeguardbd.biz@gmail.com",
+          logo: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=200&auto=format&fit=crop&q=80",
+          banner: "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=1200&auto=format&fit=crop&q=80",
+          district: "Dhaka",
+          address: "বাড়ি ১২, রোড ৪, সেক্টর ৭, উত্তরা, ঢাকা-১২৩০",
+          rating: 5.0,
+          reviewsCount: 420,
+          salesCount: 1250,
+          commissionRate: 0,
+          payoutMethod: "Internal Store Operations",
+          status: "Active",
+          verified: true,
+          joinedDate: "01 Jan 2026",
+          bio: "সেফ গার্ড বিডি অফিসিয়াল স্টোর। ১০০% আসল ও অফিসিয়াল গ্যাজেটের নিশ্চয়তা।"
+        },
+        {
+          id: "v_techhub",
+          name: "TechHub BD",
+          banglaName: "টেকহাব বিডি",
+          slug: "techhub-bd",
+          owner: "তানভীর আহমেদ",
+          phone: "01711-223344",
+          email: "contact@techhubbd.com",
+          logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&auto=format&fit=crop&q=80",
+          banner: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&auto=format&fit=crop&q=80",
+          district: "Dhaka",
+          address: "দোকান ১২, ৩য় তলা, মোতালেব প্লাজা, হাতিরপুল, ঢাকা",
+          rating: 4.9,
+          reviewsCount: 156,
+          salesCount: 428,
+          commissionRate: 8,
+          payoutMethod: "bKash (01711223344 - Merchant)",
+          status: "Active",
+          verified: true,
+          joinedDate: "12 Jan 2026",
+          bio: "প্রিমিয়াম ব্র্যান্ডেড স্মার্ট গ্যাজেট, ব্লুটুথ কলিং ওয়াচ ও লাইফস্টাইল এক্সেসরিজ সরবরাহকারী।"
+        },
+        {
+          id: "v_gadgetvalley",
+          name: "Gadget Valley",
+          banglaName: "গ্যাজেট ভ্যালি",
+          slug: "gadget-valley",
+          owner: "মো: জাহিদুল ইসলাম",
+          phone: "01819-876543",
+          email: "sales@gadgetvalley.com",
+          logo: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&auto=format&fit=crop&q=80",
+          banner: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&auto=format&fit=crop&q=80",
+          district: "Chittagong",
+          address: "দোকান ৪৪, ২য় তলা, আখতারুজ্জামান সেন্টার, আগ্রাবাদ, চট্টগ্রাম",
+          rating: 4.8,
+          reviewsCount: 94,
+          salesCount: 310,
+          commissionRate: 10,
+          payoutMethod: "Nagad (01819876543 - Personal)",
+          status: "Active",
+          verified: true,
+          joinedDate: "20 Jan 2026",
+          bio: "দেশ সেরা গ্যাজেট ও ফাস্ট চার্জার ডিস্ট্রিবিউটর। কোয়ালিটি নিশ্চিত করে ডেলিভারি।"
+        },
+        {
+          id: "v_smartlife",
+          name: "SmartLife Bangladesh",
+          banglaName: "স্মার্টলাইফ বাংলাদেশ",
+          slug: "smartlife-bd",
+          owner: "সাদিয়া ইসলাম",
+          phone: "01998-765432",
+          email: "hello@smartlifebd.com",
+          logo: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200&auto=format&fit=crop&q=80",
+          banner: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=1200&auto=format&fit=crop&q=80",
+          district: "Sylhet",
+          address: "ব্লক সি, মিলেনিয়াম শপিং মল, জিন্দাবাজার, সিলেট",
+          rating: 4.9,
+          reviewsCount: 112,
+          salesCount: 380,
+          commissionRate: 7.5,
+          payoutMethod: "Rocket (019987654327 - Personal)",
+          status: "Active",
+          verified: true,
+          joinedDate: "05 Feb 2026",
+          bio: "অরিজিনাল নয়েজ ক্যানসেলিং ইয়ারবাডস ও স্মার্ট কিচেন গ্যাজেট নিয়ে কাজ করি।"
+        },
+        {
+          id: "v_electroplus",
+          name: "ElectroPlus Store",
+          banglaName: "ইলেক্ট্রোপ্লাস স্টোর",
+          slug: "electroplus-store",
+          owner: "মো: রফিকুল ইসলাম",
+          phone: "01622-334455",
+          email: "info@electroplus.bd",
+          logo: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=200&auto=format&fit=crop&q=80",
+          banner: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=1200&auto=format&fit=crop&q=80",
+          district: "Rajshahi",
+          address: "দোকান নং ৮, নিউ মার্কেট, রাজশাহী সদর, রাজশাহী",
+          rating: 4.7,
+          reviewsCount: 68,
+          salesCount: 195,
+          commissionRate: 12,
+          payoutMethod: "Bank: City Bank (A/C: 110293847101)",
+          status: "Active",
+          verified: true,
+          joinedDate: "15 Feb 2026",
+          bio: "রিচার্জেবল ব্লেন্ডার, মোশন লাইট ও কার এক্সেসরিজের বিশ্বস্ত সেলার।"
+        }
+      ];
+
+      const DEFAULT_PAYOUTS = [
+        {
+          payoutId: "PAY-80129",
+          vendorId: "v_techhub",
+          vendorName: "TechHub BD",
+          amount: 5400,
+          commissionDeducted: 480,
+          grossSales: 5880,
+          paymentMethod: "bKash (01711223344)",
+          trxId: "BKS99238471",
+          date: "18 Oct 2026, 03:20 PM",
+          status: "Completed",
+          note: "অক্টোবর ১ম সপ্তাহের সফল ডেলিভারি পে-আউট"
+        },
+        {
+          payoutId: "PAY-80130",
+          vendorId: "v_smartlife",
+          vendorName: "SmartLife Bangladesh",
+          amount: 4200,
+          commissionDeducted: 340,
+          grossSales: 4540,
+          paymentMethod: "Rocket (019987654327)",
+          trxId: "RCK88127394",
+          date: "19 Oct 2026, 11:45 AM",
+          status: "Completed",
+          note: "ইয়ারবাডস সেলস ব্যালেন্স ক্লিয়ারেন্স"
+        }
+      ];
+
       const DEFAULT_ORDERS = [
         {
           orderId: "GB-739102",
@@ -4923,6 +6040,9 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
       let reviewsList = [...DEFAULT_REVIEWS];
       let faqsList = [...DEFAULT_FAQS];
       let paymentMethodsData = [...DEFAULT_PAYMENT_METHODS];
+      let vendorsData = [...DEFAULT_VENDORS];
+      let payoutsData = [...DEFAULT_PAYOUTS];
+      let currentVendorFilter = 'all';
       let selectedOrderPaymentMethodId = "pm_bkash";
       let appSettings = {
         telegramBotToken: "",
@@ -5011,6 +6131,22 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
           try {
             const parsed = JSON.parse(savedPayments);
             if (Array.isArray(parsed) && parsed.length > 0) paymentMethodsData = parsed;
+          } catch(e) {}
+        }
+
+        const savedVendors = localStorage.getItem('gb_vendors');
+        if (savedVendors) {
+          try {
+            const parsed = JSON.parse(savedVendors);
+            if (Array.isArray(parsed) && parsed.length > 0) vendorsData = parsed;
+          } catch(e) {}
+        }
+
+        const savedPayouts = localStorage.getItem('gb_payouts');
+        if (savedPayouts) {
+          try {
+            const parsed = JSON.parse(savedPayouts);
+            if (Array.isArray(parsed) && parsed.length > 0) payoutsData = parsed;
           } catch(e) {}
         }
 
@@ -5684,6 +6820,19 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
           `;
         }
 
+        html += `
+          <button 
+            type="button" 
+            onclick="openVendorsDirectoryModal()" 
+            class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200/80 shrink-0 flex items-center gap-1.5 cursor-pointer transition shadow-2xs"
+            title="সকল ভেন্ডর শপ দেখুন"
+          >
+            <i class="fa-solid fa-shop text-emerald-600 text-[11px]"></i>
+            <span>সব ভেন্ডর শপ</span>
+            <span class="text-[10px] bg-emerald-200/90 text-emerald-900 px-1.5 py-0.2 rounded-full font-bold">${vendorsData.length}</span>
+          </button>
+        `;
+
         container.innerHTML = html;
 
         // Also update product-form category dropdown
@@ -5702,6 +6851,10 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
 
         if (currentCategory !== 'all') {
           list = list.filter(p => p.category === currentCategory);
+        }
+
+        if (currentVendorFilter && currentVendorFilter !== 'all') {
+          list = list.filter(p => (p.vendorId || 'v_official') === currentVendorFilter);
         }
 
         if (searchQuery.trim() !== '') {
@@ -5839,6 +6992,21 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
                       ` : ''}
                     </div>
                   ` : ''}
+
+                  <!-- ভেন্ডর / সেলার ব্যাজ -->
+                  <div class="mt-1.5 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px]">
+                    <span class="text-slate-400">সেলার:</span>
+                    <button 
+                      type="button" 
+                      onclick="event.stopPropagation(); openVendorShop('${product.vendorId || 'v_official'}')" 
+                      class="font-bold text-slate-700 hover:text-[#008bf5] flex items-center gap-1 cursor-pointer truncate max-w-[130px] transition"
+                      title="ভেন্ডর স্টোর দেখুন"
+                    >
+                      <i class="fa-solid fa-store text-emerald-600 text-[9px]"></i>
+                      <span class="truncate">${product.vendorName || 'Safe Guard BD'}</span>
+                      <i class="fa-solid fa-circle-check text-blue-500 text-[8px]"></i>
+                    </button>
+                  </div>
                 </div>
 
                 <div class="space-y-1.5 pt-1">
@@ -5962,6 +7130,39 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
             specsList.innerHTML = '';
             specsBox.classList.add('hidden');
           }
+        }
+
+        // Render Vendor Information Box
+        const qvVendorBox = document.getElementById('qv-vendor-box');
+        if (qvVendorBox) {
+          const vObj = vendorsData.find(v => v.id === (prod.vendorId || 'v_official')) || vendorsData[0];
+          qvVendorBox.innerHTML = `
+            <div class="bg-gradient-to-r from-slate-50 to-amber-50/50 p-2.5 rounded-xl border border-slate-200/80 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <img src="${vObj.logo || 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=100'}" alt="${vObj.banglaName}" class="w-9 h-9 rounded-lg object-cover border border-slate-200 shrink-0" onerror="this.src='https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=100'" />
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1">
+                    <span class="text-xs font-bold text-slate-900 truncate">${vObj.banglaName || vObj.name}</span>
+                    <i class="fa-solid fa-circle-check text-blue-500 text-[10px]" title="Verified Merchant"></i>
+                  </div>
+                  <div class="flex items-center gap-2 text-[10px] text-slate-500">
+                    <span class="flex items-center text-amber-500 font-bold"><i class="fa-solid fa-star text-[9px] mr-0.5"></i> ${vObj.rating || '5.0'}</span>
+                    <span>·</span>
+                    <span>${vObj.salesCount || 0}+ সেলস</span>
+                    <span>·</span>
+                    <span class="text-slate-600">${vObj.district || 'ঢাকা'}</span>
+                  </div>
+                </div>
+              </div>
+              <button 
+                type="button" 
+                onclick="closeQuickViewModal(); openVendorShop('${vObj.id}')"
+                class="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 font-bold text-[11px] shrink-0 cursor-pointer transition shadow-2xs"
+              >
+                স্টোর দেখুন
+              </button>
+            </div>
+          `;
         }
         
         document.getElementById('qv-buy-btn').onclick = () => {
@@ -6088,6 +7289,13 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
         document.getElementById('order-summary-price').textContent = '৳' + selectedProduct.price;
         document.getElementById('order-qty-val').textContent = '1';
 
+        // Display vendor badge in order modal
+        const orderVendorNameEl = document.getElementById('order-vendor-name');
+        if (orderVendorNameEl) {
+          const vObj = vendorsData.find(v => v.id === (selectedProduct.vendorId || 'v_official')) || vendorsData[0];
+          orderVendorNameEl.textContent = vObj.banglaName || vObj.name;
+        }
+
         // Display brief description & benefits in order modal
         const descWrap = document.getElementById('order-summary-desc-wrapper');
         const descEl = document.getElementById('order-summary-desc');
@@ -6190,6 +7398,14 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
         }
         const trxId = document.getElementById('order-trx-id').value.trim() || (isOnline ? 'Pending Verification' : 'N/A');
 
+        // Resolve Vendor & Calculate Sales Commission
+        const prodVendor = vendorsData.find(v => v.id === (selectedProduct.vendorId || 'v_official')) || vendorsData[0];
+        const vId = prodVendor.id;
+        const vName = prodVendor.banglaName || prodVendor.name;
+        const vCommRate = prodVendor.commissionRate !== undefined ? prodVendor.commissionRate : (selectedProduct.vendorCommissionRate || 0);
+        const platformComm = Math.round(productTotal * (vCommRate / 100));
+        const vEarnings = productTotal - platformComm;
+
         const payload = {
           orderId: orderId,
           customerName: name,
@@ -6205,6 +7421,13 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
           totalPrice: grandTotal,
           paymentMethod: paymentMethodName,
           paymentCode: trxId,
+          vendorId: vId,
+          vendorName: vName,
+          vendorCommissionRate: vCommRate,
+          platformCommission: platformComm,
+          vendorEarnings: vEarnings,
+          payoutStatus: "Pending",
+          payoutTrxId: "",
           orderStatus: "Pending",
           createdAt: new Date().toLocaleString('bn-BD'),
           orderSource: "Blogspot / Single-File Web App"
@@ -6246,6 +7469,10 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
               `💰 *পণ্যের মূল্য:* ৳${payload.productTotal}`,
               `🚚 *ডেলিভারি চার্জ:* ৳${payload.deliveryCharge}`,
               `💵 *মোট বিল:* ৳${payload.totalPrice}`,
+              "━━━━━━━━━━━━━━━━━━━━",
+              `🏪 *ভেন্ডর:* ${payload.vendorName}`,
+              `📊 *প্ল্যাটফর্ম কমিশন:* ৳${payload.platformCommission} (${payload.vendorCommissionRate}%)`,
+              `💼 *ভেন্ডর নিট আয়:* ৳${payload.vendorEarnings}`,
               "━━━━━━━━━━━━━━━━━━━━",
               `👤 *গ্রাহক:* ${payload.customerName}`,
               `📞 *মোবাইল:* ${payload.phone}`,
@@ -6791,6 +8018,9 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
         const pmBadgeEl = document.getElementById('admin-payment-count-badge');
         if (pmBadgeEl) pmBadgeEl.textContent = paymentMethodsData.length;
 
+        const vendorBadgeEl = document.getElementById('admin-vendor-count-badge');
+        if (vendorBadgeEl) vendorBadgeEl.textContent = vendorsData.length;
+
         const bloggerCountEl = document.getElementById('blogger-theme-prod-count');
         if (bloggerCountEl) bloggerCountEl.textContent = productsData.length;
 
@@ -6814,7 +8044,7 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
       }
 
       function switchAdminTab(tabName) {
-        const tabs = ['products', 'categories', 'orders', 'payments', 'content', 'settings', 'whatsapp', 'supabase'];
+        const tabs = ['products', 'categories', 'orders', 'payments', 'content', 'settings', 'whatsapp', 'supabase', 'vendors'];
         tabs.forEach(t => {
           const content = document.getElementById(`admin-tab-${t}`);
           const btn = document.getElementById(`admin-tab-btn-${t}`);
@@ -6847,6 +8077,7 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
         if (tabName === 'settings') loadSettingsToUI();
         if (tabName === 'whatsapp') applyWhatsAppConfig();
         if (tabName === 'supabase') updateSupabaseUIState();
+        if (tabName === 'vendors') renderAdminVendorsTab();
       }
 
       
@@ -9371,6 +10602,41 @@ CREATE POLICY "Public site_content manage" ON public.site_content FOR ALL USING 
         if (paymentMethodEl) paymentMethodEl.textContent = ord.paymentMethod || 'ক্যাশ অন ডেলিভারি';
         if (paymentTrxEl) {
           paymentTrxEl.textContent = ord.paymentCode && ord.paymentCode !== 'N/A' ? `TrxID / Code: ${ord.paymentCode}` : 'TrxID: প্রযোজ্য নয়';
+        }
+
+        // Vendor & Sales Commission Breakdown
+        const vendorNameEl = document.getElementById('detail-modal-vendor-name');
+        const commRateEl = document.getElementById('detail-modal-comm-rate');
+        const commAmountEl = document.getElementById('detail-modal-comm-amount');
+        const vendorEarningsEl = document.getElementById('detail-modal-vendor-earnings');
+        const payoutBadge = document.getElementById('detail-modal-payout-badge');
+        const payoutTrxBox = document.getElementById('detail-modal-payout-trx-box');
+        const payoutTrxEl = document.getElementById('detail-modal-payout-trx');
+
+        const vName = ord.vendorName || (matchingProd ? (matchingProd.vendorName || 'Safe Guard BD') : 'Safe Guard BD');
+        const vRate = ord.vendorCommissionRate !== undefined ? ord.vendorCommissionRate : (matchingProd ? (matchingProd.vendorCommissionRate ?? 0) : 0);
+        const pTotal = ord.productTotal || (ord.productPrice ? ord.productPrice * (ord.quantity || 1) : (ord.totalPrice - (ord.deliveryCharge || 80)));
+        const commAmt = ord.platformCommission !== undefined ? ord.platformCommission : Math.round(pTotal * (vRate / 100));
+        const vEarn = ord.vendorEarnings !== undefined ? ord.vendorEarnings : (pTotal - commAmt);
+        const pStatus = ord.payoutStatus || 'Pending';
+
+        if (vendorNameEl) vendorNameEl.textContent = vName;
+        if (commRateEl) commRateEl.textContent = `${vRate}%`;
+        if (commAmountEl) commAmountEl.textContent = `৳${commAmt}`;
+        if (vendorEarningsEl) vendorEarningsEl.textContent = `৳${vEarn}`;
+        if (payoutBadge) {
+          payoutBadge.textContent = pStatus === 'Paid' ? 'Paid (পরিশোধিত)' : 'Pending (বকেয়া)';
+          payoutBadge.className = pStatus === 'Paid'
+            ? 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-teal-100 text-teal-800 border border-teal-300'
+            : 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-100 text-amber-800 border border-amber-300';
+        }
+        if (payoutTrxBox && payoutTrxEl) {
+          if (ord.payoutTrxId) {
+            payoutTrxEl.textContent = ord.payoutTrxId;
+            payoutTrxBox.classList.remove('hidden');
+          } else {
+            payoutTrxBox.classList.add('hidden');
+          }
         }
 
         // Action button states in modal

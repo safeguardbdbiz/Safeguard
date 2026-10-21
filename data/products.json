@@ -7,6 +7,9 @@
     "oldPrice": 1200,
     "category": "Mega Offer",
     "image": "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600&auto=format&fit=crop&q=80",
+    "vendorId": "v_techhub",
+    "vendorName": "TechHub BD",
+    "vendorCommissionRate": 8,
     "description": "রসুন, পিঁয়াজ, আদা, বাদাম ও মাংস মাত্র ১০ সেকেন্ডে নিখুঁত চপ করার প্রিমিয়াম ইলেকট্রিক চপার। ইউএসবি রিচার্জেবল ও স্টেইনলেস স্টিল ব্লেড।",
     "features": [
       "মাত্র ১০ সেকেন্ডে দ্রুত চপিং",
@@ -32,6 +35,9 @@
     "oldPrice": 1650,
     "category": "Home Gadgets",
     "image": "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&auto=format&fit=crop&q=80",
+    "vendorId": "v_electroplus",
+    "vendorName": "ElectroPlus Store",
+    "vendorCommissionRate": 12,
     "description": "লোডশেডিংয়ে দীর্ঘ ব্যাটারি ব্যাকআপ, ৩ স্পিড কন্ট্রোল ও সাইলেন্ট মোটরযুক্ত প্রিমিয়াম মিনি ফ্যান।",
     "features": [
       "৩ টি অ্যাডজাস্টেবল স্পিড মোড",
@@ -57,6 +63,9 @@
     "oldPrice": 650,
     "category": "Mobile Accessories",
     "image": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&auto=format&fit=crop&q=80",
+    "vendorId": "v_gadgetvalley",
+    "vendorName": "Gadget Valley",
+    "vendorCommissionRate": 10,
     "description": "Type-C, Micro-USB ও Lightning একই ক্যাবলে। শক্তিশালী নাইলন ব্রেইডেড কোটিং সহ ফাস্ট চার্জিং সাপোর্ট।",
     "features": [
       "একই সাথে ৩টি ডিভাইস চার্জিং",
@@ -82,6 +91,9 @@
     "oldPrice": 850,
     "category": "Home Gadgets",
     "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&auto=format&fit=crop&q=80",
+    "vendorId": "v_official",
+    "vendorName": "Safe Guard Official Store",
+    "vendorCommissionRate": 0,
     "description": "মানুষের উপস্থিতি বুঝতে পেরে স্বয়ংক্রিয়ভাবে জ্বলে ওঠে। ওয়ারড্রব, সিঁড়ি ও বেডরুমের জন্য অত্যন্ত উপযোগী।",
     "features": [
       "৩-৫ মিটার দূরত্বে মোশন ডিটেকশন",
@@ -107,6 +119,9 @@
     "oldPrice": 1950,
     "category": "Kitchen",
     "image": "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=600&auto=format&fit=crop&q=80",
+    "vendorId": "v_smartlife",
+    "vendorName": "SmartLife Bangladesh",
+    "vendorCommissionRate": 7.5,
     "description": "সতেজ ফলের জুস ও স্মুদি বানান যেকোনো জায়গায়। ইউএসবি চার্জিং এবং ফুড-গ্রেড ব্লেড ও জার।",
     "features": [
       "৬ টি হাই-পাওয়ার্ড 3D স্টেইনলেস ব্লেড",
@@ -132,6 +147,9 @@
     "oldPrice": 2100,
     "category": "Smart Gadgets",
     "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&auto=format&fit=crop&q=80",
+    "vendorId": "v_techhub",
+    "vendorName": "TechHub BD",
+    "vendorCommissionRate": 8,
     "description": "অটো সেন্সর ক্ল্যাম্পিং ও ফাস্ট ওয়্যারলেস চার্জার। ড্রাইভিং করার সময় সহজে একহাতে ফোন মাউন্ট করুন।",
     "features": [
       "ইনফ্রারেড স্মার্ট অটো সেন্সর ক্ল্যাম্পিং",

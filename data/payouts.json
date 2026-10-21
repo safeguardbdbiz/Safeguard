@@ -1,0 +1,28 @@
+[
+  {
+    "payoutId": "PAY-80129",
+    "vendorId": "v_techhub",
+    "vendorName": "TechHub BD",
+    "amount": 5400,
+    "commissionDeducted": 480,
+    "grossSales": 5880,
+    "paymentMethod": "bKash (01711223344)",
+    "trxId": "BKS99238471",
+    "date": "18 Oct 2026, 03:20 PM",
+    "status": "Completed",
+    "note": "অক্টোবর ১ম সপ্তাহের সফল ডেলিভারি পে-আউট"
+  },
+  {
+    "payoutId": "PAY-80130",
+    "vendorId": "v_smartlife",
+    "vendorName": "SmartLife Bangladesh",
+    "amount": 4200,
+    "commissionDeducted": 340,
+    "grossSales": 4540,
+    "paymentMethod": "Rocket (019987654327)",
+    "trxId": "RCK88127394",
+    "date": "19 Oct 2026, 11:45 AM",
+    "status": "Completed",
+    "note": "ইয়ারবাডস সেলস ব্যালেন্স ক্লিয়ারেন্স"
+  }
+]

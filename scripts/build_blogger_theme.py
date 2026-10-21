@@ -133,6 +133,8 @@ def build_blogger_theme():
     reviews = load_json('reviews.json', [])
     faqs = load_json('faqs.json', [])
     payment_methods = load_json('payment_methods.json', [])
+    vendors = load_json('vendors.json', [])
+    payouts = load_json('payouts.json', [])
     settings = load_json('settings.json', {})
 
     # Inject live data
@@ -143,6 +145,8 @@ def build_blogger_theme():
     html = re.sub(r'const\s+DEFAULT_WHY_US\s*=\s*\[[\s\S]*?\];', lambda m: 'const DEFAULT_WHY_US = ' + json.dumps(why_us, indent=2, ensure_ascii=False) + ';', html)
     html = re.sub(r'const\s+DEFAULT_REVIEWS\s*=\s*\[[\s\S]*?\];', lambda m: 'const DEFAULT_REVIEWS = ' + json.dumps(reviews, indent=2, ensure_ascii=False) + ';', html)
     html = re.sub(r'const\s+DEFAULT_FAQS\s*=\s*\[[\s\S]*?\];', lambda m: 'const DEFAULT_FAQS = ' + json.dumps(faqs, indent=2, ensure_ascii=False) + ';', html)
+    html = re.sub(r'const\s+DEFAULT_VENDORS\s*=\s*\[[\s\S]*?\];', lambda m: 'const DEFAULT_VENDORS = ' + json.dumps(vendors, indent=2, ensure_ascii=False) + ';', html)
+    html = re.sub(r'const\s+DEFAULT_PAYOUTS\s*=\s*\[[\s\S]*?\];', lambda m: 'const DEFAULT_PAYOUTS = ' + json.dumps(payouts, indent=2, ensure_ascii=False) + ';', html)
     if settings:
         html = re.sub(r'let\s+appSettings\s*=\s*\{[\s\S]*?\n\s*\};', lambda m: 'let appSettings = ' + json.dumps(settings, indent=2, ensure_ascii=False) + ';', html)
 

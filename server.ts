@@ -23,6 +23,8 @@ const PAYMENT_METHODS_FILE = path.join(DATA_DIR, "payment_methods.json");
 const SETTINGS_FILE = path.join(DATA_DIR, "settings.json");
 const ADMIN_FILE = path.join(DATA_DIR, "admin.json");
 const META_FILE = path.join(DATA_DIR, "meta.json");
+const VENDORS_FILE = path.join(DATA_DIR, "vendors.json");
+const PAYOUTS_FILE = path.join(DATA_DIR, "payouts.json");
 
 // Helper to safely read JSON with default fallback
 function readJsonFile<T>(filePath: string, fallback: T): T {
@@ -364,6 +366,43 @@ if (!fs.existsSync(PAYMENT_METHODS_FILE)) writeJsonFile(PAYMENT_METHODS_FILE, SE
 if (!fs.existsSync(ADMIN_FILE)) writeJsonFile(ADMIN_FILE, { password: "MAQuaiyum@123" });
 if (!fs.existsSync(META_FILE)) touchLastUpdated();
 
+export interface VendorRecord {
+  id: string;
+  name: string;
+  banglaName?: string;
+  slug: string;
+  owner: string;
+  phone: string;
+  email?: string;
+  logo?: string;
+  banner?: string;
+  district: string;
+  address: string;
+  rating?: number;
+  reviewsCount?: number;
+  salesCount?: number;
+  commissionRate: number; // e.g. 8 for 8%
+  payoutMethod?: string;
+  status: "Active" | "Pending" | "Suspended";
+  verified?: boolean;
+  joinedDate?: string;
+  bio?: string;
+}
+
+export interface PayoutRecord {
+  payoutId: string;
+  vendorId: string;
+  vendorName: string;
+  amount: number;
+  commissionDeducted: number;
+  grossSales: number;
+  paymentMethod: string;
+  trxId: string;
+  date: string;
+  status: "Completed" | "Pending" | "Rejected";
+  note?: string;
+}
+
 // In-memory store for orders (retains recent orders during runtime)
 interface OrderRecord {
   orderId: string;
@@ -386,6 +425,13 @@ interface OrderRecord {
   paymentCode: string;
   orderSource: string;
   orderStatus?: string;
+  vendorId?: string;
+  vendorName?: string;
+  commissionRate?: number;
+  commissionAmount?: number;
+  vendorEarnings?: number;
+  payoutStatus?: "Pending" | "Paid";
+  payoutTrxId?: string;
   createdAt: string;
 }
 
@@ -444,6 +490,8 @@ async function startServer() {
       const faqs = readJsonFile(FAQS_FILE, SEED_FAQS);
       const orders = readJsonFile(ORDERS_FILE, []);
       const paymentMethods = readJsonFile(PAYMENT_METHODS_FILE, SEED_PAYMENT_METHODS);
+      const vendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+      const payouts = readJsonFile<PayoutRecord[]>(PAYOUTS_FILE, []);
       const settings = readJsonFile(SETTINGS_FILE, {
         telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || "",
         telegramChatId: process.env.TELEGRAM_CHAT_ID || "",
@@ -464,6 +512,8 @@ async function startServer() {
         faqs,
         orders,
         paymentMethods,
+        vendors,
+        payouts,
         settings,
         adminPassword: admin.password || "MAQuaiyum@123",
         lastUpdated
@@ -631,6 +681,10 @@ async function startServer() {
     html = html.replace(/const\s+DEFAULT_WHY_US\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_WHY_US = ${JSON.stringify(whyUs, null, 2)};`);
     html = html.replace(/const\s+DEFAULT_REVIEWS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_REVIEWS = ${JSON.stringify(reviews, null, 2)};`);
     html = html.replace(/const\s+DEFAULT_FAQS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_FAQS = ${JSON.stringify(faqs, null, 2)};`);
+    const vendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+    const payouts = readJsonFile<PayoutRecord[]>(PAYOUTS_FILE, []);
+    html = html.replace(/const\s+DEFAULT_VENDORS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_VENDORS = ${JSON.stringify(vendors, null, 2)};`);
+    html = html.replace(/const\s+DEFAULT_PAYOUTS\s*=\s*\[[\s\S]*?\];/m, () => `const DEFAULT_PAYOUTS = ${JSON.stringify(payouts, null, 2)};`);
     const settings = readJsonFile<Record<string, any>>(SETTINGS_FILE, {});
     if (settings && Object.keys(settings).length > 0) {
       html = html.replace(/let\s+appSettings\s*=\s*\{[\s\S]*?\n\s*\};/m, () => `let appSettings = ${JSON.stringify(settings, null, 2)};`);
@@ -686,13 +740,15 @@ async function startServer() {
   // Full catalog & state restore / batch sync
   app.post("/api/sync/full", (req, res) => {
     try {
-      const { products, categories, siteContent, whyUs, reviews, faqs, orders, adminPassword, paymentMethods } = req.body;
+      const { products, categories, siteContent, whyUs, reviews, faqs, orders, adminPassword, paymentMethods, vendors, payouts } = req.body;
       if (Array.isArray(products)) writeJsonFile(PRODUCTS_FILE, products);
       if (Array.isArray(categories)) writeJsonFile(CATEGORIES_FILE, categories);
       if (siteContent && typeof siteContent === "object") writeJsonFile(SITE_CONTENT_FILE, siteContent);
       if (Array.isArray(whyUs)) writeJsonFile(WHY_US_FILE, whyUs);
       if (Array.isArray(reviews)) writeJsonFile(REVIEWS_FILE, reviews);
       if (Array.isArray(faqs)) writeJsonFile(FAQS_FILE, faqs);
+      if (Array.isArray(vendors)) writeJsonFile(VENDORS_FILE, vendors);
+      if (Array.isArray(payouts)) writeJsonFile(PAYOUTS_FILE, payouts);
       
       // Merge orders by orderId so new mobile orders are never wiped by older client sync payloads!
       if (Array.isArray(orders) && orders.length > 0) {
@@ -1096,6 +1152,252 @@ async function startServer() {
     }
   });
 
+  // ==================== MULTIVENDOR & COMMISSION API ====================
+  // 1. Get All Vendors
+  app.get("/api/vendors", (req, res) => {
+    const vendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+    return res.json({ success: true, count: vendors.length, vendors });
+  });
+
+  // 2. Add / Register Vendor
+  app.post("/api/vendors", (req, res) => {
+    try {
+      const { name, banglaName, slug, owner, phone, email, district, address, commissionRate, payoutMethod, bio, logo, banner } = req.body;
+      if (!name || !owner || !phone) {
+        return res.status(400).json({ success: false, message: "দোকানের নাম, মালিকের নাম এবং মোবাইল নম্বর আবশ্যক।" });
+      }
+      const vendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+      const newId = `v_${Date.now()}`;
+      const generatedSlug = slug || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+      const newVendor: VendorRecord = {
+        id: newId,
+        name: String(name).trim(),
+        banglaName: banglaName ? String(banglaName).trim() : name,
+        slug: generatedSlug,
+        owner: String(owner).trim(),
+        phone: String(phone).trim(),
+        email: email ? String(email).trim() : "",
+        district: district ? String(district).trim() : "Dhaka",
+        address: address ? String(address).trim() : "",
+        commissionRate: typeof commissionRate === "number" ? commissionRate : 10,
+        payoutMethod: payoutMethod || ("bKash: " + phone),
+        status: "Active",
+        verified: true,
+        rating: 5.0,
+        reviewsCount: 1,
+        salesCount: 0,
+        bio: bio || "অরিজিনাল পণ্য ও নির্ভরযোগ্য সেবা",
+        logo: logo || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=200&auto=format&fit=crop&q=80",
+        banner: banner || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&auto=format&fit=crop&q=80",
+        joinedDate: new Date().toISOString().split("T")[0]
+      };
+
+      vendors.push(newVendor);
+      writeJsonFile(VENDORS_FILE, vendors);
+      touchLastUpdated();
+      syncSingleFileBlogspotHtmlOnDisk();
+      return res.json({ success: true, vendor: newVendor, message: "ভেন্ডর সফলভাবে যুক্ত হয়েছে!" });
+    } catch (err: any) {
+      console.error("Error adding vendor:", err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  });
+
+  // 3. Update Vendor
+  app.put("/api/vendors/:id", (req, res) => {
+    try {
+      const { id } = req.params;
+      const vendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+      const idx = vendors.findIndex(v => v.id === id);
+      if (idx === -1) {
+        return res.status(404).json({ success: false, message: "ভেন্ডর পাওয়া যায়নি।" });
+      }
+      vendors[idx] = { ...vendors[idx], ...req.body };
+      writeJsonFile(VENDORS_FILE, vendors);
+      touchLastUpdated();
+      syncSingleFileBlogspotHtmlOnDisk();
+      return res.json({ success: true, vendor: vendors[idx], message: "ভেন্ডর তথ্য আপডেট করা হয়েছে।" });
+    } catch (err: any) {
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  });
+
+  // 4. Delete Vendor
+  app.delete("/api/vendors/:id", (req, res) => {
+    try {
+      const { id } = req.params;
+      if (id === "v_official") {
+        return res.status(400).json({ success: false, message: "অফিসিয়াল স্টোর মুছে ফেলা সম্ভব নয়।" });
+      }
+      let vendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+      vendors = vendors.filter(v => v.id !== id);
+      writeJsonFile(VENDORS_FILE, vendors);
+      touchLastUpdated();
+      syncSingleFileBlogspotHtmlOnDisk();
+      return res.json({ success: true, message: "ভেন্ডর মুছে ফেলা হয়েছে।" });
+    } catch (err: any) {
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  });
+
+  // 5. Get Payouts
+  app.get("/api/vendors/payouts", (req, res) => {
+    const payouts = readJsonFile<PayoutRecord[]>(PAYOUTS_FILE, []);
+    return res.json({ success: true, count: payouts.length, payouts: payouts.slice().reverse() });
+  });
+
+  // 6. Record Vendor Payout & Settle Orders
+  app.post("/api/vendors/payouts", (req, res) => {
+    try {
+      const { vendorId, amount, commissionDeducted, grossSales, paymentMethod, trxId, note } = req.body;
+      if (!vendorId || !amount || !trxId) {
+        return res.status(400).json({ success: false, message: "ভেন্ডর, অর্থ প্রদান পরিমাণ এবং ট্রানজেকশন আইডি আবশ্যক।" });
+      }
+      const vendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+      const vendor = vendors.find(v => v.id === vendorId);
+      const payouts = readJsonFile<PayoutRecord[]>(PAYOUTS_FILE, []);
+
+      const newPayout: PayoutRecord = {
+        payoutId: `PO-${Date.now()}`,
+        vendorId,
+        vendorName: vendor ? vendor.name : vendorId,
+        amount: Number(amount),
+        commissionDeducted: Number(commissionDeducted || 0),
+        grossSales: Number(grossSales || 0),
+        paymentMethod: paymentMethod || "bKash",
+        trxId: String(trxId).trim(),
+        date: new Date().toLocaleDateString("en-GB") + " " + new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+        status: "Completed",
+        note: note ? String(note).trim() : "Vendor settlement"
+      };
+
+      payouts.push(newPayout);
+      writeJsonFile(PAYOUTS_FILE, payouts);
+
+      // Settle pending orders for this vendor
+      const orders = readJsonFile<OrderRecord[]>(ORDERS_FILE, recentOrders || []);
+      let settledCount = 0;
+      orders.forEach(o => {
+        if (o.vendorId === vendorId && o.payoutStatus !== "Paid") {
+          o.payoutStatus = "Paid";
+          o.payoutTrxId = newPayout.trxId;
+          settledCount++;
+        }
+      });
+      writeJsonFile(ORDERS_FILE, orders);
+      recentOrders = orders;
+
+      touchLastUpdated();
+      syncSingleFileBlogspotHtmlOnDisk();
+      return res.json({ success: true, payout: newPayout, settledOrders: settledCount, message: "পে-আউট সফলভাবে সম্পন্ন এবং রেকর্ড হয়েছে!" });
+    } catch (err: any) {
+      console.error("Error creating payout:", err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  });
+
+  // 7. Full Commission & Settlement Financial Summary
+  app.get("/api/vendors/commission-summary", (req, res) => {
+    try {
+      const vendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+      const orders = readJsonFile<OrderRecord[]>(ORDERS_FILE, recentOrders || []);
+      const payouts = readJsonFile<PayoutRecord[]>(PAYOUTS_FILE, []);
+
+      let totalGMV = 0;
+      let totalPlatformCommission = 0;
+      let totalVendorEarnings = 0;
+
+      const vendorMap: Record<string, {
+        vendorId: string;
+        vendorName: string;
+        commissionRate: number;
+        totalOrders: number;
+        gmv: number;
+        commissionEarned: number;
+        vendorEarnings: number;
+        paidAmount: number;
+        balanceDue: number;
+      }> = {};
+
+      vendors.forEach(v => {
+        vendorMap[v.id] = {
+          vendorId: v.id,
+          vendorName: v.name,
+          commissionRate: v.commissionRate,
+          totalOrders: 0,
+          gmv: 0,
+          commissionEarned: 0,
+          vendorEarnings: 0,
+          paidAmount: 0,
+          balanceDue: 0
+        };
+      });
+
+      orders.forEach(o => {
+        const vId = o.vendorId || "v_official";
+        const prodTotal = o.productTotal || (o.productPrice * o.quantity) || 0;
+        const commRate = typeof o.commissionRate === "number" ? o.commissionRate : (vendorMap[vId]?.commissionRate ?? 10);
+        const commAmt = typeof o.commissionAmount === "number" ? o.commissionAmount : Math.round(prodTotal * (commRate / 100));
+        const vEarn = typeof o.vendorEarnings === "number" ? o.vendorEarnings : (prodTotal - commAmt);
+
+        totalGMV += prodTotal;
+        totalPlatformCommission += commAmt;
+        totalVendorEarnings += vEarn;
+
+        if (!vendorMap[vId]) {
+          vendorMap[vId] = {
+            vendorId: vId,
+            vendorName: o.vendorName || vId,
+            commissionRate: commRate,
+            totalOrders: 0,
+            gmv: 0,
+            commissionEarned: 0,
+            vendorEarnings: 0,
+            paidAmount: 0,
+            balanceDue: 0
+          };
+        }
+        vendorMap[vId].totalOrders += 1;
+        vendorMap[vId].gmv += prodTotal;
+        vendorMap[vId].commissionEarned += commAmt;
+        vendorMap[vId].vendorEarnings += vEarn;
+      });
+
+      payouts.forEach(p => {
+        if (p.status === "Completed") {
+          if (vendorMap[p.vendorId]) {
+            vendorMap[p.vendorId].paidAmount += (p.amount || 0);
+          }
+        }
+      });
+
+      let totalPaidPayouts = 0;
+      Object.values(vendorMap).forEach(v => {
+        v.balanceDue = Math.max(0, v.vendorEarnings - v.paidAmount);
+        totalPaidPayouts += v.paidAmount;
+      });
+
+      return res.json({
+        success: true,
+        summary: {
+          totalGMV,
+          totalPlatformCommission,
+          totalVendorEarnings,
+          totalPaidPayouts,
+          netPendingPayouts: Math.max(0, totalVendorEarnings - totalPaidPayouts),
+          activeVendorsCount: vendors.filter(v => v.status === "Active").length,
+          totalVendorsCount: vendors.length,
+          totalOrders: orders.length
+        },
+        vendors: Object.values(vendorMap)
+      });
+    } catch (err: any) {
+      console.error("Error generating commission summary:", err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  });
+
   // Main Secure Order Processing Endpoint
   app.post("/api/order", async (req, res) => {
     try {
@@ -1140,6 +1442,22 @@ async function startServer() {
         });
       }
 
+      // Multivendor & Commission Calculation
+      const allProducts = readJsonFile<any[]>(PRODUCTS_FILE, SEED_PRODUCTS);
+      const targetProd = allProducts.find(p => p.id === Number(productId));
+      const allVendors = readJsonFile<VendorRecord[]>(VENDORS_FILE, []);
+
+      const resolvedVendorId = req.body.vendorId || targetProd?.vendorId || "v_official";
+      const targetVendor = allVendors.find(v => v.id === resolvedVendorId);
+      const resolvedVendorName = req.body.vendorName || (targetVendor ? targetVendor.name : (targetProd?.vendorName || "Safe Guard BD"));
+      const resolvedCommissionRate = typeof req.body.commissionRate === "number"
+        ? req.body.commissionRate
+        : (targetVendor ? targetVendor.commissionRate : (targetProd?.vendorCommissionRate ?? 10));
+
+      const calcProdTotal = Number(productTotal) || ((Number(productPrice) || 0) * (Number(quantity) || 1));
+      const calcCommissionAmount = Math.round(calcProdTotal * (resolvedCommissionRate / 100));
+      const calcVendorEarnings = calcProdTotal - calcCommissionAmount;
+
       const newOrder: OrderRecord = {
         orderId: orderId || `GB-${Date.now()}`,
         dateTime: dateTime || new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
@@ -1150,9 +1468,9 @@ async function startServer() {
         size: size || "Free Size",
         quantity: Number(quantity) || 1,
         productPrice: Number(productPrice) || 0,
-        productTotal: Number(productTotal) || 0,
+        productTotal: calcProdTotal,
         deliveryCharge: Number(deliveryCharge) || 80,
-        totalPrice: Number(totalPrice) || 0,
+        totalPrice: Number(totalPrice) || (calcProdTotal + (Number(deliveryCharge) || 80)),
         customerName: String(customerName).trim(),
         phone: sanitizedPhone,
         district: String(district).trim(),
@@ -1161,6 +1479,12 @@ async function startServer() {
         paymentCode: String(paymentCode || "N/A"),
         orderSource: orderSource || "Website Landing Page",
         orderStatus: String(req.body.orderStatus || "Pending"),
+        vendorId: resolvedVendorId,
+        vendorName: resolvedVendorName,
+        commissionRate: resolvedCommissionRate,
+        commissionAmount: calcCommissionAmount,
+        vendorEarnings: calcVendorEarnings,
+        payoutStatus: "Pending",
         createdAt: new Date().toISOString()
       };
 
@@ -1182,6 +1506,10 @@ async function startServer() {
         `💰 *Product Total:* ৳${newOrder.productTotal.toLocaleString()}`,
         `🚚 *Delivery:* ৳${newOrder.deliveryCharge.toLocaleString()}`,
         `💵 *Grand Total:* ৳${newOrder.totalPrice.toLocaleString()}`,
+        "━━━━━━━━━━━━━━",
+        `🏪 *Vendor:* ${newOrder.vendorName}`,
+        `💼 *Platform Comm (${newOrder.commissionRate}%):* ৳${(newOrder.commissionAmount || 0).toLocaleString()}`,
+        `🏦 *Vendor Earning:* ৳${(newOrder.vendorEarnings || 0).toLocaleString()}`,
         "━━━━━━━━━━━━━━",
         `👤 *Customer:* ${newOrder.customerName}`,
         `📞 *Phone:* [${newOrder.phone}](tel:${newOrder.phone})`,

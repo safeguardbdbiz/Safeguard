@@ -20,6 +20,12 @@
     "paymentCode": "TRX7912384",
     "orderSource": "Blogspot Store",
     "orderStatus": "Pending",
+    "vendorId": "v_electroplus",
+    "vendorName": "ElectroPlus Store",
+    "commissionRate": 12,
+    "commissionAmount": 138,
+    "vendorEarnings": 1012,
+    "payoutStatus": "Pending",
     "createdAt": "2026-09-24T10:34:24.052Z"
   },
   {
@@ -43,6 +49,12 @@
     "paymentCode": "N/A",
     "orderSource": "Landing Page",
     "orderStatus": "Shipped",
+    "vendorId": "v_techhub",
+    "vendorName": "TechHub BD",
+    "commissionRate": 8,
+    "commissionAmount": 148,
+    "vendorEarnings": 1702,
+    "payoutStatus": "Pending",
     "createdAt": "2026-09-24T08:15:10.120Z"
   },
   {
@@ -66,6 +78,13 @@
     "paymentCode": "NAG8234710",
     "orderSource": "Blogspot Store",
     "orderStatus": "Completed",
+    "vendorId": "v_smartlife",
+    "vendorName": "SmartLife Bangladesh",
+    "commissionRate": 7.5,
+    "commissionAmount": 218,
+    "vendorEarnings": 2682,
+    "payoutStatus": "Paid",
+    "payoutTrxId": "RCK88127394",
     "createdAt": "2026-09-23T13:45:00.000Z"
   }
 ]
